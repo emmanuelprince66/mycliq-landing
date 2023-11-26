@@ -26,8 +26,8 @@ grey_4:"#333333",
 grey_3:"#4F4F4F",
 grey_2:"#828282",
 grey_1:"#BDBDBD",
-black:"#1E1E1E"
-
+black:"#1E1E1E",
+border_light:'#E0E0E0',
       }
     },
   },
