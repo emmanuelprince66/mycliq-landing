@@ -1,0 +1,222 @@
+import React from "react";
+import loginImg from "../assets/images/assoclogin.png";
+import checkIcon from "../assets/images/logo.png";
+import { useForm } from "react-hook-form";
+import {
+  Button,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import emailIcon from "../assets/images/user.svg";
+import lockIcon from "../assets/images/lock.svg";
+import { Colors } from "../utils/colors";
+import { createMuiTheme, ThemeProvider } from "@mui/material";
+export const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors ,isDirty},
+  } = useForm();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: Colors.brown_2,
+        red_text: Colors.error_2,
+      },
+    },
+  });
+  const onSubmit = (data) => {
+    // Handle form submission here
+    console.log(data);
+  };
+  return (
+    <main className="flex md:grid md:grid-cols-2 flex-col-reverse min-h-screen">
+      <section className="bg-brown_1 hidden  md:flex items-center pb-5 md:pb-0 justify-center">
+        <div className="pt-5">
+          <img className="h-[40vh]" src={loginImg} />
+        </div>
+      </section>
+      <section className="flex min-h-screen  w-full gap-8 flex-col m-auto bg-dark_text">
+        <div className="logo h-[10vh] w-[90%] mx-auto py-4">
+          <img src={checkIcon} alt="check_logo" />
+        </div>
+        <div className=" w-[80%] md:w-[75%] lg:w-[65%] mx-auto flex items-center">
+          <Container sx={{ padding: 0 }}>
+            <Paper
+              elevation={0}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h1" fontSize={"1.5em"} fontWeight="bold">
+                Welcome back!
+              </Typography>
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                textAlign="center"
+                mb={2}
+              >
+                Enter your details to login.
+              </Typography>
+              <ThemeProvider theme={theme}>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1em",
+                  }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: ".2em",
+                      }}
+                      item
+                      xs={12}
+                    >
+                      <InputLabel className="text-black_0">
+                        {" "}
+                        <Typography className="text-black" fontWeight={600}>
+                          {" "}
+                          Email{" "}
+                        </Typography>{" "}
+                      </InputLabel>
+                      <TextField
+                        {...register("email", {
+                          required: "Email is required",
+                        })}
+                        required
+                        fullWidth
+                        sx={{
+                          "& .MuiInputBase-root": { borderRadius: "8px" },
+                          "& .MuiInputBase-input": { padding: "12px 0" },
+                        }}
+                        id="email"
+                        autoFocus
+                        placeholder="example@domain.com"
+                        error={Boolean(errors.email)}
+                        helperText={errors.email?.message}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">                             
+                              <img src={emailIcon} className="w-[24px]" alt="email"/>
+                              <span className="bg-grey_1 ml-[.3em] w-[1px]" > &nbsp;&nbsp; </span>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: ".2em",
+                      }}
+                      item
+                      xs={12}
+                    >
+                      <InputLabel className="text-black">
+                        <Typography className="text-black" fontWeight={600}>
+                          {" "}
+                          Password{" "}
+                        </Typography>
+                      </InputLabel>
+                      <TextField
+                        {...register("password", {
+                          required: "Password is required",
+                        })}
+                        variant="outlined"
+                        required
+                        fullWidth
+                        sx={{
+                          "& .MuiInputBase-root": { borderRadius: "8px" },
+                          "& .MuiInputBase-input": { padding: "12px 0" },
+                        }}
+                        className="rounded-[8px]"
+                        id="password"
+                        type="password"
+                        error={Boolean(errors.password)}
+                        helperText={errors.password?.message}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment  position="start">
+                              <img src={lockIcon} className="w-[24px]" alt="email"/>
+                             <span className="bg-grey_1 ml-[.3em] w-[1px]" > &nbsp;&nbsp; </span>
+                            </InputAdornment>
+                          ),
+                          
+                        }}
+                        aria-describedby="outlined-weight-helper-text"
+                    inputProps={{
+                      "aria-label": "weight",
+                    }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            {...register("rememberMe")}
+                          />
+                        }
+                        label="Remember Me"
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="body2"
+                        className="text-error_2"
+                        component="a"
+                        textDecoration={"none"}
+                        href="#"
+                      >
+                        Forgot Password?
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  
+                    // disabled={!isDirty || Object.keys(errors).length > 0}
+                    sx={{
+                      "&:disabled": {
+                        backgroundColor: (theme) => theme.palette.primary.main,
+                        opacity: 0.7,
+                      },
+                      padding:'.6em'
+                    }}
+                  >
+                    Login
+                  </Button>
+                </form>
+              </ThemeProvider>
+            </Paper>
+          </Container>
+        </div>
+      </section>
+    </main>
+  );
+};
