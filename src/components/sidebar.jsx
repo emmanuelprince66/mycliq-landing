@@ -62,8 +62,8 @@ export const Sidebar = () => {
   ];
 
   return (
-    <aside className="flex pl-[2em] py-[3em] border-r border-border_light pr-[1em] flex-col">
-      <img src={checkIcon}  className="w-[100px] mb-5 " alt="check icon" />
+    <aside className="flex pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
+      <img src={checkIcon} className="w-[100px] mb-5 " alt="check icon" />
 
       <div className="pt-5 pb-3  border-b border-solid ">
         <div
@@ -73,7 +73,10 @@ export const Sidebar = () => {
               : "bg-transparent text-grey_2"
           } p-2 w-full  rounded-[10px]`}
         >
-          <Link to="/overview" className="flex flex-row items-center gap-2">
+          <Link
+            to="/overview"
+            className="flex flex-row items-center gap-2 text-sm"
+          >
             <OverviewIcon isOverview={location === "/overview"} />
             Overview
           </Link>
@@ -81,7 +84,7 @@ export const Sidebar = () => {
       </div>
 
       <div className="pt-5 pb-3 flex flex-col gap-4  text-grey_2 border-b border-solid ">
-        <span>MAIN MENU</span>
+        <span className="text-xs font-normal">MAIN MENU</span>
         <div>
           {mainMenu.map((item) => {
             return (
@@ -95,7 +98,7 @@ export const Sidebar = () => {
               >
                 <Link
                   to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2"
+                  className="flex flex-row items-center gap-2 text-sm font-normal"
                 >
                   {item.component}
                   {item.name}
@@ -106,7 +109,7 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className="pt-5 pb-3 flex flex-col gap-4 text-grey_2  border-b border-solid ">
-        <span>ADMINISTRATOR MENU</span>
+        <span className="text-xs font-normal">ADMINISTRATOR</span>
         <div>
           {adminMenu.map((item) => {
             return (
@@ -120,7 +123,7 @@ export const Sidebar = () => {
               >
                 <Link
                   to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2"
+                  className="flex flex-row items-center gap-2 text-sm font-normal"
                 >
                   {item.component}
                   {item.name}
@@ -131,12 +134,12 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className="pt-5 pb-3 flex flex-col gap-4 text-grey_2  border-b border-solid ">
-        <span>SYSTEM MENU</span>
+        <span className="text-xs">SYSTEM MENU</span>
         <div>
           <div className="flex items-center justify-between ">
             <div className="text-grey_2 mb-2 items-center gap-2 flex p-2 w-full  rounded-[10px]">
               <Mode />
-              <span>Dark Theme</span>
+              <span className="text-sm font-normal">Dark Theme</span>
             </div>
 
             <div
@@ -186,7 +189,7 @@ export const Sidebar = () => {
                 fill="#D40000"
               />
             </svg>
-            <span>Logout</span>
+            <span className="text-sm ">Logout</span>
           </div>
         </div>
       </div>

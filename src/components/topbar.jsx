@@ -3,17 +3,17 @@ import React from "react";
 import Avatar from "../assets/images/Avatar.svg";
 export const Topbar = () => {
   return (
-    <header className="flex justify-between items-center w-full border-b border-border_light px-[2em] max-h-[20vh] ">
+    <header className="flex justify-between  p-1 items-center bg-white  w-full border-b border-border_light px-[2em] max-h-[20vh] ">
       <div>
         <article className="flex items-center">
           <span>Welcome,</span>
           <h1 className="text-xl">COLERMSA</h1>
         </article>
       </div>
-      <div className="w-auto" >
+      <div className="w-auto">
         <TextField id="outlined-search" label="Search field" type="search" />
       </div>
-      <div  >
+      <div>
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,11 +30,11 @@ export const Topbar = () => {
         </button>
       </div>
       <div>
-        <div className="border p-2 flex rounded-md border-border_light " >
+        <div className="border p-2 flex rounded-md border-border_light ">
           <img src={Avatar} className="w-[40px]" alt="img" />
           <button>
             <svg
-            className=""
+              className=""
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="25"
