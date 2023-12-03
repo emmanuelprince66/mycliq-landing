@@ -1,7 +1,9 @@
 import React from "react";
 import loginImg from "../assets/images/assoclogin.png";
 import checkIcon from "../assets/images/logo.png";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -18,11 +20,17 @@ import emailIcon from "../assets/images/user.svg";
 import lockIcon from "../assets/images/lock.svg";
 import { Colors } from "../utils/colors";
 import { createMuiTheme, ThemeProvider } from "@mui/material";
+import { AuthAxios, BaseAxios } from "../helpers/axiosInstance";
+import CircularProgress from "@mui/material/CircularProgress";
+import Cookies from "js-cookie";
+
 export const Login = () => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors ,isDirty},
+    formState: { errors, isDirty },
   } = useForm();
   const theme = createMuiTheme({
     palette: {
@@ -32,9 +40,44 @@ export const Login = () => {
       },
     },
   });
-  const onSubmit = (data) => {
+  const loginMutation = useMutation({
+    mutationFn: async (formData) => {
+      console.log(formData);
+      try {
+        const response = await BaseAxios({
+          url: "/auth/login",
+          method: "POST",
+          data: formData,
+        });
+
+        if (response.status !== 200) {
+          throw new Error(response.data.message);
+        }
+
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        throw new Error(error.response.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      console.log("Login successful:", data);
+      // Handle success, update state, or perform further actions
+    },
+    onError: (error) => {
+      console.log("Login error:", error);
+      // Handle error, display a message, or perform necessary actions
+    },
+  });
+
+  const onSubmit = (formData) => {
     // Handle form submission here
-    console.log(data);
+    console.log("Form data:", formData);
+
+    setButtonDisabled(true);
+
+    // Call the mutation to trigger the login process
+    loginMutation.mutate(formData);
   };
   return (
     <main className="flex md:grid md:grid-cols-2 flex-col-reverse min-h-screen">
@@ -47,6 +90,8 @@ export const Login = () => {
         <div className="logo h-[10vh] w-[90%] mx-auto py-4">
           <img src={checkIcon} alt="check_logo" />
         </div>
+        <></>
+
         <div className=" w-[80%] md:w-[75%] lg:w-[65%] mx-auto flex items-center">
           <Container sx={{ padding: 0 }}>
             <Paper
@@ -112,9 +157,16 @@ export const Login = () => {
                         helperText={errors.email?.message}
                         InputProps={{
                           startAdornment: (
-                            <InputAdornment position="start">                             
-                              <img src={emailIcon} className="w-[24px]" alt="email"/>
-                              <span className="bg-grey_1 ml-[.3em] w-[1px]" > &nbsp;&nbsp; </span>
+                            <InputAdornment position="start">
+                              <img
+                                src={emailIcon}
+                                className="w-[24px]"
+                                alt="email"
+                              />
+                              <span className="bg-grey_1 ml-[.3em] w-[1px]">
+                                {" "}
+                                &nbsp;&nbsp;{" "}
+                              </span>
                             </InputAdornment>
                           ),
                         }}
@@ -153,17 +205,23 @@ export const Login = () => {
                         helperText={errors.password?.message}
                         InputProps={{
                           startAdornment: (
-                            <InputAdornment  position="start">
-                              <img src={lockIcon} className="w-[24px]" alt="email"/>
-                             <span className="bg-grey_1 ml-[.3em] w-[1px]" > &nbsp;&nbsp; </span>
+                            <InputAdornment position="start">
+                              <img
+                                src={lockIcon}
+                                className="w-[24px]"
+                                alt="email"
+                              />
+                              <span className="bg-grey_1 ml-[.3em] w-[1px]">
+                                {" "}
+                                &nbsp;&nbsp;{" "}
+                              </span>
                             </InputAdornment>
                           ),
-                          
                         }}
                         aria-describedby="outlined-weight-helper-text"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
+                        inputProps={{
+                          "aria-label": "weight",
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -195,21 +253,26 @@ export const Login = () => {
                       </Typography>
                     </Grid>
                   </Grid>
+
                   <Button
-                    type="submit"
                     variant="contained"
                     color="primary"
-                  
+                    disabled={buttonDisabled}
+                    type="submit"
                     // disabled={!isDirty || Object.keys(errors).length > 0}
                     sx={{
                       "&:disabled": {
                         backgroundColor: (theme) => theme.palette.primary.main,
                         opacity: 0.7,
                       },
-                      padding:'.6em'
+                      padding: ".6em",
                     }}
                   >
-                    Login
+                    {buttonDisabled ? (
+                      <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
                 </form>
               </ThemeProvider>
