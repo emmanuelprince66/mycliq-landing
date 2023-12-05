@@ -701,7 +701,7 @@ const WithdrawFunds = () => {
                 },
               }}
             >
-              Okay
+              Okay.
             </Button>
           </Box>
         </Box>
