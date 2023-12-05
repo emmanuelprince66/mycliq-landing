@@ -2,17 +2,18 @@ import { TextField } from "@mui/material";
 import React from "react";
 import Avatar from "../assets/images/Avatar.svg";
 export const Topbar = () => {
+  const acronym = localStorage.getItem('registeredName')
   return (
-    <header className="flex justify-between  p-1 items-center bg-white  w-full border-b border-border_light px-[2em] max-h-[20vh] ">
+    <header className="flex justify-between  p-3 items-center bg-white  w-full border-b border-border_light px-[2em] max-h-[20vh] ">
       <div>
-        <article className="flex items-center">
-          <span>Welcome,</span>
-          <h1 className="text-xl">COLERMSA</h1>
+        <article className="flex flex-col gap-1 ">
+          <span>Welcome Back,</span>
+          <h1 className="text-2xl text-[700] upper-case ">{acronym}</h1>
         </article>
       </div>
-      <div className="w-auto">
-        <TextField id="outlined-search" label="Search field" type="search" />
-      </div>
+      <div className=" border rounded-[8px] p-2 border-grey_1 w-[40%] ">
+      <input type="search" className="w-full focus:outline-none " placeholder="Search" />
+</div>
       <div>
         <button>
           <svg

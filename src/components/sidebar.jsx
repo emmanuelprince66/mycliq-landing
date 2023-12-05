@@ -75,7 +75,7 @@ export const Sidebar = () => {
         >
           <Link
             to="/overview"
-            className="flex flex-row items-center gap-2 text-sm"
+            className="flex flex-row items-center gap-2 "
           >
             <OverviewIcon isOverview={location === "/overview"} />
             Overview
@@ -84,7 +84,7 @@ export const Sidebar = () => {
       </div>
 
       <div className="pt-5 pb-3 flex flex-col gap-4  text-grey_2 border-b border-solid ">
-        <span className="text-xs font-normal">MAIN MENU</span>
+        <span className=" font-normal">MAIN MENU</span>
         <div>
           {mainMenu.map((item) => {
             return (
@@ -98,7 +98,7 @@ export const Sidebar = () => {
               >
                 <Link
                   to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2 text-sm font-normal"
+                  className="flex flex-row items-center gap-2  font-normal"
                 >
                   {item.component}
                   {item.name}
@@ -109,7 +109,7 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className="pt-5 pb-3 flex flex-col gap-4 text-grey_2  border-b border-solid ">
-        <span className="text-xs font-normal">ADMINISTRATOR</span>
+        <span className=" font-normal">ADMINISTRATOR</span>
         <div>
           {adminMenu.map((item) => {
             return (
@@ -123,7 +123,7 @@ export const Sidebar = () => {
               >
                 <Link
                   to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2 text-sm font-normal"
+                  className="flex flex-row items-center gap-2  font-normal"
                 >
                   {item.component}
                   {item.name}
@@ -134,12 +134,12 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className="pt-5 pb-3 flex flex-col gap-4 text-grey_2  border-b border-solid ">
-        <span className="text-xs">SYSTEM MENU</span>
+        <span className="">SYSTEM MENU</span>
         <div>
           <div className="flex items-center justify-between ">
             <div className="text-grey_2 mb-2 items-center gap-2 flex p-2 w-full  rounded-[10px]">
               <Mode />
-              <span className="text-sm font-normal">Dark Theme</span>
+              <span className=" font-normal">Dark Theme</span>
             </div>
 
             <div
@@ -189,7 +189,7 @@ export const Sidebar = () => {
                 fill="#D40000"
               />
             </svg>
-            <span className="text-sm ">Logout</span>
+            <span className=" ">Logout</span>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   Box,
@@ -37,8 +37,14 @@ import Stack from "@mui/material/Stack";
 import closeIcon from "../assets/images/closeIcon.svg";
 import fdown from "../assets/fdown.svg";
 import fup from "../assets/fup.svg";
+import { useSelector } from "react-redux";
 import fbook from "../assets/fbook.svg";
-
+import { useDispatch } from "react-redux";
+import {
+  saveTransactionData,
+  fillUserDetails,
+} from "../utils/store/merchantSlice";
+import { AuthAxios } from "../helpers/axiosInstance";
 const style = {
   position: "absolute",
   top: "50%",
@@ -142,9 +148,9 @@ const TableCom = () => {
     },
     // Add more items as needed
   ]);
+  const [transactionData, setTransactionData] = useState({});
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [showPaid, setShowPaid] = useState(null);
   const [page, setPage] = useState(0);
@@ -191,6 +197,27 @@ const TableCom = () => {
     setPage(0);
   };
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await AuthAxios({
+          url: "/transaction/merchant",
+          method: "GET",
+        });
+        if (response) {
+          setTransactionData(response.data);
+          dispatch(saveTransactionData(response?.data?.walletBalance));
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
   return (
     <Box
       sx={{
@@ -206,25 +233,7 @@ const TableCom = () => {
           justifyContent: "flex-end",
           width: "100%",
         }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-          }}
-        >
-          <Typography
-            sx={{
-              fomtWeight: "400",
-              fontSize: "16px",
-              color: "#4F4F4F",
-            }}
-          >
-            Showing results for
-          </Typography>
-        </Box>
-      </Box>
+      ></Box>
 
       <Box
         sx={{
@@ -278,7 +287,7 @@ const TableCom = () => {
                 color: "#1E1E1E",
               }}
             >
-              ₦6,576,891.00
+              {transactionData.inflow}
             </Typography>
           </Box>
         </Card>
@@ -314,7 +323,7 @@ const TableCom = () => {
               }}
             >
               Total <br />
-              Deposits
+              Withdrawals
             </Typography>
           </Box>
 
@@ -326,7 +335,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              ₦6,576,891.00
+              {transactionData.outflow}
             </Typography>
           </Box>
         </Card>
@@ -361,8 +370,9 @@ const TableCom = () => {
                 color: "#4F4F4F",
               }}
             >
-              Total <br />
-              Deposits
+              Wallet
+              <br />
+              Balance
             </Typography>
           </Box>
 
@@ -374,7 +384,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              ₦6,576,891.00
+              {Number(transactionData.walletBalance).toLocaleString()}
             </Typography>
           </Box>
         </Card>
@@ -542,7 +552,7 @@ const TableCom = () => {
               }}
               onClick={handleClose}
             >
-              Freashers Only
+              Freshers Only
             </MenuItem>
             <Divider />
             <MenuItem
@@ -553,7 +563,7 @@ const TableCom = () => {
               }}
               onClick={handleClose}
             >
-              Staylite Only
+              Staylites Only
             </MenuItem>
           </Menu>
           {/* select ends */}
@@ -673,7 +683,7 @@ const TableCom = () => {
             >
               <TableRow>
                 <TableCell>S/N</TableCell>
-                <TableCell>Transactio ID</TableCell>
+                <TableCell>Transaction ID</TableCell>
                 <TableCell>User</TableCell>
                 <TableCell>Transaction Type</TableCell>
                 <TableCell>Amount(N)</TableCell>
@@ -682,7 +692,7 @@ const TableCom = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems
+              {/* {filteredItems
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item) => (
                   <TableRow key={item.id}>
@@ -739,7 +749,78 @@ const TableCom = () => {
                       </Button>
                     </TableCell>
                   </TableRow>
-                ))}
+                ))} */}
+              {transactionData.queryResult?.length > 0 ? (
+                transactionData.queryResult.map((item, i) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{i + 1}</TableCell>
+                    <TableCell>{` ID:${item.id.slice(1, 12)}`}</TableCell>
+                    <TableCell>
+                      {item.transferFrom.firstName} {item.transferFrom.lastName}
+                    </TableCell>
+                    <TableCell>{item.transactionType}</TableCell>
+                    <TableCell>{item.amount}</TableCell>
+                    <TableCell>
+                      {" "}
+                      <Box
+                        sx={{
+                          textTransform: "capitalize",
+                          background:
+                            item.transactionStatus === "SUCCESS"
+                              ? "#EBFFF3"
+                              : "#EBF3FF",
+                          color:
+                            item.transactionStatus === "SUCCESS"
+                              ? "#1E854A"
+                              : "#1367D8",
+                          width:
+                            item.transactionStatus === "SUCCESS"
+                              ? "67px"
+                              : "87px",
+                          fontWeight: "500",
+                          fontSize: "12px",
+                          padding: "4px 8px 4px 8px",
+                          borderRadius: "8px",
+                          display: "flex",
+                          minWidth: "fit-content",
+                          alignItems: "center",
+                          gap: "5px",
+                          border: "1px solid #E0E0E0",
+                        }}
+                      >
+                        <CheckCircleOutlineRoundedIcon
+                          sx={{ fontSize: "12px" }}
+                        />{" "}
+                        {item.transactionStatus}
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        onClick={() => setOpen1(true)}
+                        variant="outlined"
+                        sx={{
+                          textTransform: "capitalize",
+                          color: "#DC0019",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          border: "1px solid #E0E0E0",
+                          "&:hover": {
+                            backgroundColor: "#fff",
+                            border: "1px solid #E0E0E0",
+                          },
+                          // lineHeight: "26.4px",
+                        }}
+                      >
+                        View More
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <Typography className="flex self-center p-3  min-w-full">
+                  No transactions yet.
+                </Typography>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -828,6 +909,7 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
                   User:
@@ -855,9 +937,68 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Matric Number:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  1234578
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                  mb: "0.2rem",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Email Address:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#1E1E1E",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  Jenny@gmail.com
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                  mb: "0.2rem",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Phone Number:
                 </Typography>
 
                 <Typography
@@ -883,9 +1024,10 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Level:
                 </Typography>
 
                 <Typography
@@ -895,35 +1037,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                  }}
-                >
-                  User:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  Jenny Wilson
+                  400l
                 </Typography>
               </Box>
             </Box>
@@ -967,9 +1081,10 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Bill Type:
                 </Typography>
 
                 <Typography
@@ -994,9 +1109,10 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Transaction ID:
                 </Typography>
 
                 <Typography
@@ -1022,9 +1138,10 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Date & Time:
                 </Typography>
 
                 <Typography
@@ -1050,9 +1167,39 @@ const TableCom = () => {
                     fomtWeight: "500",
                     color: "#828282",
                     fontSize: "14px",
+                    minWidth: "130px",
                   }}
                 >
-                  User:
+                  Amount:
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#C57600",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                  }}
+                >
+                  Jenny Wilson
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                  mb: "0.2rem",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    color: "#828282",
+                    fontSize: "14px",
+                    minWidth: "130px",
+                  }}
+                >
+                  Transaction Status:
                 </Typography>
 
                 <Box

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Box, Typography, Button, Modal } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import seperator from "../assets/seperator.svg";
 import { styled } from "@mui/material/styles";
+import { fillBankDetails } from "../utils/store/merchantSlice";
 import closeIcon from "../assets/images/closeIcon.svg";
 import exLogo from "../assets/exLogo.svg";
+import { AuthAxios } from "../helpers/axiosInstance";
 import successIcon from "../assets/successIcon.svg";
-
+import { useSelector } from "react-redux";
 import PaymentsRoundedIcon from "@mui/icons-material/PaymentsRounded";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
+import { useDispatch } from "react-redux";
 const style = {
   position: "absolute",
   top: "50%",
@@ -23,11 +26,78 @@ const style = {
 };
 const WithdrawFunds = () => {
   const [open1, setOpen1] = React.useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
   const handleClose1 = () => setOpen1(false);
   const [open2, setOpen2] = React.useState(false);
   const handleClose2 = () => setOpen2(false);
   const [open3, setOpen3] = React.useState(false);
   const handleClose3 = () => setOpen3(false);
+  const [error, setError] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const { walletBalance, bankDetails } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  function handleWithdrawAmount(e) {
+    setWithdrawAmount(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value !== "") {
+      setIsDisabled(false);
+    }
+  }
+  function handleCheckWithdrawal() {
+    const canWithdraw =
+      /^\d+$/.test(withdrawAmount) &&
+      parseFloat(withdrawAmount) <= walletBalance;
+    if (!/^\d+$/.test(withdrawAmount)) {
+      setError(
+        "Please enter a valid amount with only numbers and no mixed characters"
+      );
+    }
+    console.log(canWithdraw, /^\d+$/.test(withdrawAmount));
+    if (parseFloat(withdrawAmount) > walletBalance) {
+      setError("Amount cannot be greater than wallet balance");
+      console.log("Amount cannot be greater than wallet balance");
+    }
+    if (canWithdraw) {
+      setOpen1(true);
+      setError("");
+    }
+  }
+
+  useEffect(() => {
+    async function getBankDetails() {
+      const response = await AuthAxios.get("/transaction/bank-details");
+      console.log(response);
+      dispatch(fillBankDetails(response.data));
+    }
+    getBankDetails();
+  }, []);
+
+  async function handleProceedToWithdraw() {
+    // const response = await AuthAxios.post(
+    // 'transaction/withdrawal',
+    // )
+    setOpen2(true);
+  }
+
+  async function handleWithdraw() {
+    try {
+      const response = await AuthAxios.post("/transaction/nip-transfer", {
+        bankCode: bankDetails.bankCode,
+        accountNumber: bankDetails.accountNumber,
+        accountName: bankDetails.name,
+        amount: Number(withdrawAmount),
+        bankName:bankDetails.bank,
+        saveBeneficiary:true,
+      });
+      console.log(response);
+      if (response.status === 201){
+        setOpen3(true)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -36,7 +106,7 @@ const WithdrawFunds = () => {
     >
       <Typography
         sx={{
-          fomtWeight: "500",
+          fontWeight: "500",
           fontSize: "20px",
           color: "#1E1E1E",
           lineHeight: "30px",
@@ -117,7 +187,7 @@ const WithdrawFunds = () => {
                 lineHeight: "22.4px",
               }}
             >
-              Your balance: ₦560,500.00
+              Your balance: ₦{Number(walletBalance).toLocaleString()}
             </Typography>
           </Box>
 
@@ -139,7 +209,10 @@ const WithdrawFunds = () => {
             required
             // helperText={emailError && <span>{emailError}</span>}
             placeholder="Enter amount to withdraw"
+            error={Boolean(error)}
+            helperText={error}
             variant="outlined"
+            onChange={handleWithdrawAmount}
             id="email-input"
             InputProps={{
               startAdornment: (
@@ -162,7 +235,8 @@ const WithdrawFunds = () => {
             }}
           >
             <Button
-              onClick={() => setOpen1(true)}
+              onClick={handleCheckWithdrawal}
+              disabled={isDisabled}
               sx={{
                 background: "#dc0019",
                 padding: "10px",
@@ -238,7 +312,7 @@ const WithdrawFunds = () => {
                 color: "#828282",
               }}
             >
-              Amount TO withdraw:
+              Amount To withdraw:
             </Typography>
             <Typography
               sx={{
@@ -247,7 +321,7 @@ const WithdrawFunds = () => {
                 color: "#C57600",
               }}
             >
-              ₦500,000
+              ₦{withdrawAmount}
             </Typography>
           </Box>
 
@@ -288,9 +362,10 @@ const WithdrawFunds = () => {
                   fomtWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
+                  minWidth: "122px",
                 }}
               >
-                User:
+                Bank Name:
               </Typography>
 
               <Typography
@@ -300,7 +375,7 @@ const WithdrawFunds = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                {bankDetails.bank}
               </Typography>
             </Box>
             <Box
@@ -315,9 +390,10 @@ const WithdrawFunds = () => {
                   fomtWeight: "500",
                   color: "#828282",
                   fontSize: "14px",
+                  minWidth: "122px",
                 }}
               >
-                User:
+                Account Number:
               </Typography>
 
               <Typography
@@ -327,7 +403,35 @@ const WithdrawFunds = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                {bankDetails.accountNumber}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "2rem",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  fomtWeight: "500",
+                  color: "#828282",
+                  fontSize: "14px",
+                  minWidth: "122px",
+                }}
+              >
+                Account Name:
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: "#1E1E1E",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                {bankDetails.name}
               </Typography>
             </Box>
           </Box>
@@ -367,6 +471,7 @@ const WithdrawFunds = () => {
             }}
           >
             <Button
+              onClick={() => setOpen1(false)}
               sx={{
                 width: "100%",
                 padding: "10px",
@@ -385,6 +490,7 @@ const WithdrawFunds = () => {
               Cancel
             </Button>
             <Button
+              onClick={handleProceedToWithdraw}
               sx={{
                 background: "#dc0019",
                 width: "100%",
@@ -460,8 +566,8 @@ const WithdrawFunds = () => {
                 lineHeight: "24px",
               }}
             >
-              Are you sure you want to withdraw “₦500,000”? Withdrawals cannot
-              be recalled once placed.
+              Are you sure you want to withdraw “₦{withdrawAmount}”? Withdrawals
+              cannot be recalled once placed.
             </Typography>
 
             <Box
@@ -475,6 +581,7 @@ const WithdrawFunds = () => {
               }}
             >
               <Button
+                onClick={handleClose2}
                 sx={{
                   width: "100%",
                   padding: "10px",
@@ -493,6 +600,7 @@ const WithdrawFunds = () => {
                 Cancel
               </Button>
               <Button
+                onClick={handleWithdraw}
                 sx={{
                   background: "#dc0019",
                   width: "100%",
@@ -543,7 +651,7 @@ const WithdrawFunds = () => {
                 fontSize: "20px",
               }}
             >
-              Sucessfull
+              Successful
             </Typography>
 
             <Box onClick={handleClose3}>

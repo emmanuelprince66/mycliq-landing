@@ -1,8 +1,75 @@
-import React from 'react'
+import React, { useState } from "react";
+import TableCom from "../components/TableCom";
+import { AuthAxios } from "../helpers/axiosInstance";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css";
+import { Box,Button,Typography } from "@mui/material";
+import { CalendarMonthOutlined } from "@mui/icons-material";
+import { DateRangePicker } from "react-date-range";
 
- const Transaction= () => {
+const Transaction = () => {
+  const [dateVisible, setDateVisible] = useState(false);
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
+
+  function handleSelect(ranges) {
+    setSelectedRange({
+      startDate: ranges.selection.startDate,
+      endDate: ranges.selection.endDate,
+      key: "selection",
+    });
+
+    console.log("Selected Date Range:", ranges);
+  }
+const modStartDate = new Date(selectedRange.startDate).toLocaleDateString()
+const modEndDate = new Date(selectedRange.endDate).toLocaleDateString()
+
+  function openDateRange() {
+    setDateVisible(!dateVisible);
+  }
+
   return (
-    <div>Transaction</div>
-  )
-}
-export default Transaction
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
+    <Box sx={{
+      display:'flex',
+      marginLeft:'auto',
+      justifyContent:'flex-end',
+      width:'fit-content',
+      gap:'1em',
+      alignItems:'center',
+      
+       }} >
+          <Typography
+            sx={{
+              fontWeight: "400",
+              fontSize: "16px",
+              color: "#4F4F4F",
+            }}
+          >
+            Showing results for
+          </Typography>
+
+    <div className="border flex ml-auto border-grey_1 w-fit rounded-[8px] " >
+
+
+      <Button  startIcon={<CalendarMonthOutlined/>} onClick={openDateRange}> {modStartDate }- {modEndDate}</Button>
+      </div>
+      </Box>
+      {dateVisible && (
+        <div className="absolute bg-white z-[2]  shadow-lg p-2 rounded-[8px] right-0" >
+        <DateRangePicker ranges={[selectedRange]} onChange={handleSelect} />
+        </div>
+      )}
+      <TableCom />
+    </Box>
+  );
+};
+
+export default Transaction;

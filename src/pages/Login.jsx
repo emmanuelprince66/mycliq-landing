@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import emailIcon from "../assets/images/user.svg";
+import { useNavigate } from "react-router";
 import lockIcon from "../assets/images/lock.svg";
 import { Colors } from "../utils/colors";
 import { createMuiTheme, ThemeProvider } from "@mui/material";
@@ -40,6 +41,7 @@ export const Login = () => {
       },
     },
   });
+  const navigate = useNavigate()
   const loginMutation = useMutation({
     mutationFn: async (formData) => {
       console.log(formData);
@@ -53,7 +55,6 @@ export const Login = () => {
         if (response.status !== 200) {
           throw new Error(response.data.message);
         }
-
         return response.data;
       } catch (error) {
         console.log(error);
@@ -62,6 +63,11 @@ export const Login = () => {
     },
     onSuccess: (data) => {
       console.log("Login successful:", data);
+      navigate('/transaction')
+      localStorage.setItem('authToken',data.access_token)
+      localStorage.setItem('refreshToken',data.refreshToken)
+      localStorage.setItem('companyName',data.companyName)
+      localStorage.setItem('registeredName',data.registeredName)
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
@@ -141,7 +147,7 @@ export const Login = () => {
                         </Typography>{" "}
                       </InputLabel>
                       <TextField
-                        {...register("email", {
+                        {...register("emailOrPhone", {
                           required: "Email is required",
                         })}
                         required

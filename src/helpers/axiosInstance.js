@@ -11,12 +11,7 @@ export const BaseAxios = Axios.create({
 
 AuthAxios.interceptors.request.use(
   async (config) => {
-    // let data = await RefreshToken();
-    // if (data){
-    //   Cookies.set("authToken", data?.access_token);
-    //   Cookies.set("refreshToken", data?.refreshToken);
-    // }
-    let token = Cookies.get("authToken");
+    const token = localStorage.getItem('authToken')
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
