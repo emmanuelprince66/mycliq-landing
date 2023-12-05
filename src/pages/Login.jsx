@@ -3,6 +3,7 @@ import loginImg from "../assets/images/assoclogin.png";
 import checkIcon from "../assets/images/logo.png";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast ,ToastContainer} from 'react-toastify';
 import { useState } from "react";
 import {
   Button,
@@ -24,6 +25,10 @@ import { createMuiTheme, ThemeProvider } from "@mui/material";
 import { AuthAxios, BaseAxios } from "../helpers/axiosInstance";
 import CircularProgress from "@mui/material/CircularProgress";
 import Cookies from "js-cookie";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -42,6 +47,12 @@ export const Login = () => {
     },
   });
   const navigate = useNavigate()
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
   const loginMutation = useMutation({
     mutationFn: async (formData) => {
       console.log(formData);
@@ -72,9 +83,17 @@ export const Login = () => {
     },
     onError: (error) => {
       console.log("Login error:", error);
-      // Handle error, display a message, or perform necessary actions
+      setButtonDisabled(false);
+      notifyError(error)
     },
   });
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const onSubmit = (formData) => {
     // Handle form submission here
@@ -96,9 +115,8 @@ export const Login = () => {
         <div className="logo h-[10vh] w-[90%] mx-auto py-4">
           <img src={checkIcon} alt="check_logo" />
         </div>
-        <></>
 
-        <div className=" w-[80%] md:w-[75%] lg:w-[65%] mx-auto flex items-center">
+        <div className=" w-[80%] md:w-[75%] lg:w-[65%] my-8 mx-auto flex items-center">
           <Container sx={{ padding: 0 }}>
             <Paper
               elevation={0}
@@ -108,7 +126,7 @@ export const Login = () => {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h1" fontSize={"1.5em"} fontWeight="bold">
+              <Typography variant="h1" fontSize={"1.5em"} fontWeight={600}>
                 Welcome back!
               </Typography>
               <Typography
@@ -206,7 +224,7 @@ export const Login = () => {
                         }}
                         className="rounded-[8px]"
                         id="password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}                        placeholder="Enter your password"
                         error={Boolean(errors.password)}
                         helperText={errors.password?.message}
                         InputProps={{
@@ -223,6 +241,19 @@ export const Login = () => {
                               </span>
                             </InputAdornment>
                           ),
+                          endAdornment:(
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+                          )
+
                         }}
                         aria-describedby="outlined-weight-helper-text"
                         inputProps={{
@@ -272,6 +303,7 @@ export const Login = () => {
                         opacity: 0.7,
                       },
                       padding: ".6em",
+                      boxShadow:'none'
                     }}
                   >
                     {buttonDisabled ? (
@@ -286,6 +318,7 @@ export const Login = () => {
           </Container>
         </div>
       </section>
+      <ToastContainer/>
     </main>
   );
 };

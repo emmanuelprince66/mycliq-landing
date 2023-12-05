@@ -384,7 +384,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              {Number(transactionData.walletBalance).toLocaleString()}
+              {Number(transactionData?.walletBalance || 0).toLocaleString() }
             </Typography>
           </Box>
         </Card>
