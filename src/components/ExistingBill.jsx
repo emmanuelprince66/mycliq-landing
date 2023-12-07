@@ -66,7 +66,7 @@ return newDate
         flexDirection: "column",
         alignItems: "start",
         padding: "1rem",
-        height:'fit-content'
+        minHeight:'fit-content'
       }}
     >
       <Box
@@ -98,7 +98,7 @@ return newDate
             height: "22px",
           }}
         >
-          3
+         {bills.length}
         </Typography>
       </Box>
 

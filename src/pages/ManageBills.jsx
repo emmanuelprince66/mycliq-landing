@@ -112,7 +112,6 @@ const ManageBills = () => {
                     }}
                   ></Box>
                 )}
-
                 <Box
                   sx={{
                     display: "flex",

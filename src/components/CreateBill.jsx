@@ -65,10 +65,12 @@ const CreateBill = () => {
         setOpen1(true);
         setOpen2(false);
         reset();
+        setLoading(false)
         setPickedDate(new Date())
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
   const {
@@ -623,7 +625,7 @@ const CreateBill = () => {
                 fontSize: "20px",
               }}
             >
-              Sucessfull
+              Successful
             </Typography>
 
             <Box onClick={handleClose1}>
