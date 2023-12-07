@@ -107,7 +107,7 @@ return newDate
   loading ?
   <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'50%',marginTop:'5em' }} />
 :
-  bills.length === 0 ?
+  bills.length > 0 ?
   [...bills].reverse().map(item=>{
       return(
         <Box key={item.id}
