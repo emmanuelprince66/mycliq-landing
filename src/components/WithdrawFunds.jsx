@@ -14,6 +14,9 @@ import { useSelector } from "react-redux";
 import PaymentsRoundedIcon from "@mui/icons-material/PaymentsRounded";
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import { ToastContainer,toast } from "react-toastify";
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,8 +37,10 @@ const WithdrawFunds = () => {
   const handleClose3 = () => setOpen3(false);
   const [error, setError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { transactionDetails, bankDetails } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
    function handleWithdrawAmount(e) {
     setWithdrawAmount(e.target.value);
     console.log(e.target.value);
@@ -72,14 +77,21 @@ const WithdrawFunds = () => {
     getBankDetails();
   }, []);
 
-  async function handleProceedToWithdraw() {
+   function handleProceedToWithdraw() {
     // const response = await AuthAxios.post(
     // 'transaction/withdrawal',
     // )
     setOpen2(true);
   }
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 6000, // Time in milliseconds
+    });
+  };
 
   async function handleWithdraw() {
+    setLoading(true)
     try {
       const response = await AuthAxios.post("/transaction/nip-transfer", {
         bankCode: bankDetails.bankCode,
@@ -95,6 +107,11 @@ const WithdrawFunds = () => {
       }
     } catch (error) {
       console.log(error);
+      notifyError(error.response.data.message)
+      setLoading(false)
+      if (error.response.status === 401){
+        navigate('/')
+      }
     }
   }
 
@@ -103,7 +120,9 @@ const WithdrawFunds = () => {
       sx={{
         padding: "1rem",
       }}
+
     >
+    <ToastContainer theme='dark' />
       <Typography
         sx={{
           fontWeight: "500",
@@ -601,6 +620,7 @@ const WithdrawFunds = () => {
               </Button>
               <Button
                 onClick={handleWithdraw}
+                disabled={loading}
                 sx={{
                   background: "#dc0019",
                   width: "100%",
@@ -613,7 +633,11 @@ const WithdrawFunds = () => {
                   },
                 }}
               >
-                Yes, Withdraw
+                    {loading ? (
+                      <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+                    ) : (
+                      "Yes,Withdraw"
+                    )}
               </Button>
             </Box>
           </Box>

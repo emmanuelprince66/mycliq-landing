@@ -28,7 +28,7 @@ import Cookies from "js-cookie";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -82,9 +82,9 @@ export const Login = () => {
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log("Login error:", error);
+      console.log( error);
       setButtonDisabled(false);
-      notifyError(error)
+      notifyError(String(error))
     },
   });
   const [showPassword, setShowPassword] = React.useState(false);
@@ -318,7 +318,7 @@ export const Login = () => {
           </Container>
         </div>
       </section>
-      <ToastContainer/>
+      <ToastContainer theme='dark' toastStyle={{ background: '#333', color: '#fff' }} />
     </main>
   );
 };

@@ -60,7 +60,10 @@ export const Sidebar = () => {
       link: "support",
     },
   ];
-
+function logOut(){
+navigate('/')
+localStorage.clear()  
+}
   return (
     <aside className="flex h-full pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
       <img src={checkIcon} className="w-[100px] mb-5 " alt="check icon" />
@@ -176,7 +179,7 @@ export const Sidebar = () => {
               </svg>
             </div>
           </div>
-          <div className="text-grey_2 items-center gap-2 flex p-2 w-full  rounded-[10px]">
+          <button onClick={logOut} className="text-grey_2 items-center gap-2 flex p-2 w-full  rounded-[10px]">
             <svg
               width="24"
               height="24"
@@ -190,7 +193,7 @@ export const Sidebar = () => {
               />
             </svg>
             <span className=" ">Logout</span>
-          </div>
+          </button>
         </div>
       </div>
     </aside>

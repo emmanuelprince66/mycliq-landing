@@ -44,6 +44,7 @@ import {
   saveTransactionData,
   fillUserDetails,
 } from "../utils/store/merchantSlice";
+import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 const style = {
   position: "absolute",
@@ -160,6 +161,7 @@ const TableCom = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -228,6 +230,9 @@ const {transactionDetails} = useSelector(state=>state)
         }
       } catch (error) {
         console.log(error);
+        if (error.response.status === 401){
+          navigate('/')
+        }  
       }
     };
     fetchData();
