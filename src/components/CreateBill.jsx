@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, Modal } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
@@ -14,7 +15,10 @@ import exLogo from "../assets/exLogo.svg";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import closeIcon from "../assets/images/closeIcon.svg";
 import successIcon from "../assets/successIcon.svg";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { AuthAxios } from "../helpers/axiosInstance";
+import { useForm } from "react-hook-form";
 const style = {
   position: "absolute",
   top: "50%",
@@ -28,9 +32,68 @@ const style = {
 const CreateBill = () => {
   const [open2, setOpen2] = React.useState(false);
   const handleClose2 = () => setOpen2(false);
-
+  const [pickedDate, setPickedDate] = useState(new Date());
+  const [dateToBeSent, setDateToBeSent] = useState(new Date());
+  const [billName, setBillName] = useState("");
+  const [fresherAmount, setFresherAmount] = useState("");
+  const [staylitesAmount, setStaylitesAmount] = useState("");
+  const [focusBorder, setFocusBorder] = useState("");
   const [open1, setOpen1] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [formDisabled, setFormDisabled] = React.useState(true);
+  const [formContent, setFormContent] = React.useState({});
   const handleClose1 = () => setOpen1(false);
+  function resetForm() {
+    setBillName("");
+    setStaylitesAmount("");
+    setFresherAmount("");
+    setPickedDate(new Date());
+    setFormContent({});
+  }
+  const createBill = async () => {
+    setLoading(true);
+    try {
+      const form = {
+        billName: formContent.billName,
+        fresherAmount: Number(formContent.fresherAmount),
+        staliteAmount: Number(formContent.stayliteAmount),
+        expiryDate: pickedDate,
+      };
+      const response = await AuthAxios.post("association-bill/add", form);
+      console.log(response);
+      if (response.status === 201) {
+        setOpen1(true);
+        setOpen2(false);
+        reset();
+        setPickedDate(new Date())
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors, isDirty },
+  } = useForm();
+  useEffect(() => {
+    const formFilled =
+      billName !== "" && fresherAmount !== "" && staylitesAmount !== "";
+    if (formFilled) {
+      setFormDisabled(false);
+    }
+  }, [billName, fresherAmount, staylitesAmount]);
+
+  const handleFormSubmit = (value) => {
+    console.log(value);
+    setFormContent(value);
+    console.log(pickedDate);
+    const dateForForm = new Date(pickedDate).toISOString();
+    console.log(dateForForm);
+    setDateToBeSent(dateForForm);
+    setOpen2(true);
+  };
 
   return (
     <Box
@@ -51,7 +114,7 @@ const CreateBill = () => {
       </Typography>
       <Typography
         sx={{
-          fomtWeight: "400",
+          fontWeight: "400",
           fontSize: "16px",
           color: "#828282",
           mb: "1rem",
@@ -62,15 +125,11 @@ const CreateBill = () => {
         successfully create will automatically go live. You can manage them
         under “existing Bills”.
       </Typography>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className=" w-full md:w-4/5 lg:w-3/5 m-auto"
       >
-        <Box sx={{ width: "560px" }}>
+        <Box>
           <Stack>
             <Box
               sx={{
@@ -107,6 +166,9 @@ const CreateBill = () => {
               </Box>
 
               <TextField
+                {...register("billName", {
+                  required: "billName is required",
+                })}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -122,10 +184,10 @@ const CreateBill = () => {
                   },
                 }}
                 required
-                // helperText={emailError && <span>{emailError}</span>}
                 placeholder="Enter a new bill name"
                 variant="outlined"
                 id="email-input"
+                onChange={(e) => setBillName(e)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment>
@@ -182,7 +244,7 @@ const CreateBill = () => {
                     mb: "10px",
                   }}
                 >
-                  Freashers
+                  Freshers
                 </Typography>
                 <Box
                   sx={{
@@ -196,6 +258,10 @@ const CreateBill = () => {
               </Box>
 
               <TextField
+                {...register("fresherAmount", {
+                  required: "fresherAmount is required",
+                })}
+                onChange={(e) => setFresherAmount(e)}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -278,6 +344,10 @@ const CreateBill = () => {
               </Box>
 
               <TextField
+                {...register("stayliteAmount", {
+                  required: "stayliteAmount is required",
+                })}
+                onChange={(e) => setStaylitesAmount(e)}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -336,41 +406,22 @@ const CreateBill = () => {
               </Typography>
             </Box>
 
-            <TextField
-              sx={{
-                width: "100%",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#CACACA", // Set the desired border color here
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#CACACA", // Set the border color on hover here
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#C57600", // Set the border color on focus here
-                  },
-                },
-              }}
-              required
-              disabled
-              // helperText={emailError && <span>{emailError}</span>}
-              placeholder="Select an expiry date for this bill"
-              variant="outlined"
-              id="email-input"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment>
-                    <CalendarMonthRoundedIcon /> &nbsp;&nbsp;
-                    <img src={seperator} alt="s-icon" />
-                    &nbsp;&nbsp;
-                  </InputAdornment>
-                ),
-              }}
-              aria-describedby="outlined-weight-helper-text"
-              inputProps={{
-                "aria-label": "weight",
-              }}
-            />
+            <div className="flex items-center w-full border border-[#CACACA] rounded-md p-2 h-full">
+              <div className="mr-2">
+                <IconButton>
+                  <CalendarMonthRoundedIcon className="text-gray-500" />
+                </IconButton>
+              </div>
+              <div className="border-l w-full pl-2">
+                <DatePicker
+                  className="h-full w-full min-h-[40px] border-none p-0 outline-none"
+                  wrapperClassName="w-full"
+                  selected={pickedDate}
+                  onFocus={() => setFocusBorder(true)}
+                  onChange={(date) => setPickedDate(date)}
+                />
+              </div>
+            </div>
           </Stack>
         </Box>
 
@@ -379,6 +430,7 @@ const CreateBill = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            width: "100%",
           }}
         >
           <Box
@@ -386,7 +438,6 @@ const CreateBill = () => {
               display: "flex",
               gap: "5px",
               alignItems: "center",
-              width: "560px",
               my: "1rem",
             }}
           >
@@ -396,7 +447,7 @@ const CreateBill = () => {
 
             <Typography
               sx={{
-                fomtWeight: "400",
+                fontWeight: "400",
                 fontSize: "12px",
                 color: "#CDA11E",
                 lineHeight: "18px",
@@ -411,27 +462,27 @@ const CreateBill = () => {
             sx={{
               width: "100%",
             }}
-          >
-            <Button
-              onClick={() => setOpen2(true)}
-              sx={{
-                background: "#dc0019",
-                padding: "10px",
-                borderRadius: "8px",
-                gap: "6px",
-                textTransform: "capitalize",
-                width: "100%",
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: "#dc0019",
-                },
-              }}
-            >
-              <AddRoundedIcon /> Create a New Bill
-            </Button>
-          </Box>
+          ></Box>
         </Box>
-      </Box>
+        <Button
+          type="submit"
+          disabled={formDisabled}
+          sx={{
+            background: "#dc0019",
+            padding: "10px",
+            borderRadius: "8px",
+            gap: "6px",
+            textTransform: "capitalize",
+            width: "100%",
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#dc0019",
+            },
+          }}
+        >
+          <AddRoundedIcon /> Create a New Bill
+        </Button>
+      </form>
 
       {/* Modal for create bill*/}
 
@@ -482,7 +533,7 @@ const CreateBill = () => {
           >
             <Typography
               sx={{
-                fomtWeight: "600",
+                fontWeight: "600",
                 fontSize: "16px",
                 color: "#4F4F4F",
                 lineHeight: "24px",
@@ -518,6 +569,7 @@ const CreateBill = () => {
                 Cancel
               </Button>
               <Button
+                onClick={createBill}
                 sx={{
                   background: "#dc0019",
                   width: "100%",
@@ -529,7 +581,11 @@ const CreateBill = () => {
                   },
                 }}
               >
-                Yes, Create
+                {!loading ? (
+                  "Yes, Create"
+                ) : (
+                  <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+                )}
               </Button>
             </Box>
           </Box>
@@ -596,7 +652,7 @@ const CreateBill = () => {
                 lineHeight: "24px",
               }}
             >
-              New created successfully and is now live!
+              New bill created successfully and is now live!
             </Typography>
           </Box>
           <Box
@@ -606,6 +662,7 @@ const CreateBill = () => {
             }}
           >
             <Button
+              onClick={() => setOpen1(false)}
               sx={{
                 background: "#dc0019",
                 width: "100%",

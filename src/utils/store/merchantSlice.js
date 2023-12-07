@@ -5,8 +5,9 @@ const merchantSlice = createSlice({
 
   initialState: {
     userDetails: {},
-    walletBalance:0,
-    bankDetails:{}
+    transactionDetails:{},
+    bankDetails:{},
+    bills:[],
   },
   reducers: {
     fillUserDetails: (state, action) => {
@@ -16,7 +17,10 @@ const merchantSlice = createSlice({
       state.bankDetails = action.payload;
     },
     saveTransactionData: (state, action) => {
-      state.walletBalance = action.payload;
+      state.transactionDetails = action.payload;
+    },
+    fillBills: (state, action) => {
+      state.bills = action.payload;
     },
   },
   clearMerchantState: (state, action) => {
@@ -28,6 +32,6 @@ const merchantSlice = createSlice({
   },
 });
 
-export const { fillUserDetails,fillBankDetails, saveTransactionData, userDetails, clearMerchantState } =
+export const { fillUserDetails,fillBankDetails,fillBills, saveTransactionData, userDetails, clearMerchantState } =
   merchantSlice.actions;
 export default merchantSlice.reducer;

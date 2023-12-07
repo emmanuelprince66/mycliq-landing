@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import TableCom from "../components/TableCom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import "react-date-range/dist/styles.css"; // main style file
@@ -6,7 +6,8 @@ import "react-date-range/dist/theme/default.css";
 import { Box,Button,Typography } from "@mui/material";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { DateRangePicker } from "react-date-range";
-
+import { useDispatch } from "react-redux";
+import { fillUserDetails } from "../utils/store/merchantSlice";
 const Transaction = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
@@ -14,6 +15,20 @@ const Transaction = () => {
     endDate: new Date(),
     key: "selection",
   });
+  const dispatch  = useDispatch()
+useEffect(() => {
+
+  async function getUserDetails(){
+    try {
+      const response = await AuthAxios.get('/user')
+      console.log(response)
+dispatch(fillUserDetails(response.data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+getUserDetails()
+}, [dispatch])
 
   function handleSelect(ranges) {
     setSelectedRange({

@@ -34,9 +34,9 @@ const WithdrawFunds = () => {
   const handleClose3 = () => setOpen3(false);
   const [error, setError] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const { walletBalance, bankDetails } = useSelector((state) => state);
+  const { transactionDetails, bankDetails } = useSelector((state) => state);
   const dispatch = useDispatch();
-  function handleWithdrawAmount(e) {
+   function handleWithdrawAmount(e) {
     setWithdrawAmount(e.target.value);
     console.log(e.target.value);
     if (e.target.value !== "") {
@@ -46,14 +46,14 @@ const WithdrawFunds = () => {
   function handleCheckWithdrawal() {
     const canWithdraw =
       /^\d+$/.test(withdrawAmount) &&
-      parseFloat(withdrawAmount) <= walletBalance;
+      parseFloat(withdrawAmount) <= transactionDetails.walletBalance;
     if (!/^\d+$/.test(withdrawAmount)) {
       setError(
         "Please enter a valid amount with only numbers and no mixed characters"
       );
     }
     console.log(canWithdraw, /^\d+$/.test(withdrawAmount));
-    if (parseFloat(withdrawAmount) > walletBalance) {
+    if (parseFloat(withdrawAmount) > transactionDetails.walletBalance) {
       setError("Amount cannot be greater than wallet balance");
       console.log("Amount cannot be greater than wallet balance");
     }
@@ -187,7 +187,7 @@ const WithdrawFunds = () => {
                 lineHeight: "22.4px",
               }}
             >
-              Your balance: ₦{Number(walletBalance).toLocaleString()}
+              Your balance: ₦{Number(transactionDetails.walletBalance).toLocaleString()}
             </Typography>
           </Box>
 

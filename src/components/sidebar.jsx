@@ -62,7 +62,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <aside className="flex pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
+    <aside className="flex h-full pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
       <img src={checkIcon} className="w-[100px] mb-5 " alt="check icon" />
 
       <div className="pt-5 pb-3  border-b border-solid ">

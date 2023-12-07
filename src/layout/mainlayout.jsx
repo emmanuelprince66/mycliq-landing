@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 
 export const Mainlayout = ({ component }) => {
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", height: "100%" }}>
       {/* Sidebar */}
       <Box sx={{ flex: "0 0 230px" }}>
         {/* Your Sidebar component here */}

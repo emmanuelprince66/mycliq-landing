@@ -31,7 +31,6 @@ import twoArrow from "../assets/twoArrow.svg";
 import checkBlur from "../assets/checkBlur.svg";
 import SyncAltRoundedIcon from "@mui/icons-material/SyncAltRounded";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
-
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import closeIcon from "../assets/images/closeIcon.svg";
@@ -40,6 +39,7 @@ import fup from "../assets/fup.svg";
 import { useSelector } from "react-redux";
 import fbook from "../assets/fbook.svg";
 import { useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   saveTransactionData,
   fillUserDetails,
@@ -148,14 +148,16 @@ const TableCom = () => {
     },
     // Add more items as needed
   ]);
-  const [transactionData, setTransactionData] = useState({});
+  const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
+  const [data,setData] = useState({})
   const handleClose1 = () => setOpen1(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showPaid, setShowPaid] = useState(null);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [index, setIndex] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -176,17 +178,6 @@ const TableCom = () => {
     setPage(0);
   };
 
-  const filteredItems = items
-    .filter(
-      (item) =>
-        (item.user &&
-          item.user.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (item.tid && item.tid.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
-    .filter(
-      (item) =>
-        showPaid === null || item.status === (showPaid ? "paid" : "verified")
-    );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -196,9 +187,20 @@ const TableCom = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  function modDate(value){
+    const date = new Date(value)
+    const day = date.getDay()
+    const month = date.getMonth()
+    const year  = date.getFullYear()
+    const hrs = date.getHours()
+    const mins = date.getMinutes()
+    const period = hrs >= 12 ? 'pm' : 'am';
+    const formattedHours = hrs % 12 || 12;
+  
+    return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;}
+  
   const dispatch = useDispatch();
-
+const {transactionDetails} = useSelector(state=>state)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -207,8 +209,21 @@ const TableCom = () => {
           method: "GET",
         });
         if (response) {
-          setTransactionData(response.data);
-          dispatch(saveTransactionData(response?.data?.walletBalance));
+          setLoading(false)
+          const filteredItems = response.data?.queryResult
+          .filter(
+            (item) =>
+          {
+                if (searchTerm !== null){
+               return  item.transferFrom.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||item.transferFrom.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
+              }
+                })   
+          .filter(
+            (item) =>
+              showPaid === null || item.additionalDetails === (showPaid ? "PAID" : "VERIFIED")
+          );
+          setTransactionData(filteredItems);
+          dispatch(saveTransactionData(response?.data));
           console.log(response);
         }
       } catch (error) {
@@ -216,8 +231,11 @@ const TableCom = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
-
+  }, [dispatch,showPaid,searchTerm]);
+function viewDetails(value){
+setIndex(value)
+setOpen1(true)
+}
   return (
     <Box
       sx={{
@@ -287,7 +305,7 @@ const TableCom = () => {
                 color: "#1E1E1E",
               }}
             >
-              {transactionData.inflow}
+            {transactionDetails.inflow}
             </Typography>
           </Box>
         </Card>
@@ -335,7 +353,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              {transactionData.outflow}
+              {transactionDetails.outflow}
             </Typography>
           </Box>
         </Card>
@@ -384,7 +402,7 @@ const TableCom = () => {
                 color: "##1E1E1E",
               }}
             >
-              {Number(transactionData?.walletBalance || 0).toLocaleString() }
+              {Number(transactionDetails?.walletBalance || 0).toLocaleString() }
             </Typography>
           </Box>
         </Card>
@@ -750,8 +768,14 @@ const TableCom = () => {
                     </TableCell>
                   </TableRow>
                 ))} */}
-              {transactionData.queryResult?.length > 0 ? (
-                transactionData.queryResult.map((item, i) => (
+              {
+                loading ?
+                <TableRow>
+                <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'auto',padding:'1em' }} />
+                </TableRow>
+:
+                transactionData.length > 0 ? (
+                transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
                     <TableCell>{` ID:${item.id.slice(1, 12)}`}</TableCell>
@@ -796,7 +820,7 @@ const TableCom = () => {
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => setOpen1(true)}
+                        onClick={() => viewDetails(i)}
                         variant="outlined"
                         sx={{
                           textTransform: "capitalize",
@@ -828,7 +852,7 @@ const TableCom = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={filteredItems.length}
+          count={transactionData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -880,6 +904,7 @@ const TableCom = () => {
                 p: "20px",
                 display: "flex",
                 flexDirection: "column",
+                gap:'.4em',
                 justifyContent: "start",
                 borderRadius: "8px",
                 my: "1rem",
@@ -900,8 +925,6 @@ const TableCom = () => {
                   display: "flex",
                   gap: "2rem",
                   alignItems: "center",
-                  mt: "1rem",
-                  mb: "0.2rem",
                 }}
               >
                 <Typography
@@ -922,7 +945,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
+                  {transactionData[index]?.transferFrom.firstName} {transactionData[index]?.transferFrom.lastName}
                 </Typography>
               </Box>
               <Box
@@ -979,7 +1002,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny@gmail.com
+                 {transactionData[index]?.transferFrom.email}
                 </Typography>
               </Box>
               <Box
@@ -1008,7 +1031,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
+                  {transactionData[index]?.transferFrom.phoneNumber}
                 </Typography>
               </Box>
               <Box
@@ -1051,6 +1074,7 @@ const TableCom = () => {
                 border: "1px solid #E0E0E0",
                 p: "20px",
                 display: "flex",
+                gap:'.3em',
                 flexDirection: "column",
                 justifyContent: "start",
                 borderRadius: "8px",
@@ -1122,7 +1146,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
+                  {transactionData[index]?.transactionRef}
                 </Typography>
               </Box>
               <Box
@@ -1146,12 +1170,12 @@ const TableCom = () => {
 
                 <Typography
                   sx={{
-                    color: "#C57600",
+                    color: "#1E1E1E",
                     fontWeight: "600",
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
+                  {modDate(transactionData[index]?.createdAt)}
                 </Typography>
               </Box>
               <Box
@@ -1180,7 +1204,7 @@ const TableCom = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Jenny Wilson
+                  ₦{transactionData[index]?.amount}
                 </Typography>
               </Box>
               <Box

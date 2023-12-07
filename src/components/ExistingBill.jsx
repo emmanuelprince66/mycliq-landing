@@ -1,10 +1,59 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import colorContact from "../assets/colorContact.svg";
 import Badge from "@mui/material/Badge";
 import { Box, Typography } from "@mui/material";
 import { Switch } from "@mui/material";
-
+import { AuthAxios } from "../helpers/axiosInstance";
+import { useSelector } from "react-redux";
+import { fillBills } from "../utils/store/merchantSlice";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useDispatch } from "react-redux";
 const ExistingBill = () => {
+const [loading,setLoading] = useState(true)
+  const dispatch = useDispatch()
+const {userDetails,bills} = useSelector(state=>state)
+  useEffect(() => {
+    
+    async function fetchBills(){
+      try {
+        const response = await AuthAxios.get(`/association-bill/all/${userDetails.id}`)
+     console.log(response)
+     setLoading(false)
+     dispatch(fillBills(response.data.data))
+      } catch (error) {
+        console.log(error)
+      }
+        }
+  fetchBills()
+  }, [userDetails.id,dispatch])
+  
+function modDate(value){
+  const date = new Date(value)
+  const day = date.getDay()
+  const month = date.getMonth()
+  const year  = date.getFullYear()
+  const hrs = date.getHours()
+  const mins = date.getMinutes()
+  const period = hrs >= 12 ? 'pm' : 'am';
+  const formattedHours = hrs % 12 || 12;
+
+  return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;}
+
+  function modExpiryDate(value){
+const res = value.split('-')
+const newDate = res.reverse().join('-')
+return newDate
+  }
+  function checkIfLive(value){
+    let date = new Date(value)
+    const currentDate = new Date()
+    if (date  > currentDate ){
+      return 'live'
+    }
+    else{
+      return null
+    }
+  }
   return (
     <Box
       sx={{
@@ -12,6 +61,7 @@ const ExistingBill = () => {
         flexDirection: "column",
         alignItems: "start",
         padding: "1rem",
+        height:'fit-content'
       }}
     >
       <Box
@@ -23,7 +73,7 @@ const ExistingBill = () => {
       >
         <Typography
           sx={{
-            fomtWeight: "500",
+            fontWeight: "500",
             fontSize: "20px",
             color: "#1E1E1E",
             lineHeight: "30px",
@@ -34,7 +84,7 @@ const ExistingBill = () => {
 
         <Typography
           sx={{
-            fomtWeight: "500",
+            fontWeight: "500",
             fontSize: "12px",
             width: "24px",
             padding: "2px 8px 2px 8px",
@@ -47,7 +97,15 @@ const ExistingBill = () => {
         </Typography>
       </Box>
 
-      <Box
+
+{   
+  loading ?
+  <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'50%',marginTop:'5em' }} />
+:
+  bills.length === 0 ?
+  [...bills].reverse().map(item=>{
+      return(
+        <Box key={item.id}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -92,21 +150,21 @@ const ExistingBill = () => {
                 sx={{
                   fontWeight: 600,
                   fontSize: "16px",
-                  color: "##000000",
+                  color: "#000000",
                 }}
               >
-                COLERMSA DUES
+                {item.billName}
               </Typography>
               <Typography
                 sx={{
                   fontWeight: 600,
                   fontSize: "12px",
                   padding: "2px 8px 2px 8px",
-                  background: "#EBFFF3",
+                  background:checkIfLive( item.expiryDate) === 'live'? "#EBFFF3":'',
                   borderRadius: "8px",
                 }}
               >
-                live
+              {checkIfLive( item.expiryDate)}
               </Typography>
             </Box>
 
@@ -125,7 +183,7 @@ const ExistingBill = () => {
                   mb: "10px",
                 }}
               >
-                Created 01-05-2023 at 9:34am |
+                Created {modDate(item.createdAt) } |
               </Typography>
               <Typography
                 htmlFor="input"
@@ -136,7 +194,7 @@ const ExistingBill = () => {
                   mb: "10px",
                 }}
               >
-                Expires 15-06-2023 |
+                Expires {modExpiryDate(item.expiryDate)} |
               </Typography>
               <Typography
                 htmlFor="input"
@@ -219,340 +277,13 @@ const ExistingBill = () => {
           </Box>
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          borderBottom: "1px solid #E0E0E0",
-          pb: "1rem",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            mt: "2rem",
-          }}
-        >
-          <Box
-            sx={{
-              pb: "4px",
-            }}
-          >
-            <img src={colorContact} alt="c-contact" />
-          </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-              alignItems: "start",
-              justifyContent: "center",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                gap: "5px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "16px",
-                  color: "##000000",
-                }}
-              >
-                LA VOYAGE TOUR
-              </Typography>
-            </Box>
+      )
+    }) 
+    :
+    <Typography sx={{paddingBlock:'1em'}} fontWeight={600} > No Bills yet!. Create a bill to see one. </Typography>
+}          </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                gap: "3px",
-              }}
-            >
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                Created 01-05-2023 at 9:34am |
-              </Typography>
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                Expires 15-06-2023 |
-              </Typography>
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                1,090 Paid, 789 Verified
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2px",
-          }}
-        >
-          <Typography
-            htmlFor="input"
-            sx={{
-              fontWeight: 400,
-              fontSize: "12px",
-              color: "#1E1E1E",
-            }}
-          >
-            Stop Accepting Payments
-          </Typography>
-
-          <Box
-            sx={{
-              mb: "0.5rem",
-            }}
-          >
-            <Switch
-              // checked={darkMode}
-              // onChange={onToggleDarkMode}
-              sx={{
-                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                  backgroundColor: "#DC0019",
-                  opacity: 1, // Customize track background color when checked
-                },
-                "& .MuiSwitch-switchBase.Mui-focusVisible .MuiSwitch-thumb": {
-                  color: "#52d869", // Customize thumb color when focused
-                  border: "6px solid #fff",
-                },
-                "& .MuiSwitch-switchBase": {
-                  padding: "1px",
-
-                  color: "#fff",
-                  "&.Mui-checked": {
-                    transform: "translateX(15px)",
-                    color: "#fff",
-                  },
-                },
-                "& .MuiSwitch-thumb": {
-                  width: "20px",
-                  height: "20px",
-                  marginTop: "0.8rem",
-                  marginLeft: "0.8rem",
-                  backgroundColor: "#f0f0f0", // Customize thumb background color
-                },
-                "& .MuiSwitch-track": {
-                  borderRadius: 26 / 2,
-                  border: "1px solid #ccc",
-
-                  height: "1.5rem",
-                  backgroundColor: "#f8f8f8", // Customize track background color
-                  opacity: 1,
-                  transition:
-                    "background-color 0.4s ease-in-out, border 0.4s ease-in-out",
-                },
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          borderBottom: "1px solid #E0E0E0",
-          pb: "1rem",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            mt: "2rem",
-          }}
-        >
-          <Box
-            sx={{
-              pb: "4px",
-            }}
-          >
-            <img src={colorContact} alt="c-contact" />
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-              alignItems: "start",
-              justifyContent: "center",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                gap: "5px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "16px",
-                  color: "##000000",
-                }}
-              >
-                COLERMSA DINNER & AWARDS NIGHT
-              </Typography>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  padding: "2px 8px 2px 8px",
-                  background: "#EBFFF3",
-                  borderRadius: "8px",
-                }}
-              >
-                live
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                gap: "3px",
-              }}
-            >
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                Created 01-05-2023 at 9:34am |
-              </Typography>
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                Expires 15-06-2023 |
-              </Typography>
-              <Typography
-                htmlFor="input"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "12px",
-                  color: "#828282",
-                  mb: "10px",
-                }}
-              >
-                1,090 Paid, 789 Verified
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2px",
-          }}
-        >
-          <Typography
-            htmlFor="input"
-            sx={{
-              fontWeight: 400,
-              fontSize: "12px",
-              color: "#1E1E1E",
-            }}
-          >
-            Stop Accepting Payments
-          </Typography>
-
-          <Box
-            sx={{
-              mb: "0.5rem",
-            }}
-          >
-            <Switch
-              // checked={darkMode}
-              // onChange={onToggleDarkMode}
-              sx={{
-                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                  backgroundColor: "#DC0019",
-                  opacity: 1, // Customize track background color when checked
-                },
-                "& .MuiSwitch-switchBase.Mui-focusVisible .MuiSwitch-thumb": {
-                  color: "#52d869", // Customize thumb color when focused
-                  border: "6px solid #fff",
-                },
-                "& .MuiSwitch-switchBase": {
-                  padding: "1px",
-
-                  color: "#fff",
-                  "&.Mui-checked": {
-                    transform: "translateX(15px)",
-                    color: "#fff",
-                  },
-                },
-                "& .MuiSwitch-thumb": {
-                  width: "20px",
-                  height: "20px",
-                  marginTop: "0.8rem",
-                  marginLeft: "0.8rem",
-                  backgroundColor: "#f0f0f0", // Customize thumb background color
-                },
-                "& .MuiSwitch-track": {
-                  borderRadius: 26 / 2,
-                  border: "1px solid #ccc",
-
-                  height: "1.5rem",
-                  backgroundColor: "#f8f8f8", // Customize track background color
-                  opacity: 1,
-                  transition:
-                    "background-color 0.4s ease-in-out, border 0.4s ease-in-out",
-                },
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
   );
 };
 

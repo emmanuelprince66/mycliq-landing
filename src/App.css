@@ -8,6 +8,8 @@ button:active {
 
 body {
   background-color: #fffcfc;
+  min-height: fit-content;
+overflow-y: auto;  
 }
 .fd {
   width: 100%;
