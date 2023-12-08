@@ -33,8 +33,7 @@ dispatch(fillUserDetails(response.data))
 getUserDetails()
 }, [dispatch])
 
-  function handleSelect(e,ranges) {
-console.log(e,ranges)
+  function handleSelect(ranges) {
 const dateRange =  {
       startDate: ranges.selection.startDate,
       endDate: ranges.selection.endDate,
@@ -85,7 +84,7 @@ const modEndDate = new Date(selectedDates.endDate).toLocaleDateString()
       </Box>
       {dateVisible && (
         <div className="absolute bg-white z-[2]  shadow-lg p-2 rounded-[8px] right-0" >
-        <DateRangePicker ranges={[selectedDates]} onChange={(e,item)=>handleSelect(e,item)} />
+        <DateRangePicker ranges={[selectedDates]} onChange={handleSelect} />
         </div>
       )}
       <TableCom />
