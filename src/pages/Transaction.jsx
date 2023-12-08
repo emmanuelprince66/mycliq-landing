@@ -7,7 +7,9 @@ import { Box,Button,Typography } from "@mui/material";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { DateRangePicker } from "react-date-range";
 import { useDispatch } from "react-redux";
+import { fillSelectedDates } from "../utils/store/merchantSlice";
 import { fillUserDetails } from "../utils/store/merchantSlice";
+import { useSelector } from "react-redux";
 const Transaction = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
@@ -16,6 +18,7 @@ const Transaction = () => {
     key: "selection",
   });
   const dispatch  = useDispatch()
+  const {selectedDates} = useSelector(state=>state)
 useEffect(() => {
 
   async function getUserDetails(){
@@ -30,17 +33,20 @@ dispatch(fillUserDetails(response.data))
 getUserDetails()
 }, [dispatch])
 
-  function handleSelect(ranges) {
-    setSelectedRange({
+  function handleSelect(e,ranges) {
+console.log(e,ranges)
+const dateRange =  {
       startDate: ranges.selection.startDate,
       endDate: ranges.selection.endDate,
       key: "selection",
-    });
+    }
+    
+dispatch(fillSelectedDates(dateRange)) 
 
     console.log("Selected Date Range:", ranges);
   }
-const modStartDate = new Date(selectedRange.startDate).toLocaleDateString()
-const modEndDate = new Date(selectedRange.endDate).toLocaleDateString()
+const modStartDate = new Date(selectedDates.startDate).toLocaleDateString()
+const modEndDate = new Date(selectedDates.endDate).toLocaleDateString()
 
   function openDateRange() {
     setDateVisible(!dateVisible);
@@ -74,12 +80,12 @@ const modEndDate = new Date(selectedRange.endDate).toLocaleDateString()
     <div className="border flex ml-auto border-grey_1 w-fit rounded-[8px] " >
 
 
-      <Button  startIcon={<CalendarMonthOutlined/>} onClick={openDateRange}> {modStartDate }- {modEndDate}</Button>
+      <Button sx={{color:"#4F4F4F"}} startIcon={<CalendarMonthOutlined/>} onClick={openDateRange}> {modStartDate }- {modEndDate}</Button>
       </div>
       </Box>
       {dateVisible && (
         <div className="absolute bg-white z-[2]  shadow-lg p-2 rounded-[8px] right-0" >
-        <DateRangePicker ranges={[selectedRange]} onChange={handleSelect} />
+        <DateRangePicker ranges={[selectedDates]} onChange={(e,item)=>handleSelect(e,item)} />
         </div>
       )}
       <TableCom />

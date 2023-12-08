@@ -41,6 +41,10 @@ const WithdrawFunds = () => {
   const { transactionDetails, bankDetails } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  function closeModals(){
+    setOpen3(false)
+    
+  }
    function handleWithdrawAmount(e) {
     setWithdrawAmount(e.target.value);
     console.log(e.target.value);
@@ -81,6 +85,7 @@ const WithdrawFunds = () => {
     // const response = await AuthAxios.post(
     // 'transaction/withdrawal',
     // )
+    setOpen1(false)
     setOpen2(true);
   }
   const notifyError = (msg) => {
@@ -104,6 +109,8 @@ const WithdrawFunds = () => {
       console.log(response);
       if (response.status === 201){
         setOpen3(true)
+        setOpen2(false)
+        setLoading(false)
       }
     } catch (error) {
       console.log(error);
@@ -111,6 +118,7 @@ const WithdrawFunds = () => {
       setLoading(false)
       if (error.response.status === 401){
         navigate('/')
+        localStorage.clear()
       }
     }
   }
@@ -714,6 +722,7 @@ const WithdrawFunds = () => {
             }}
           >
             <Button
+            onClick={closeModals}
               sx={{
                 background: "#dc0019",
                 width: "100%",

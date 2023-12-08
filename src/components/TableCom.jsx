@@ -46,16 +46,7 @@ import {
 } from "../utils/store/merchantSlice";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  borderRadius: "12px",
-  width: "745px",
-  bgcolor: "background.paper",
-  p: 3,
-};
+import { TransactionDetails } from "./transactionDetails";
 
 const TableCom = () => {
   const [items, setItems] = useState([
@@ -158,6 +149,8 @@ const TableCom = () => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
+  const [details, setDetails] = useState({});
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -189,17 +182,6 @@ const TableCom = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function modDate(value){
-    const date = new Date(value)
-    const day = date.getDay()
-    const month = date.getMonth()
-    const year  = date.getFullYear()
-    const hrs = date.getHours()
-    const mins = date.getMinutes()
-    const period = hrs >= 12 ? 'pm' : 'am';
-    const formattedHours = hrs % 12 || 12;
-  
-    return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;}
   
   const dispatch = useDispatch();
 const {transactionDetails} = useSelector(state=>state)
@@ -232,14 +214,27 @@ const {transactionDetails} = useSelector(state=>state)
         console.log(error);
         if (error.response.status === 401){
           navigate('/')
+          localStorage.clear()
         }  
       }
     };
     fetchData();
   }, [dispatch,showPaid,searchTerm]);
-function viewDetails(value){
-setIndex(value)
+async function viewDetails(i,ref,viewingRight){
+setIndex(i)
 setOpen1(true)
+try {
+  const response  = await AuthAxios.get(`/remittance/${ref}/${viewingRight}`)
+console.log(response)
+setDetails(response.data.data)
+
+} catch (error) {
+  console.log(error)
+  if (error.response.status === 401){
+    navigate('/')
+    localStorage.clear()
+  }
+}
 }
   return (
     <Box
@@ -776,7 +771,7 @@ setOpen1(true)
               {
                 loading ?
                 <TableRow>
-                <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'auto',padding:'1em' }} />
+                <CircularProgress size="4.2rem" sx={{ color: "#DC0019",marginLeft:'auto',padding:'1em' }} />
                 </TableRow>
 :
                 transactionData.length > 0 ? (
@@ -795,15 +790,15 @@ setOpen1(true)
                         sx={{
                           textTransform: "capitalize",
                           background:
-                            item.transactionStatus === "SUCCESS"
+                            item.additionalDetails === "VERIFIED"
                               ? "#EBFFF3"
                               : "#EBF3FF",
                           color:
-                            item.transactionStatus === "SUCCESS"
+                            item.additionalDetails === "VERIFIED"
                               ? "#1E854A"
                               : "#1367D8",
                           width:
-                            item.transactionStatus === "SUCCESS"
+                            item.additionalDetails === "PAID"
                               ? "67px"
                               : "87px",
                           fontWeight: "500",
@@ -820,12 +815,12 @@ setOpen1(true)
                         <CheckCircleOutlineRoundedIcon
                           sx={{ fontSize: "12px" }}
                         />{" "}
-                        {item.transactionStatus}
+                        {item.additionalDetails}
                       </Box>
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => viewDetails(i)}
+                        onClick={() => viewDetails(i,item.transactionRef,item.viewingRight)}
                         variant="outlined"
                         sx={{
                           textTransform: "capitalize",
@@ -878,383 +873,8 @@ setOpen1(true)
             },
           }}
         >
-          <Box sx={style}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "900",
-                  color: "#1E1E1E",
-                  fontWeight: "500",
-                  fontSize: "20px",
-                }}
-              >
-                Transaction Details
-              </Typography>
+<TransactionDetails handleClose1={handleClose1} details={details} />
 
-              <Box onClick={handleClose1}>
-                <img src={closeIcon} alt="c-icon" />
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                background: "#f3f3f3",
-                border: "#E0E0E0",
-                p: "20px",
-                display: "flex",
-                flexDirection: "column",
-                gap:'.4em',
-                justifyContent: "start",
-                borderRadius: "8px",
-                my: "1rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  color: "#1E1E1E",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                }}
-              >
-                User Details
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  User:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  {transactionData[index]?.transferFrom.firstName} {transactionData[index]?.transferFrom.lastName}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Matric Number:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  1234578
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Email Address:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                 {transactionData[index]?.transferFrom.email}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Phone Number:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  {transactionData[index]?.transferFrom.phoneNumber}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Level:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  400l
-                </Typography>
-              </Box>
-            </Box>
-
-            {/* es */}
-
-            <Box
-              sx={{
-                width: "100%",
-                background: "#fff",
-                border: "1px solid #E0E0E0",
-                p: "20px",
-                display: "flex",
-                gap:'.3em',
-                flexDirection: "column",
-                justifyContent: "start",
-                borderRadius: "8px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "900",
-                  color: "#1E1E1E",
-                  fontWeight: "500",
-                  fontSize: "20px",
-                }}
-              >
-                Transaction Details
-              </Typography>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mt: "1rem",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Bill Type:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  Jenny Wilson
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Transaction ID:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  {transactionData[index]?.transactionRef}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Date & Time:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#1E1E1E",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  {modDate(transactionData[index]?.createdAt)}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Amount:
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "#C57600",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                  }}
-                >
-                  ₦{transactionData[index]?.amount}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                  mb: "0.2rem",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fomtWeight: "500",
-                    color: "#828282",
-                    fontSize: "14px",
-                    minWidth: "130px",
-                  }}
-                >
-                  Transaction Status:
-                </Typography>
-
-                <Box
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "#DC0019",
-                    background: "#EBF3FF",
-                    color: "#1367D8",
-                    minWidth: "87px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "none",
-                    padding: "4px 8px 4px 8px",
-                    borderRadius: "8px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    border: "1px solid #E0E0E0",
-                  }}
-                >
-                  <CheckCircleOutlineRoundedIcon sx={{ fontSize: "12px" }} />{" "}
-                  Verified
-                </Box>
-              </Box>
-            </Box>
-          </Box>
         </Modal>
         {/* Modal ends */}
       </Box>

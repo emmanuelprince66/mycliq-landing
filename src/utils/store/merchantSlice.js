@@ -7,11 +7,15 @@ const merchantSlice = createSlice({
     userDetails: {},
     transactionDetails:{},
     bankDetails:{},
+    selectedDates:{ startDate:new Date(),endDate:new Date(),key:'selection'   },
     bills:[],
   },
   reducers: {
     fillUserDetails: (state, action) => {
       state.userDetails = action.payload;
+    },
+    fillSelectedDates: (state, action) => {
+      state.selectedDates = action.payload;
     },
     fillBankDetails: (state, action) => {
       state.bankDetails = action.payload;
@@ -32,6 +36,6 @@ const merchantSlice = createSlice({
   },
 });
 
-export const { fillUserDetails,fillBankDetails,fillBills, saveTransactionData, userDetails, clearMerchantState } =
+export const { fillUserDetails,fillSelectedDates,fillBankDetails,fillBills, saveTransactionData, userDetails, clearMerchantState } =
   merchantSlice.actions;
 export default merchantSlice.reducer;

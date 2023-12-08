@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import {
   Table,
   Box,
@@ -20,8 +20,7 @@ import {
   Modal,
 } from "@mui/material";
 import closeIcon from "../assets/images/closeIcon.svg";
-
-import Divider from "@mui/material/Divider";
+import { useSelector } from "react-redux";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import HourglassTopRoundedIcon from "@mui/icons-material/HourglassTopRounded";
@@ -40,6 +39,8 @@ const WithdrawHistory = () => {
   const [open1, setOpen1] = React.useState(false);
   const handleClose1 = () => setOpen1(false);
   const [page, setPage] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [items, setItems] = useState([
     {
@@ -103,15 +104,40 @@ const WithdrawHistory = () => {
       status: "pending",
     },
   ]);
-
+const {transactionDetails} = useSelector(state=>state)
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const withdrawalData = transactionDetails.queryResult.filter(item=>item.transactionType === 'WITHDRAWAL')
+console.log(withdrawalData)
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  function modDate(value){
+    const date = new Date(value)
+    const day = date.getDay()
+    const month = date.getMonth()
+    const year  = date.getFullYear()
+    const hrs = date.getHours()
+    const mins = date.getMinutes()
+    const period = hrs >= 12 ? 'pm' : 'am';
+    const formattedHours = hrs % 12 || 12;
+  
+    return `${day} - ${month} - ${year} at ${formattedHours}:${mins} ${period}`;}
+  function viewDetails(i){
+    setIndex(i)
+    setOpen1(true)
+  }
+
+  useEffect(() => {
+    
+  setTimeout(() => {
+    setLoading(false)
+  }, 500);
+  
+  }, [])
+  
 
   return (
     <Box
@@ -148,34 +174,35 @@ const WithdrawHistory = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((item) => (
+
+            {
+ withdrawalData.length > 0 ?
+              withdrawalData.map((item,i) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.amt}</TableCell>
-                  <TableCell>{item.date}</TableCell>
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell>{item?.amount}</TableCell>
+                  <TableCell>{modDate(item?.createdAt)}</TableCell>
                   <TableCell>
                     <Box
                       sx={{
                         textTransform: "capitalize",
                         color: "#DC0019",
                         background:
-                          item.status === "sucessfull"
+                          item.transactionStatus === "SUCCESS"
                             ? "#EBFFF3"
-                            : item.status === "pending"
+                            : item.transactionStatus === "PENDING"
                             ? "#FFF0F0"
                             : "#FFF0F0",
                         color:
-                          item.status === "sucessfull"
+                          item.transactionStatus === "SUCCESS"
                             ? "#1E854A"
-                            : item.status === "pending"
+                            : item.transactionStatus === "PENDING"
                             ? "#CDA11E"
                             : "#E52929",
                         width:
-                          item.status === "sucessfull"
+                          item.transactionStatus === "SUCCESS"
                             ? "105px"
-                            : item.status === "pending"
+                            : item.transactionStatus === "PENDING"
                             ? "90px"
                             : "90px",
                         fontWeight: "500",
@@ -189,13 +216,13 @@ const WithdrawHistory = () => {
                         border: "1px solid #E0E0E0",
                       }}
                     >
-                      {item.status === "sucessfull" ? (
+                      {item.transactionStatus === "SUCCESS" ? (
                         <CheckCircleOutlineRoundedIcon
                           sx={{
                             fontSize: "12px",
                           }}
                         />
-                      ) : item.status === "pending" ? (
+                      ) : item.transactionStatus === "PENDING" ? (
                         <HourglassTopRoundedIcon
                           sx={{
                             fontSize: "12px",
@@ -209,13 +236,13 @@ const WithdrawHistory = () => {
                         />
                       )}
 
-                      {item.status}
+                      {item.transactionStatus}
                     </Box>
                   </TableCell>
 
                   <TableCell>
                     <Button
-                      onClick={() => setOpen1(true)}
+                      onClick={()=>viewDetails(i)}
                       variant="outlined"
                       sx={{
                         textTransform: "capitalize",
@@ -234,7 +261,13 @@ const WithdrawHistory = () => {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
+              ))
+              : (
+                <Typography className="flex self-center p-3  min-w-full">
+                  No transactions yet.
+                </Typography>
+              )
+              }
           </TableBody>
         </Table>
       </TableContainer>
@@ -314,7 +347,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Transaction ID:
               </Typography>
 
               <Typography
@@ -324,7 +357,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+              ID:{withdrawalData[index]?.id.slice(1,12)}
               </Typography>
             </Box>
             <Box
@@ -341,7 +374,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Date and Time:
               </Typography>
 
               <Typography
@@ -351,35 +384,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-                mb: "0.2rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                }}
-              >
-                User:
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: "#1E1E1E",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                }}
-              >
-                Jenny Wilson
+                {modDate(withdrawalData[index]?.createdAt)}
               </Typography>
             </Box>
             <Box
@@ -397,7 +402,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Amount:
               </Typography>
 
               <Typography
@@ -407,8 +412,83 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                {withdrawalData[index]?.amount}
               </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "2rem",
+                alignItems: "center",
+                mb: "0.2rem",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  color: "#828282",
+                  fontSize: "14px",
+                }}
+              >
+                Transaction Status:
+              </Typography>
+
+              <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        color: "#DC0019",
+                        background:
+                          withdrawalData[index]?.transactionStatus === "SUCCESS"
+                            ? "#EBFFF3"
+                            : withdrawalData[index]?.transactionStatus === "PENDING"
+                            ? "#FFF0F0"
+                            : "#FFF0F0",
+                        color:
+                          withdrawalData[index]?.transactionStatus === "SUCCESS"
+                            ? "#1E854A"
+                            : withdrawalData[index]?.transactionStatus === "PENDING"
+                            ? "#CDA11E"
+                            : "#E52929",
+                        width:
+                          withdrawalData[index]?.transactionStatus === "SUCCESS"
+                            ? "105px"
+                            : withdrawalData[index]?.transactionStatus === "PENDING"
+                            ? "90px"
+                            : "90px",
+                        fontWeight: "500",
+                        fontSize: "12px",
+                        border: "none",
+                        padding: "4px 8px 4px 8px",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        border: "1px solid #E0E0E0",
+                      }}
+                    >
+                      {withdrawalData[index]?.transactionStatus === "SUCCESS" ? (
+                        <CheckCircleOutlineRoundedIcon
+                          sx={{
+                            fontSize: "12px",
+                          }}
+                        />
+                      ) : withdrawalData[index]?.transactionStatus === "PENDING" ? (
+                        <HourglassTopRoundedIcon
+                          sx={{
+                            fontSize: "12px",
+                          }}
+                        />
+                      ) : (
+                        <InfoOutlinedIcon
+                          sx={{
+                            fontSize: "12px",
+                          }}
+                        />
+                      )}
+
+                      {withdrawalData[index]?.transactionStatus}
+                    </Box>
             </Box>
           </Box>
 
@@ -453,7 +533,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Bank Name:
               </Typography>
 
               <Typography
@@ -463,7 +543,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                {withdrawalData[index]?.bankDetails.bank}
               </Typography>
             </Box>
             <Box
@@ -480,7 +560,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Account Number:
               </Typography>
 
               <Typography
@@ -490,7 +570,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                  {withdrawalData[index]?.bankDetails.accountNumber}
               </Typography>
             </Box>
             <Box
@@ -508,7 +588,7 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                User:
+                Account Name:
               </Typography>
 
               <Typography
@@ -518,48 +598,8 @@ const WithdrawHistory = () => {
                   fontSize: "14px",
                 }}
               >
-                Jenny Wilson
+                {withdrawalData[index]?.bankDetails.name}
               </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "2rem",
-                alignItems: "center",
-                mb: "0.2rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  color: "#828282",
-                  fontSize: "14px",
-                }}
-              >
-                User:
-              </Typography>
-
-              <Box
-                sx={{
-                  textTransform: "capitalize",
-                  color: "#DC0019",
-                  background: "#EBF3FF",
-                  color: "#1367D8",
-                  minWidth: "87px",
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  border: "none",
-                  padding: "4px 8px 4px 8px",
-                  borderRadius: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "5px",
-                  border: "1px solid #E0E0E0",
-                }}
-              >
-                <CheckCircleOutlineRoundedIcon sx={{ fontSize: "12px" }} />{" "}
-                Verified
-              </Box>
             </Box>
           </Box>
         </Box>

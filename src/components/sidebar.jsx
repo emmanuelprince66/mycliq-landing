@@ -16,11 +16,6 @@ export const Sidebar = () => {
   const [theme, setTheme] = useState("dark");
   const mainMenu = [
     {
-      name: "Students",
-      component: <CustomerIcon isRightLink={location === "/students"} />,
-      link: "students",
-    },
-    {
       name: "Transactions",
       component: <TransactionIcon isRightLink={location === "/transaction"} />,
       link: "transaction",
