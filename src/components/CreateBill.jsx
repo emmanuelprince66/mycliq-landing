@@ -541,7 +541,7 @@ const CreateBill = () => {
                 lineHeight: "24px",
               }}
             >
-              Are you sure you want to create the new bill “COLERMSA DUES”?
+              Are you sure you want to create the new bill {`"${formContent.billName}"`}?
             </Typography>
 
             <Box

@@ -13,15 +13,23 @@ const ExistingBill = () => {
 const [loading,setLoading] = useState(true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [checked,setChecked] = useState(false)
 const {userDetails,bills} = useSelector(state=>state)
   useEffect(() => {
     
     async function fetchBills(){
       try {
-        const response = await AuthAxios.get(`/association-bill/all/${userDetails.id}`)
+        const response = await AuthAxios.get(`/association-bill/all/${userDetails.association.id}`)
      console.log(response)
      setLoading(false)
-     dispatch(fillBills(response.data.data))
+
+
+ 
+     const arr = response.data.data.map(item=> {
+      return {...item,checked:false}
+     } )
+console.log(arr)
+        dispatch(fillBills(arr))
       } catch (error) {
         console.log(error)
         if (error.response.status === 401){
@@ -31,7 +39,7 @@ const {userDetails,bills} = useSelector(state=>state)
       }
         }
   fetchBills()
-  }, [userDetails.id,dispatch])
+  }, [userDetails.association.id,dispatch])
   
 function modDate(value){
   const date = new Date(value)
@@ -59,6 +67,9 @@ return newDate
     else{
       return null
     }
+  }
+  function checkBill(e){
+console.log({})
   }
   return (
     <Box
@@ -109,7 +120,7 @@ return newDate
   <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'50%',marginTop:'5em' }} />
 :
   bills.length > 0 ?
-  [...bills].reverse().map(item=>{
+  [...bills].map(item=>{
       return(
         <Box key={item.id}
         sx={{
@@ -241,8 +252,8 @@ return newDate
             }}
           >
             <Switch
-              // checked={darkMode}
-              // onChange={onToggleDarkMode}
+              checked={checked}
+              onChange={checkBill}
               sx={{
                 "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
                   backgroundColor: "#DC0019",

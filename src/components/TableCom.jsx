@@ -189,7 +189,7 @@ const {transactionDetails} = useSelector(state=>state)
     const fetchData = async () => {
       try {
         const response = await AuthAxios({
-          url: "/transaction/merchant",
+          url: "/transaction/merchant?limit=100",
           method: "GET",
         });
         if (response) {
