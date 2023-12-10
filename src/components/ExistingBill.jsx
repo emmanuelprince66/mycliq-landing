@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import colorContact from "../assets/colorContact.svg";
 import Badge from "@mui/material/Badge";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, responsiveFontSizes } from "@mui/material";
 import { Switch } from "@mui/material";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { useSelector } from "react-redux";
@@ -13,31 +13,30 @@ const ExistingBill = () => {
 const [loading,setLoading] = useState(true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [checked,setChecked] = useState(false)
+  const [checkedSuccess,setCheckedSuccess] = useState(false)
 const {userDetails,bills} = useSelector(state=>state)
+async function fetchBills(){
+  try {
+    const response = await AuthAxios.get(`/association-bill/all/${userDetails.association.id}`)
+ console.log(response)
+ setLoading(false)
+
+ const arr = response.data.data.map(item=> {
+  return {...item,checked:false}
+ } )
+console.log(arr)
+    dispatch(fillBills(arr))
+  } catch (error) {
+    console.log(error)
+    if (error.response.status === 401){
+      navigate('/')
+      localStorage.clear()
+    }  
+  }
+    }
+
   useEffect(() => {
     
-    async function fetchBills(){
-      try {
-        const response = await AuthAxios.get(`/association-bill/all/${userDetails.association.id}`)
-     console.log(response)
-     setLoading(false)
-
-
- 
-     const arr = response.data.data.map(item=> {
-      return {...item,checked:false}
-     } )
-console.log(arr)
-        dispatch(fillBills(arr))
-      } catch (error) {
-        console.log(error)
-        if (error.response.status === 401){
-          navigate('/')
-          localStorage.clear()
-        }  
-      }
-        }
   fetchBills()
   }, [userDetails.association.id,dispatch])
   
@@ -68,9 +67,23 @@ return newDate
       return null
     }
   }
-  function checkBill(e){
-console.log({})
-  }
+ async function checkBill(e,i){
+
+const disabledStatus = bills[i].isDisabled ? false : true
+ 
+try {
+  const response = await AuthAxios.patch(`/association-bill/${bills[i].id}`,{isDisabled:disabledStatus})
+setCheckedSuccess(!checkedSuccess)
+console.log(response)
+if (response.status === 200  ){
+  setLoading(true)
+  fetchBills()
+}
+} catch (error) {
+  console.log(error)
+}
+
+}
   return (
     <Box
       sx={{
@@ -120,8 +133,9 @@ console.log({})
   <CircularProgress size="5.2rem" sx={{ color: "#DC0019",marginLeft:'50%',marginTop:'5em' }} />
 :
   bills.length > 0 ?
-  [...bills].map(item=>{
-      return(
+  [...bills].map(
+    (item,i)=>{
+    return(
         <Box key={item.id}
         sx={{
           display: "flex",
@@ -252,8 +266,9 @@ console.log({})
             }}
           >
             <Switch
-              checked={checked}
-              onChange={checkBill}
+              checked={item.isDisabled}
+             onChange={
+(e)=>  checkBill(e,i)}
               sx={{
                 "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
                   backgroundColor: "#DC0019",
