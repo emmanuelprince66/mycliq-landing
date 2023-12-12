@@ -58,6 +58,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
       bgcolor: "background.paper",
       p: 3,
     };
+    console.log(details)
     function modDate(value){
       const date = new Date(value)
       const day = date.getDay()
@@ -144,7 +145,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-         {details.studentName ??' ...' }
+         {details?.remittance?.studentName ??' ...' }
        </Typography>
      </Box>
      <Box
@@ -172,7 +173,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-                           {details.matricNumber ??' ...'}
+                           {details?.remittance?.matricNumber ??' ...'}
        </Typography>
      </Box>
      <Box
@@ -201,7 +202,36 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-        {details.department  ??' ...'}
+        {details?.remittance?.department  ??' ...'}
+       </Typography>
+     </Box>
+     <Box
+       sx={{
+         display: "flex",
+         gap: "2rem",
+         alignItems: "center",
+         mb: "0.2rem",
+       }}
+     >
+       <Typography
+         sx={{
+           fomtWeight: "500",
+           color: "#828282",
+           fontSize: "14px",
+           minWidth: "130px",
+         }}
+       >
+         Email:
+       </Typography>
+
+       <Typography
+         sx={{
+           color: "#1E1E1E",
+           fontWeight: "600",
+           fontSize: "14px",
+         }}
+       >
+        {details?.remittance?.email ??' ...'}
        </Typography>
      </Box>
      <Box
@@ -230,7 +260,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-                           {details.phoneNumber ??'...'}
+                           {details?.remittance?.phoneNumber ??'...'}
        </Typography>
      </Box>
      <Box
@@ -259,7 +289,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-                           {details.gradeLevel ??'...'}
+                           {details?.remittance?.gradeLevel ??'...'}
        </Typography>
      </Box>
    </Box>
@@ -317,7 +347,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
            fontSize: "14px",
          }}
        >
-        {details?.bill?.billName ?? '...'}
+        {details?.remittance?.bill?.billName ?? '...'}
        </Typography>
      </Box>
      <Box
@@ -445,7 +475,7 @@ export const TransactionDetails = ({handleClose1,details}) => {
          }}
        >
          <CheckCircleOutlineRoundedIcon sx={{ fontSize: "12px" }} />{" "}
-{                  details.paymentStatus
+{                  details?.remittance?.paymentStatus
 }                </Box>
      </Box>
    </Box>

@@ -49,97 +49,6 @@ import { AuthAxios } from "../helpers/axiosInstance";
 import { TransactionDetails } from "./transactionDetails";
 
 const TableCom = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      type: "Item 1",
-      status: "paid",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 2,
-      type: "Item 2",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 3,
-      type: "Item 3",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 4,
-      type: "Item 4",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 5,
-      type: "Item 5",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 6,
-      type: "Item 6",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 7,
-      type: "Item 7",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 8,
-      type: "Item 8",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 9,
-      type: "Item 9",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 10,
-      type: "Item 10",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 11,
-      type: "Item 11",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    // Add more items as needed
-  ]);
   const [transactionData, setTransactionData] = useState([]);
   const [open1, setOpen1] = React.useState(false);
   const [data,setData] = useState({})
@@ -189,7 +98,7 @@ const {transactionDetails} = useSelector(state=>state)
     const fetchData = async () => {
       try {
         const response = await AuthAxios({
-          url: "/transaction/merchant?limit=100",
+          url: "/transaction/merchant?limit=200",
           method: "GET",
         });
         if (response) {
@@ -204,7 +113,7 @@ const {transactionDetails} = useSelector(state=>state)
                 })   
           .filter(
             (item) =>
-              showPaid === null || item.additionalDetails === (showPaid ? "PAID" : "VERIFIED")
+              showPaid === null || item?.remittance?.paymentStatus === (showPaid ? "PAID" : "VERIFIED")
           );
           setTransactionData(filteredItems);
           dispatch(saveTransactionData(response?.data));
@@ -220,21 +129,9 @@ const {transactionDetails} = useSelector(state=>state)
     };
     fetchData();
   }, [dispatch,showPaid,searchTerm]);
-async function viewDetails(i,ref,viewingRight){
-setIndex(i)
+async function viewDetails(i){
 setOpen1(true)
-try {
-  const response  = await AuthAxios.get(`/remittance/${ref}/${viewingRight}`)
-console.log(response)
-setDetails(response.data.data)
-
-} catch (error) {
-  console.log(error)
-  if (error.response.status === 401){
-    navigate('/')
-    localStorage.clear()
-  }
-}
+setIndex(i)
 }
   return (
     <Box
@@ -790,15 +687,15 @@ setDetails(response.data.data)
                         sx={{
                           textTransform: "capitalize",
                           background:
-                            item.additionalDetails === "VERIFIED"
+                            item?.remittance?.paymentStatus === "VERIFIED"
                               ? "#EBFFF3"
                               : "#EBF3FF",
                           color:
-                            item.additionalDetails === "VERIFIED"
+                            item?.remittance?.paymentStatus === "VERIFIED"
                               ? "#1E854A"
                               : "#1367D8",
                           width:
-                            item.additionalDetails === "PAID"
+                            item?.remittance?.paymentStatus === "PAID"
                               ? "67px"
                               : "87px",
                           fontWeight: "500",
@@ -815,12 +712,12 @@ setDetails(response.data.data)
                         <CheckCircleOutlineRoundedIcon
                           sx={{ fontSize: "12px" }}
                         />{" "}
-                        {item.additionalDetails}
+                        {item?.remittance?.paymentStatus}
                       </Box>
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => viewDetails(i,item.transactionRef,item.viewingRight)}
+                        onClick={() => viewDetails(i)}
                         variant="outlined"
                         sx={{
                           textTransform: "capitalize",
@@ -873,7 +770,7 @@ setDetails(response.data.data)
             },
           }}
         >
-<TransactionDetails handleClose1={handleClose1} details={details} />
+<TransactionDetails handleClose1={handleClose1} details={transactionData[index]} />
 
         </Modal>
         {/* Modal ends */}
