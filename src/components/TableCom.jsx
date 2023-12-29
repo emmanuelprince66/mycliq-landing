@@ -22,6 +22,8 @@ import {
 import Divider from "@mui/material/Divider";
 import search from "../../src/assets/search.svg";
 import InputAdornment from "@mui/material/InputAdornment";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import selectIcon from "../assets/selectIcon.svg";
@@ -47,114 +49,29 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { TransactionDetails } from "./transactionDetails";
+import { ArrowBackIosNewRounded } from "@mui/icons-material";
+import FormattedPrice from "./FormattedPrice";
 
 const TableCom = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      type: "Item 1",
-      status: "paid",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 2,
-      type: "Item 2",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 3,
-      type: "Item 3",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 4,
-      type: "Item 4",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 5,
-      type: "Item 5",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 6,
-      type: "Item 6",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 7,
-      type: "Item 7",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 8,
-      type: "Item 8",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 9,
-      type: "Item 9",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 10,
-      type: "Item 10",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    {
-      id: 11,
-      type: "Item 11",
-      status: "verified",
-      tid: "ID:tyggd66huuso",
-      user: "Ochigbo Emmanuel",
-      amt: "1000",
-    },
-    // Add more items as needed
-  ]);
   const [transactionData, setTransactionData] = useState([]);
+  console.log(transactionData);
   const [open1, setOpen1] = React.useState(false);
-  const [data,setData] = useState({})
+  const [data, setData] = useState({});
   const handleClose1 = () => setOpen1(false);
+
+  const [totalDeposits, setTotalDeposits] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showPaid, setShowPaid] = useState(null);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [details, setDetails] = useState({});
+  const { selectedDates } = useSelector((state) => state);
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -173,7 +90,6 @@ const TableCom = () => {
     setPage(0);
   };
 
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -182,60 +98,90 @@ const TableCom = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  
+
   const dispatch = useDispatch();
-const {transactionDetails} = useSelector(state=>state)
+  const { transactionDetails } = useSelector((state) => state);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await AuthAxios({
-          url: "/transaction/merchant?limit=100",
+          url: "/transaction/merchant?limit=200",
           method: "GET",
         });
+
         if (response) {
-          setLoading(false)
-          const filteredItems = response.data?.queryResult
-          .filter(
-            (item) =>
-          {
-                if (searchTerm !== null){
-               return  item.transferFrom.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||item.transferFrom.lastName.toLowerCase().includes(searchTerm.toLowerCase()) 
-              }
-                })   
-          .filter(
-            (item) =>
-              showPaid === null || item.additionalDetails === (showPaid ? "PAID" : "VERIFIED")
-          );
+          console.log(response);
+          setLoading(false);
+
+          // const paidData = response?.data?.queryResult.filter(
+          //   (item) => item?.remittance?.paymentStatus === "PAID"
+          // );
+          // setPaidDataState(paidData.length);
+
+          // const verifiedData = response?.data?.queryResult.filter(
+          //   (item) => item?.remittance?.paymentStatus === "VERIFIED"
+          // );
+          // setVerifiedDataState(verifiedData.length);
+
+          let filteredItems = response.data?.queryResult;
+
+          // Filter by name (if searchTerm exists)
+          if (searchTerm) {
+            filteredItems = filteredItems.filter((item) => {
+              return (
+                item.transferFrom.firstName
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                item.transferFrom.lastName
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase())
+              );
+            });
+          }
+
+          // Filter by date range (if selectedDates exist)
+          if (selectedDates) {
+            const startDate = new Date(selectedDates.startDate);
+            const endDate = new Date(selectedDates.endDate);
+            endDate.setDate(endDate.getDate() + 1); // Increment by 1 day to include the end date
+
+            filteredItems = filteredItems.filter((item) => {
+              const createdAt = new Date(item?.createdAt);
+
+              return (
+                createdAt >= startDate && createdAt < endDate // Inclusive of start and end dates
+              );
+            });
+          }
+
           setTransactionData(filteredItems);
           dispatch(saveTransactionData(response?.data));
-          console.log(response);
         }
       } catch (error) {
         console.log(error);
-        if (error.response.status === 401){
-          navigate('/')
-          localStorage.clear()
-        }  
+        if (error.response && error.response.status === 401) {
+          navigate("/");
+          localStorage.clear();
+        }
       }
     };
-    fetchData();
-  }, [dispatch,showPaid,searchTerm]);
-async function viewDetails(i,ref,viewingRight){
-setIndex(i)
-setOpen1(true)
-try {
-  const response  = await AuthAxios.get(`/remittance/${ref}/${viewingRight}`)
-console.log(response)
-setDetails(response.data.data)
 
-} catch (error) {
-  console.log(error)
-  if (error.response.status === 401){
-    navigate('/')
-    localStorage.clear()
+    fetchData();
+  }, [dispatch, searchTerm, selectedDates]);
+
+  useEffect(() => {
+    const amtOfTotalDeposit = transactionData.reduce(
+      (prev, curr) => prev + JSON.parse(curr.amount),
+      0
+    );
+    setTotalDeposits(amtOfTotalDeposit);
+  }, [transactionData, totalDeposits]);
+
+  async function viewDetails(i) {
+    setOpen1(true);
+    setIndex(i);
   }
-}
-}
   return (
     <Box
       sx={{
@@ -305,7 +251,11 @@ setDetails(response.data.data)
                 color: "#1E1E1E",
               }}
             >
-            {transactionDetails.inflow}
+              {totalDeposits === null ? (
+                <CircularProgress size="1.2rem" sx={{ color: "#DC0019" }} />
+              ) : (
+                <FormattedPrice amount={totalDeposits} />
+              )}
             </Typography>
           </Box>
         </Card>
@@ -321,28 +271,52 @@ setDetails(response.data.data)
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
+              alignItems: "start",
+              justifyContent: "space-between",
               gap: "15px",
             }}
           >
             <Box
               sx={{
-                width: "28px",
-                height: "28px",
+                display: "flex",
+                alignItems: "center",
+                gap: "15px",
               }}
             >
-              <img src={fdown} className="fd" alt="f-down" />
+              <Box
+                sx={{
+                  width: "28px",
+                  height: "28px",
+                }}
+              >
+                <img src={fdown} className="fd" alt="f-down" />
+              </Box>
+              <Typography
+                sx={{
+                  fomtWeight: "500",
+                  fontSize: "14px",
+                  color: "#4F4F4F",
+                }}
+              >
+                Total <br />
+                Withdrawals
+              </Typography>
             </Box>
-            <Typography
-              sx={{
-                fomtWeight: "500",
-                fontSize: "14px",
-                color: "#4F4F4F",
-              }}
-            >
-              Total <br />
-              Withdrawals
-            </Typography>
+
+            <Box className="flex gap-2 items-center cursor-pointer">
+              <Typography
+                sx={{
+                  fomtWeight: "400",
+                  fontSize: "13px",
+                  color: "#dc0019",
+                }}
+              >
+                History
+              </Typography>
+              <ArrowForwardIosRoundedIcon
+                sx={{ color: "#dc0019", fontSize: "13px" }}
+              />
+            </Box>
           </Box>
 
           <Box>
@@ -353,7 +327,7 @@ setDetails(response.data.data)
                 color: "##1E1E1E",
               }}
             >
-              {transactionDetails.outflow}
+              <FormattedPrice amount={transactionDetails.outflow} />
             </Typography>
           </Box>
         </Card>
@@ -402,7 +376,9 @@ setDetails(response.data.data)
                 color: "##1E1E1E",
               }}
             >
-              {Number(transactionDetails?.walletBalance || 0).toLocaleString() }
+              <FormattedPrice
+                amount={Number(transactionDetails?.walletBalance || 0)}
+              />
             </Typography>
           </Box>
         </Card>
@@ -416,282 +392,6 @@ setDetails(response.data.data)
           backgroundColor: "#fff",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            my: "1.5rem",
-          }}
-        >
-          {/* tt */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}
-          >
-            <Typography
-              sx={{
-                fomtWeight: "500",
-                fontSize: "20px",
-                color: "#1E1E1E",
-                lineHeight: "30px",
-              }}
-            >
-              Transactions
-            </Typography>
-            <Typography
-              sx={{
-                fomtWeight: "600",
-                fontSize: "12px",
-                color: "#A86500",
-                lineHeight: "18px",
-                padding: "2px 8px 2px 8px",
-                borderRadius: "8px",
-                background: "#FFEFD6",
-              }}
-            >
-              1,090 Paid, 789 Verified
-            </Typography>
-          </Box>
-          {/* tt end */}
-
-          {/* search  */}
-          <Box>
-            <TextField
-              sx={{
-                borderRadius: "10px",
-                width: "440px",
-                // padding: { xs: "4px", sm: "12px 16px", md: " 12px 16px" },
-                color: "#D1D1D1",
-                "& .MuiOutlinedInput-root": {
-                  padding: "8px", // Adjust padding to reduce height
-                  height: "36px", // Set the desired height here
-                  lineHeight: "36px", // Match the height to avoid overflow
-                  "& fieldset": {
-                    borderColor: "#D1D1D1", // Set the desired border color here
-                    borderRadius: "10px",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#DC0019", // Set the border color on hover here
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#DC0019", // Set the border color on focus here
-                  },
-                },
-              }}
-              placeholder="Search User, Matric No., Transaction ID"
-              variant="outlined"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              required
-              id="firstName-input"
-              InputProps={{
-                style: { color: "#818181" },
-                startAdornment: (
-                  <InputAdornment>
-                    <img src={search} alt="s-logo" />
-                    &nbsp;&nbsp;&nbsp;
-                  </InputAdornment>
-                ),
-              }}
-              aria-describedby="outlined-weight-helper-text"
-              inputProps={{
-                "aria-label": "weight",
-              }}
-            />
-          </Box>
-          {/* search ends */}
-
-          {/* select */}
-          <Button
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-            startIcon={<img src={selectIcon} alt="s-icon" />} // Icon before text
-            endIcon={<img src={downIcon} alt="d-icon" />} // Icon after text
-            style={{
-              color: "#828282",
-              border: "1px solid #828282",
-              textTransform: "capitalize",
-              padding: "8px 12px 8px 12px",
-              width: "154px",
-            }}
-          >
-            All levels
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-            PaperProps={{
-              style: {
-                width: "154px",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                textAlign: "start",
-                fontWeight: "600",
-                fontSize: "14px",
-                py: "0.6rem",
-                ml: "1rem",
-              }}
-            >
-              Filter by
-            </Box>
-            <Divider />
-
-            <MenuItem
-              sx={{
-                fontSize: "14px",
-                fontWeight: "400",
-                py: "0.6rem",
-              }}
-              onClick={handleClose}
-            >
-              All levels
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              sx={{
-                fontSize: "14px",
-                fontWeight: "400",
-                py: "0.6rem",
-              }}
-              onClick={handleClose}
-            >
-              Freshers Only
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              sx={{
-                fontSize: "14px",
-                fontWeight: "400",
-                py: "0.6rem",
-              }}
-              onClick={handleClose}
-            >
-              Staylites Only
-            </MenuItem>
-          </Menu>
-          {/* select ends */}
-
-          {/* download */}
-          <Button
-            sx={{
-              textTransform: "capitalize",
-              fontWeight: "400",
-              fontSize: "12px",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              color: "#DC0019",
-            }}
-          >
-            <img src={download} className="d-icon" alt="d-icon" />
-            download
-          </Button>
-          {/* download end */}
-        </Box>
-
-        {/* Button box */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            mb: "1rem",
-          }}
-        >
-          <Button
-            variant={showPaid === null ? "contained" : "outlined"}
-            onClick={() => handleSortByStatus(null)}
-            style={{
-              marginRight: "5px",
-              backgroundColor: showPaid === null ? "#DC0019" : "white",
-              padding: "8px 24px 8px 24px",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              textTransform: "capitalize",
-              fontSize: "16px",
-              fontWeight: "400",
-              color: showPaid === null ? "#fff" : "#828282",
-              border: showPaid === null ? "" : "1px solid #E0E0E0",
-            }}
-          >
-            <SyncAltRoundedIcon
-              sx={{
-                color: showPaid !== null && "#828282",
-                fontSize: "16px",
-              }}
-            />
-            All Transactions
-          </Button>
-          <Button
-            variant={showPaid === true ? "contained" : "outlined"}
-            onClick={() => handleSortByStatus(true)}
-            style={{
-              marginRight: "5px",
-              color: showPaid === true ? "white" : "#828282",
-              backgroundColor: showPaid === true ? "#DC0019" : "white",
-              border: showPaid === true ? "" : "1px solid #E0E0E0",
-              padding: "8px 24px 8px 24px",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              textTransform: "capitalize",
-              fontSize: "16px",
-              fontWeight: "400",
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon
-              sx={{
-                fontSize: "16px",
-              }}
-            />{" "}
-            Paid Only
-          </Button>
-          <Button
-            variant={showPaid === false ? "contained" : "outlined"}
-            onClick={() => handleSortByStatus(false)}
-            style={{
-              color: showPaid === false ? "white" : "#828282",
-              backgroundColor: showPaid === false ? "#dc0019" : "#fff",
-              border: showPaid === false ? "" : "1px solid #E0E0E0",
-
-              padding: "8px 24px 8px 24px",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              textTransform: "capitalize",
-              fontSize: "16px",
-              fontWeight: "400",
-            }}
-          >
-            <CheckCircleOutlineRoundedIcon
-              sx={{
-                fontSize: "16px",
-              }}
-            />{" "}
-            Verified Only
-          </Button>
-        </Box>
-        {/* Button box end */}
-
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, padding: "8px" }}>
             <TableHead
@@ -768,13 +468,18 @@ setDetails(response.data.data)
                     </TableCell>
                   </TableRow>
                 ))} */}
-              {
-                loading ?
+              {loading ? (
                 <TableRow>
-                <CircularProgress size="4.2rem" sx={{ color: "#DC0019",marginLeft:'auto',padding:'1em' }} />
+                  <CircularProgress
+                    size="4.2rem"
+                    sx={{
+                      color: "#DC0019",
+                      marginLeft: "auto",
+                      padding: "1em",
+                    }}
+                  />
                 </TableRow>
-:
-                transactionData.length > 0 ? (
+              ) : transactionData.length > 0 ? (
                 transactionData.map((item, i) => (
                   <TableRow key={item.id}>
                     <TableCell>{i + 1}</TableCell>
@@ -790,15 +495,15 @@ setDetails(response.data.data)
                         sx={{
                           textTransform: "capitalize",
                           background:
-                            item.additionalDetails === "VERIFIED"
+                            item?.remittance?.paymentStatus === "PAID"
                               ? "#EBFFF3"
                               : "#EBF3FF",
                           color:
-                            item.additionalDetails === "VERIFIED"
+                            item?.remittance?.paymentStatus === "PAID"
                               ? "#1E854A"
                               : "#1367D8",
                           width:
-                            item.additionalDetails === "PAID"
+                            item?.remittance?.paymentStatus === "PAID"
                               ? "67px"
                               : "87px",
                           fontWeight: "500",
@@ -815,12 +520,13 @@ setDetails(response.data.data)
                         <CheckCircleOutlineRoundedIcon
                           sx={{ fontSize: "12px" }}
                         />{" "}
-                        {item.additionalDetails}
+                        {item?.remittance?.paymentStatus === "PAID" &&
+                          "Sucessfull"}
                       </Box>
                     </TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => viewDetails(i,item.transactionRef,item.viewingRight)}
+                        onClick={() => viewDetails(i)}
                         variant="outlined"
                         sx={{
                           textTransform: "capitalize",
@@ -859,7 +565,7 @@ setDetails(response.data.data)
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
 
-        {/* Modal for detaisl */}
+        {/* Moda;l for detailsl */}
 
         <Modal
           open={open1}
@@ -873,8 +579,10 @@ setDetails(response.data.data)
             },
           }}
         >
-<TransactionDetails handleClose1={handleClose1} details={details} />
-
+          <TransactionDetails
+            handleClose1={handleClose1}
+            details={transactionData[index]}
+          />
         </Modal>
         {/* Modal ends */}
       </Box>

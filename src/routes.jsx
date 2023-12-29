@@ -12,7 +12,9 @@ import ManageBills from "./pages/ManageBills";
 import SuperAdmin from "./pages/SuperAdmin";
 import Support from "./pages/Support";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/";
+import ResetPassword from "./pages/ResetPassword";
+import ForgetPassword from "./pages/ForgetPassword";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
@@ -23,6 +25,7 @@ const myRoutes = [
   { component: <Withdrawal />, path: "/withdrawal", name: "withdrawal" },
   { component: <SuperAdmin />, path: "/super-admin", name: "SuperAdmin" },
   { component: <Support />, path: "/support", name: "Support" },
+  { component: <ResetPassword />, path: "/reset", name: "Reset" },
 ];
 
 const theme = createTheme({
@@ -58,6 +61,7 @@ const RoutesContainer = () => {
                 }
               />
             ))}
+            <Route index path="/f-password" element={<ForgetPassword />} />
           </Routes>
         </Router>
       </ThemeProvider>
