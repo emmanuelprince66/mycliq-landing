@@ -5,10 +5,14 @@ const merchantSlice = createSlice({
 
   initialState: {
     userDetails: {},
-    transactionDetails:{},
-    bankDetails:{},
-    selectedDates:{ startDate:new Date(),endDate:new Date(),key:'selection'   },
-    bills:[],
+    transactionDetails: {},
+    bankDetails: {},
+    selectedDates: {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+    bills: [],
   },
   reducers: {
     fillUserDetails: (state, action) => {
@@ -31,11 +35,18 @@ const merchantSlice = createSlice({
     return {
       ...state,
       userDetails: {},
-
     };
   },
 });
 
-export const { fillUserDetails,fillSelectedDates,fillBankDetails,fillBills, saveTransactionData, userDetails, clearMerchantState } =
-  merchantSlice.actions;
+export const {
+  fillUserDetails,
+  fillSelectedDates,
+  selectedDates,
+  fillBankDetails,
+  fillBills,
+  saveTransactionData,
+  userDetails,
+  clearMerchantState,
+} = merchantSlice.actions;
 export default merchantSlice.reducer;

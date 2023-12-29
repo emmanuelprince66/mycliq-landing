@@ -3,8 +3,9 @@ import loginImg from "../assets/images/assoclogin.png";
 import checkIcon from "../assets/images/logo.png";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { toast ,ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import { useState } from "react";
+
 import {
   Button,
   Checkbox,
@@ -21,14 +22,14 @@ import emailIcon from "../assets/images/user.svg";
 import { useNavigate } from "react-router";
 import lockIcon from "../assets/images/lock.svg";
 import { Colors } from "../utils/colors";
-import { createMuiTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import { AuthAxios, BaseAxios } from "../helpers/axiosInstance";
 import CircularProgress from "@mui/material/CircularProgress";
 import Cookies from "js-cookie";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
-import 'react-toastify/dist/ReactToastify.min.css';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import "react-toastify/dist/ReactToastify.min.css";
 
 export const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -38,7 +39,7 @@ export const Login = () => {
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm();
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       primary: {
         main: Colors.brown_2,
@@ -46,7 +47,7 @@ export const Login = () => {
       },
     },
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const notifyError = (msg) => {
     toast.error(msg, {
       position: toast.POSITION.TOP_RIGHT,
@@ -74,17 +75,17 @@ export const Login = () => {
     },
     onSuccess: (data) => {
       console.log("Login successful:", data);
-      navigate('/transaction')
-      localStorage.setItem('authToken',data.access_token)
-      localStorage.setItem('refreshToken',data.refreshToken)
-      localStorage.setItem('companyName',data.companyName)
-      localStorage.setItem('registeredName',data.registeredName)
+      navigate("/transaction");
+      localStorage.setItem("authToken", data.access_token);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("companyName", data.companyName);
+      localStorage.setItem("registeredName", data.registeredName);
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
-      console.log( error);
+      console.log(error);
       setButtonDisabled(false);
-      notifyError(String(error))
+      notifyError(String(error));
     },
   });
   const [showPassword, setShowPassword] = React.useState(false);
@@ -224,7 +225,8 @@ export const Login = () => {
                         }}
                         className="rounded-[8px]"
                         id="password"
-                        type={showPassword ? 'text' : 'password'}                        placeholder="Enter your password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
                         error={Boolean(errors.password)}
                         helperText={errors.password?.message}
                         InputProps={{
@@ -241,19 +243,22 @@ export const Login = () => {
                               </span>
                             </InputAdornment>
                           ),
-                          endAdornment:(
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-                          )
-
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
                         }}
                         aria-describedby="outlined-weight-helper-text"
                         inputProps={{
@@ -280,6 +285,7 @@ export const Login = () => {
                     </Grid>
                     <Grid item>
                       <Typography
+                        // onClick={() => navigate("/f-password")}
                         variant="body2"
                         className="text-error_2"
                         component="a"
@@ -303,7 +309,7 @@ export const Login = () => {
                         opacity: 0.7,
                       },
                       padding: ".6em",
-                      boxShadow:'none'
+                      boxShadow: "none",
                     }}
                   >
                     {buttonDisabled ? (
@@ -318,7 +324,10 @@ export const Login = () => {
           </Container>
         </div>
       </section>
-      <ToastContainer theme='dark' toastStyle={{ background: '#333', color: '#fff' }} />
+      <ToastContainer
+        theme="dark"
+        toastStyle={{ background: "#333", color: "#fff" }}
+      />
     </main>
   );
 };

@@ -6,11 +6,13 @@ import "react-date-range/dist/theme/default.css";
 import { Box, Button, Typography } from "@mui/material";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 import { Calendar, DateRangePicker } from "react-date-range";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDispatch } from "react-redux";
 import { fillSelectedDates } from "../utils/store/merchantSlice";
 import { fillUserDetails } from "../utils/store/merchantSlice";
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { useSelector } from "react-redux";
-const Transaction = () => {
+const Transaction= () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(),
@@ -63,6 +65,9 @@ const Transaction = () => {
     <Box
       sx={{
         width: "100%",
+        maxHeight:"80vh",
+        overflowY:"scroll",
+
       }}
     >
       <Box
@@ -73,8 +78,41 @@ const Transaction = () => {
           width: "fit-content",
           gap: "1em",
           alignItems: "center",
+          mb:"1rem"
         }}
       >
+       <Box  className="flex items-center gap-2 p-2 rounded cursor-pointer"
+       sx={{
+       border:"1px solid #dc0019"
+       
+       }}
+       >
+       <AccountCircleIcon  sx={{
+       color:"#dc0019",
+       fontSize:"13px",
+       }}
+       />
+       
+       <Typography
+          sx={{
+            fontWeight: "400",
+            fontSize: "13px",
+            pt:"2px",
+            color: "#dc0019",
+            
+          }}
+        >
+          See Account & Payer Info
+        </Typography>
+        
+        <ArrowForwardIosRoundedIcon sx={{
+        color:"#dc0019",
+        fontSize:"13px"
+        }}/>
+       
+       </Box>
+      
+      
         <Typography
           sx={{
             fontWeight: "400",
