@@ -17,7 +17,7 @@ import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import { ToastContainer,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 const style = {
   position: "absolute",
   top: "50%",
@@ -30,7 +30,7 @@ const style = {
 };
 const WithdrawFunds = () => {
   const [open1, setOpen1] = React.useState(false);
-  const [withdrawDetails, setWithdrawDetails] = useState({ });
+  const [withdrawDetails, setWithdrawDetails] = useState({});
   const handleClose1 = () => setOpen1(false);
   const [open2, setOpen2] = React.useState(false);
   const handleClose2 = () => setOpen2(false);
@@ -42,30 +42,28 @@ const WithdrawFunds = () => {
   const { transactionDetails, bankDetails } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  function closeModals(){
-    setOpen3(false)
-    
+  function closeModals() {
+    setOpen3(false);
   }
   const {
     reset,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting,isValid },
+    formState: { errors, isSubmitting, isValid },
   } = useForm();
   function handleCheckWithdrawal(data) {
-
     const isNarrationValid = (value) => {
       // Check if narration has at least 2 words
       const words = value.trim().split(/\s+/);
       return words.length >= 2;
     };
-  
 
     const canWithdraw =
       /^\d+$/.test(data.withdrawalAmount) &&
-      parseFloat(data.withdrawalAmount) <= transactionDetails.walletBalance  && isNarrationValid(data.narration)
-    if (!(/^\d+$/.test((Number(data.withdrawalAmount)))))  
-{    setErrorAmount(
+      parseFloat(data.withdrawalAmount) <= transactionDetails.walletBalance &&
+      isNarrationValid(data.narration);
+    if (!/^\d+$/.test(Number(data.withdrawalAmount))) {
+      setErrorAmount(
         "Please enter a valid amount with only numbers and no mixed characters"
       );
     }
@@ -73,16 +71,16 @@ const WithdrawFunds = () => {
       setErrorAmount("Amount cannot be greater than wallet balance");
       console.log("Amount cannot be greater than wallet balance");
     }
-    if(!isNarrationValid(data.narration)){
-      setErrorNarration('Narration should be more than a word!')
+    if (!isNarrationValid(data.narration)) {
+      setErrorNarration("Narration should be more than a word!");
     }
     if (canWithdraw) {
       setOpen1(true);
       setErrorAmount("");
       setErrorNarration("");
     }
-    console.log(data)
-    setWithdrawDetails(data)
+    console.log(data);
+    setWithdrawDetails(data);
   }
 
   useEffect(() => {
@@ -94,11 +92,11 @@ const WithdrawFunds = () => {
     getBankDetails();
   }, []);
 
-   function handleProceedToWithdraw() {
+  function handleProceedToWithdraw() {
     // const response = await AuthAxios.post(
     // 'transaction/withdrawal',
     // )
-    setOpen1(false)
+    setOpen1(false);
     setOpen2(true);
   }
   const notifyError = (msg) => {
@@ -109,30 +107,38 @@ const WithdrawFunds = () => {
   };
 
   async function handleWithdraw() {
-    setLoading(true)
+    console.log(
+      bankDetails.bankCode,
+      bankDetails.accountNumber,
+      bankDetails.name,
+      Number(withdrawDetails.withdrawalAmount),
+      bankDetails.bank,
+      withdrawDetails.narration
+    );
+    setLoading(true);
     try {
-      const response = await AuthAxios.post("/transaction/nip-transfer", {
+      const response = await AuthAxios.post("/transaction/outward-transfer", {
         bankCode: bankDetails.bankCode,
         accountNumber: bankDetails.accountNumber,
         accountName: bankDetails.name,
         amount: Number(withdrawDetails.withdrawalAmount),
-        bankName:bankDetails.bank,
-        saveBeneficiary:true,
-        narration:withdrawDetails.narration
+        bankName: bankDetails.bank,
+        saveBeneficiary: true,
+        narration: withdrawDetails.narration,
       });
       console.log(response);
-      if (response.status === 201){
-        setOpen3(true)
-        setOpen2(false)
-        setLoading(false)
+      if (response.status === 201) {
+        setOpen3(true);
+        setOpen2(false);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
-      notifyError(error.response.data.message)
-      setLoading(false)
-      if (error.response.status === 401){
-        navigate('/')
-        localStorage.clear()
+      notifyError(error.response.data.message);
+      setLoading(false);
+      if (error.response.status === 401) {
+        navigate("/");
+        localStorage.clear();
       }
     }
   }
@@ -140,7 +146,9 @@ const WithdrawFunds = () => {
   const isWithdrawalAmountValid = (value) => {
     // Check if withdrawal amount is a valid number and not more than wallet balance
     const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue <= transactionDetails.walleBalance;
+    return (
+      !isNaN(numericValue) && numericValue <= transactionDetails.walleBalance
+    );
   };
 
   return (
@@ -148,9 +156,8 @@ const WithdrawFunds = () => {
       sx={{
         padding: "1rem",
       }}
-
     >
-    <ToastContainer theme='dark' />
+      <ToastContainer theme="dark" />
       <Typography
         sx={{
           fontWeight: "500",
@@ -234,115 +241,122 @@ const WithdrawFunds = () => {
                 lineHeight: "22.4px",
               }}
             >
-              Your balance: ₦{Number(transactionDetails.walletBalance).toLocaleString()}
+              Your balance: ₦
+              {Number(transactionDetails.walletBalance).toLocaleString()}
             </Typography>
           </Box>
- 
- <form onSubmit={handleSubmit(handleCheckWithdrawal)}  className="flex flex-col gap-3" >
 
-          <TextField
-          {...register('withdrawalAmount',{required:'Amount is required'})}
-            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#CACACA", // Set the desired border color here
-                },
-                "&:hover fieldset": {
-                  borderColor: "#CACACA", // Set the border color on hover here
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#C57600", // Set the border color on focus here
-                },
-              },
-            }}
-            required
-
-            type="number"
-            // helperText={emailError && <span>{emailError}</span>}
-            placeholder="Enter amount to withdraw"
-            error={Boolean(errorAmount)}
-            helperText={errorAmount}
-            variant="outlined"
-            id="email-input"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment>
-                  <PaymentsRoundedIcon /> &nbsp;&nbsp;
-                  <img src={seperator} alt="s-icon" />
-                  &nbsp;&nbsp;
-                </InputAdornment>
-              ),
-            }}
-            aria-describedby="outlined-weight-helper-text"
-            inputProps={{
-              "aria-label": "weight",
-            }}
-          />
-          <Box>
-       
-       <label> Narration</label>         <TextField
-          {...register('narration',{required:'narration is required'})}            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#CACACA", // Set the desired border color here
-                },
-                "&:hover fieldset": {
-                  borderColor: "#CACACA", // Set the border color on hover here
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#C57600", // Set the border color on focus here
-                },
-              },
-            }}
-            required
-                        placeholder="Enter Narration"
-            error={Boolean(errorNarration)}
-            id='narration'
-            type="text"
-            helperText={errorNarration}
-            variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment>
-                  <PaymentsRoundedIcon /> &nbsp;&nbsp;
-                  <img src={seperator} alt="s-icon" />
-                  &nbsp;&nbsp;
-                </InputAdornment>
-              ),
-            }}
-            aria-describedby="outlined-weight-helper-text"
-            inputProps={{
-              "aria-label": "weight",
-            }}
-          />
-</Box> 
-        <Box
-            sx={{
-              width: "100%",
-            }}
+          <form
+            onSubmit={handleSubmit(handleCheckWithdrawal)}
+            className="flex flex-col gap-3"
           >
-          <Button
-
-type="submit"          
-   disabled={false}        sx={{
-                background: "#dc0019",
-                padding: "10px",
-                borderRadius: "8px",
-                mt: "2rem",
-                gap: "6px",
-                textTransform: "capitalize",
+            <TextField
+              {...register("withdrawalAmount", {
+                required: "Amount is required",
+              })}
+              sx={{
                 width: "100%",
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: "#dc0019",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#CACACA", // Set the desired border color here
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#CACACA", // Set the border color on hover here
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#C57600", // Set the border color on focus here
+                  },
                 },
               }}
+              required
+              type="number"
+              // helperText={emailError && <span>{emailError}</span>}
+              placeholder="Enter amount to withdraw"
+              error={Boolean(errorAmount)}
+              helperText={errorAmount}
+              variant="outlined"
+              id="email-input"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment>
+                    <PaymentsRoundedIcon /> &nbsp;&nbsp;
+                    <img src={seperator} alt="s-icon" />
+                    &nbsp;&nbsp;
+                  </InputAdornment>
+                ),
+              }}
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{
+                "aria-label": "weight",
+              }}
+            />
+            <Box>
+              <label> Narration</label>{" "}
+              <TextField
+                {...register("narration", {
+                  required: "narration is required",
+                })}
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#CACACA", // Set the desired border color here
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#CACACA", // Set the border color on hover here
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#C57600", // Set the border color on focus here
+                    },
+                  },
+                }}
+                required
+                placeholder="Enter Narration"
+                error={Boolean(errorNarration)}
+                id="narration"
+                type="text"
+                helperText={errorNarration}
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment>
+                      <PaymentsRoundedIcon /> &nbsp;&nbsp;
+                      <img src={seperator} alt="s-icon" />
+                      &nbsp;&nbsp;
+                    </InputAdornment>
+                  ),
+                }}
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{
+                  "aria-label": "weight",
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                width: "100%",
+              }}
             >
-              <ArrowOutwardRoundedIcon /> Withdraw Funds
-            </Button>
-          </Box>
+              <Button
+                type="submit"
+                disabled={false}
+                sx={{
+                  background: "#dc0019",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  mt: "2rem",
+                  gap: "6px",
+                  textTransform: "capitalize",
+                  width: "100%",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#dc0019",
+                  },
+                }}
+              >
+                <ArrowOutwardRoundedIcon /> Withdraw Funds
+              </Button>
+            </Box>
           </form>
         </Box>
       </Box>
@@ -392,54 +406,51 @@ type="submit"
               borderRadius: "8px",
               display: "flex",
               gap: "12px",
-              flexDirection:'column',
+              flexDirection: "column",
               margin: "2rem 0 1.2rem 0",
             }}
           >
-          <div className="flex gap-[12px]" >
-            <Typography
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                color: "#828282",
-                minWidth:'150px'
-              }}
-            >
-              Amount To withdraw:
-            </Typography>
-            <Typography
-              sx={{
-                fomtWeight: "600",
-                fontSize: "14px",
-                color: "#C57600",
-              }}
-            >
-              ₦{withdrawDetails.withdrawalAmount}
-            </Typography>
+            <div className="flex gap-[12px]">
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  color: "#828282",
+                  minWidth: "150px",
+                }}
+              >
+                Amount To withdraw:
+              </Typography>
+              <Typography
+                sx={{
+                  fomtWeight: "600",
+                  fontSize: "14px",
+                  color: "#C57600",
+                }}
+              >
+                ₦{withdrawDetails.withdrawalAmount}
+              </Typography>
             </div>
-          <div className="flex gap-[12px]" >
-            <Typography
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                color: "#828282",
-                minWidth:'150px'
-              }}
-            >
-              Narration:
-            </Typography>
-            <Typography
-              sx={{
-                fomtWeight: "600",
-                fontSize: "14px",
-              }}
-            >
-              {withdrawDetails.narration}
-            </Typography>
+            <div className="flex gap-[12px]">
+              <Typography
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  color: "#828282",
+                  minWidth: "150px",
+                }}
+              >
+                Narration:
+              </Typography>
+              <Typography
+                sx={{
+                  fomtWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                {withdrawDetails.narration}
+              </Typography>
             </div>
-
-
-
           </Box>
 
           <Box
@@ -683,8 +694,9 @@ type="submit"
                 lineHeight: "24px",
               }}
             >
-              Are you sure you want to withdraw “₦{withdrawDetails.withdrawalAmount}”? Withdrawals
-              cannot be recalled once placed.
+              Are you sure you want to withdraw “₦
+              {withdrawDetails.withdrawalAmount}”? Withdrawals cannot be
+              recalled once placed.
             </Typography>
 
             <Box
@@ -731,11 +743,11 @@ type="submit"
                   },
                 }}
               >
-                    {loading ? (
-                      <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-                    ) : (
-                      "Yes,Withdraw"
-                    )}
+                {loading ? (
+                  <CircularProgress size="1.2rem" sx={{ color: "white" }} />
+                ) : (
+                  "Yes,Withdraw"
+                )}
               </Button>
             </Box>
           </Box>
@@ -812,7 +824,7 @@ type="submit"
             }}
           >
             <Button
-            onClick={closeModals}
+              onClick={closeModals}
               sx={{
                 background: "#dc0019",
                 width: "100%",
