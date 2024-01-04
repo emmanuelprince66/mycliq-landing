@@ -285,7 +285,7 @@ export const Login = () => {
                     </Grid>
                     <Grid item>
                       <Typography
-                        // onClick={() => navigate("/f-password")}
+                        onClick={() => navigate("/f-password")}
                         variant="body2"
                         className="text-error_2"
                         component="a"
