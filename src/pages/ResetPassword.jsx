@@ -128,7 +128,6 @@ const ResetPassword = () => {
   // reset password
   const mutationReset = useMutation({
     mutationFn: async (token) => {
-      console.log(token);
       try {
         const response = await axios.patch(
           "https://check-server-api-staging.herokuapp.com/api/v1/auth/password-change",
@@ -162,6 +161,7 @@ const ResetPassword = () => {
       }
     },
     onSuccess: (data) => {
+      notify(data.message);
       setDisableButton(false);
       setOpenSuccessModal(true);
 
@@ -244,7 +244,7 @@ const ResetPassword = () => {
       return;
     }
     if (newPasswordInput === confirmPasswordInput) {
-      const token = getCookie("authToken");
+      const token = localStorage.getItem("authToken");
 
       mutationReset.mutate(token);
     } else {

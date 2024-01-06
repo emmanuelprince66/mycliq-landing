@@ -12,12 +12,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import { useSelector } from "react-redux";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import { getCookie } from "../util/cookieAuth";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import passwordLogo from "../assets/passwordLogo.svg";
 
-const ChangePassWord = () => {
+const ChangePassWord = ({ phoneNo }) => {
   const [textSix, setTextSix] = useState(false);
   const [textSeven, setTextSeven] = useState(false);
   const [passwordError, setPasswordError] = useState("");
@@ -27,19 +26,20 @@ const ChangePassWord = () => {
   const [confirmError, setConfirmError] = useState("");
   const [disableButton, setDisableButton] = useState(false);
 
+  console.log(passwordInput, confirmPasswordInput);
   const weakPassword = new RegExp("(?=.{3,})");
   const weakPasswordIcon = new RegExp("(?=.{7,})");
   const mediumPassword = new RegExp("(?=.*[A-Z])");
   const strongPassword = new RegExp("(?=.*[^A-Za-z0-9])");
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const phoneNumber = useSelector((state) => state.phone.data);
   const navigate = useNavigate();
 
   const handleConfirmPasswordChange = (event) => {
     const value = event.target.value;
 
     setConfirmPasswordInput(value);
+
     if (passwordInput === value) {
       setConfirmError("");
       setTextSeven(false);
@@ -95,39 +95,39 @@ const ChangePassWord = () => {
     }
   };
 
-  // reset password
-  const sendResetPasswordToEndpoint = async () => {
-    const token = getCookie("authToken");
-    try {
-      const response = await AuthAxios({
-        url: "/auth/password-reset-confirm",
-        method: "POST",
+  const mutationReset = useMutation({
+    mutationFn: async () => {
+      try {
+        const response = await AuthAxios({
+          url: "/auth/password-reset-confirm",
+          method: "POST",
 
-        data: {
-          phone: phoneNumber,
-          newPassword: passwordInput,
-          confirmPassword: confirmPasswordInput,
-        },
-      });
+          data: {
+            phone: phoneNo,
+            newPassword: passwordInput,
+            confirmPassword: confirmPasswordInput,
+          },
+        });
 
-      return response.data;
-    } catch (error) {
-      console.log("hey");
-      setDisableButton(false);
-      setPasswordInput("");
-      setConfirmPasswordInput("");
-      notifyErr(error.response.data.message);
-      throw new Error(error.response);
-    }
-  };
-  const mutationReset = useMutation(sendResetPasswordToEndpoint, {
+        return response.data;
+      } catch (error) {
+        console.log("hey");
+        console.log(error);
+        setDisableButton(false);
+        setPasswordInput("");
+        setConfirmPasswordInput("");
+        notifyErr(error.response.data.message);
+        throw new Error(error.response);
+      }
+    },
     onSuccess: (response) => {
       notify(response.message);
+      console.log(response);
       setDisableButton(false);
-      navigate("/");
+      // navigate("/");
     },
-    onError: (response) => {
-      console.log("error");
+    onError: (error) => {
+      console.log(error);
       notifyErr(response.message);
       setDisableButton(false);
 
@@ -135,6 +135,7 @@ const ChangePassWord = () => {
       setConfirmPasswordInput("");
     },
   });
+
   const handleResetPassword = () => {
     setDisableButton(true);
 
@@ -174,10 +175,9 @@ const ChangePassWord = () => {
   return (
     <Box
       sx={{
-        maxWidth: "31%",
+        width: "60%",
         mx: "auto",
         marginTop: "1rem",
-        maxWidth: { xs: "100%", sm: "100%", md: "31%" },
       }}
     >
       <Box
@@ -239,7 +239,11 @@ const ChangePassWord = () => {
             onBlur={handlePasswordBlur}
             // value={passwordInput}
             required
-            helperText={passwordError && <span>{passwordError}</span>}
+            helperText={
+              passwordError && (
+                <Box sx={{ color: "#DC0019" }}>{passwordError}</Box>
+              )
+            }
             placeholder="Enter your Password"
             id="password-input"
             type={showPassword ? "text" : "password"}
@@ -299,7 +303,11 @@ const ChangePassWord = () => {
             // value={confirmPasswordInput}
             onBlur={handleConfirmPasswordBlur}
             required
-            helperText={confirmError && <span>{confirmError}</span>}
+            helperText={
+              confirmError && (
+                <Box sx={{ color: "#DC0019" }}>{confirmError}</Box>
+              )
+            }
             placeholder="Verify Password"
             id="password-input"
             type={showPassword ? "text" : "password"}
@@ -352,9 +360,8 @@ const ChangePassWord = () => {
               "&:hover": {
                 backgroundColor: "#dc0019",
               },
-              fontFamily: "raleWay",
               textTransform: "capitalize",
-              fontWeight: "700",
+              fontWeight: "500",
             }}
           >
             {mutationReset.isLoading || disableButton ? (

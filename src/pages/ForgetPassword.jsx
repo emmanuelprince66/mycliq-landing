@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import closeIcon from "../assets/images/closeIcon.svg";
+import VerifyForgotPassword from "../components/VerifyForgotPassword";
 
 const ForgetPassword = () => {
   const [textFour, setTextFour] = useState(false);
@@ -59,10 +61,13 @@ const ForgetPassword = () => {
 
   const handleGetOTP = () => {
     setDisableButton(true);
-    if (phoneNo && phoneNo.length === 10) {
+    if (phoneNo && phoneNo.length === 11) {
       mutationOTP.mutate(phoneNo);
-    } else {
+    } else if (phoneNo.length < 11) {
       notifyErr("Phone number is too short");
+      setDisableButton(false);
+    } else if (phoneNo.length > 11) {
+      notifyErr("Phone number is too long");
       setDisableButton(false);
     }
   };
@@ -198,8 +203,8 @@ const ForgetPassword = () => {
           }}
         />
         <Button
-          //   disabled={disableButton || mutationOTP.isLoading}
-          //   onClick={handleGetOTP}
+          disabled={disableButton || mutationOTP.isLoading}
+          onClick={handleGetOTP}
           sx={{
             background: "#dc0019",
             padding: "10px",
@@ -209,9 +214,8 @@ const ForgetPassword = () => {
             "&:hover": {
               backgroundColor: "#dc0019",
             },
-            fontFamily: "raleWay",
             textTransform: "capitalize",
-            fontWeight: "700",
+            fontWeight: "500",
           }}
         >
           {mutationOTP.isLoading || disableButton ? (
@@ -260,11 +264,20 @@ const ForgetPassword = () => {
             p: 3,
           }}
         >
-          <h2>Modal Content</h2>
-          <p>Any content you want inside the modal.</p>
-          <Button variant="contained" color="secondary" onClick={handleClose}>
-            Close
-          </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              mb: "2rem",
+            }}
+          >
+            <Box onClick={() => setVerifyOTP(false)} className="cursor-pointer">
+              <img src={closeIcon} alt="c-icon" />
+            </Box>
+          </Box>
+
+          <VerifyForgotPassword phoneNo={phoneNo} />
         </Box>
       </Modal>
       {/* verify otp page ends */}
