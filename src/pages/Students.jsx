@@ -180,7 +180,26 @@ const Students = () => {
           </button>
         </div>
       )}
+
       <TableStudents />
+      <Box
+        sx={{
+          width: "100%",
+          margin: "auto",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "500",
+            fontSize: "25px",
+            color: "#dc0019",
+          }}
+        >
+          Coming Soon........
+        </Typography>
+      </Box>
     </Box>
   );
 };
