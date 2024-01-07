@@ -1,11 +1,11 @@
 import Axios from "axios";
 
 export const AuthAxios = Axios.create({
-  baseURL: "https://check-server-api.herokuapp.com/api/v1",
+  baseURL: "https://check-server-api-staging.herokuapp.com/api/v1",
   withCredentials: false,
 });
 export const BaseAxios = Axios.create({
-  baseURL: "https://check-server-api.herokuapp.com/api/v1",
+  baseURL: "https://check-server-api-staging.herokuapp.com/api/v1",
   withCredentials: false,
 });
 
