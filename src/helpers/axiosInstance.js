@@ -3,15 +3,7 @@ import { getCookie, setCookie } from "../utils/cookieAuth";
 
 // Axios instance for API calls
 export const AuthAxios = Axios.create({
-<<<<<<< HEAD
-  baseURL: "https://check-server-api-staging.herokuapp.com/api/v1",
-  withCredentials: false,
-});
-export const BaseAxios = Axios.create({
-  baseURL: "https://check-server-api-staging.herokuapp.com/api/v1",
-=======
   baseURL: "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/",
->>>>>>> fb569d7400f2b4d7ea34f169f45db393315c3c08
   withCredentials: false,
 });
 
