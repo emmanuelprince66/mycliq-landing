@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Grid,
   Container,
   TextField,
   TablePagination,
@@ -20,10 +21,11 @@ import {
   Modal,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import search from "../../src/assets/search.svg";
 import InputAdornment from "@mui/material/InputAdornment";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-
+import side from "../assets/images/admin/side.svg";
+import percent from "../assets/images/admin/percent.svg";
+import upcolor from "../assets/images/admin/upcolor.svg";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import selectIcon from "../assets/selectIcon.svg";
@@ -46,12 +48,16 @@ import {
   saveTransactionData,
   fillUserDetails,
 } from "../utils/store/merchantSlice";
+import search from "../assets/images/admin/search.svg";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import { TransactionDetails } from "./transactionDetails";
-import { ArrowBackIosNewRounded } from "@mui/icons-material";
+import { ArrowBackIosNewRounded, Discount } from "@mui/icons-material";
 import FormattedPrice from "./FormattedPrice";
-
+import DepositDetails from "./DepositDetails";
+import WithdrawalDetails from "./WithdrawalDetails";
+import DiscountDetails from "./DiscountDetails";
+import CreateOffer from "./CreateOffer";
 const TableCom = () => {
   const [transactionData, setTransactionData] = useState([]);
   console.log(transactionData);
@@ -71,6 +77,15 @@ const TableCom = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const [depositDetails, setDepositDetails] = useState(false);
+  const [withdrawalDetails, setWithdrawalDetails] = useState(false);
+  const [discountDetails, setDiscountDetails] = useState(false);
+  const [createOffer, setCreateOffer] = useState(false);
+  const handleCloseDepositDetails = () => setDepositDetails(false);
+  const handleCloseWithdrawalDetails = () => setWithdrawalDetails(false);
+  const handleCloseDiscountDetails = () => setDiscountDetails(false);
+  const handleCloseCreateOffer = () => setCreateOffer(false);
   const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -106,7 +121,7 @@ const TableCom = () => {
     const fetchData = async () => {
       try {
         const response = await AuthAxios({
-          url: "/transaction/merchant?limit=200",
+          url: "/transaction/admin?limit=200",
           method: "GET",
         });
 
@@ -161,7 +176,7 @@ const TableCom = () => {
       } catch (error) {
         console.log(error);
         if (error.response && error.response.status === 401) {
-          navigate("/");
+          // navigate("/");
           localStorage.clear();
         }
       }
@@ -186,22 +201,13 @@ const TableCom = () => {
     <Box
       sx={{
         width: "1080px",
-        margin: "auto",
         padding: "1rem",
         backgroundColor: "#fffcfc",
       }}
     >
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          width: "100%",
-        }}
-      ></Box>
-
-      <Box
-        sx={{
-          width: "100%",
+          width: "1080px",
           display: "flex",
           gap: "2rem",
           mb: "1rem",
@@ -289,7 +295,7 @@ const TableCom = () => {
                   height: "28px",
                 }}
               >
-                <img src={fdown} className="fd" alt="f-down" />
+                <img src={upcolor} className="fd" alt="f-down" />
               </Box>
               <Typography
                 sx={{
@@ -301,21 +307,6 @@ const TableCom = () => {
                 Total <br />
                 Withdrawals
               </Typography>
-            </Box>
-
-            <Box className="flex gap-2 items-center cursor-pointer">
-              <Typography
-                sx={{
-                  fomtWeight: "400",
-                  fontSize: "13px",
-                  color: "#dc0019",
-                }}
-              >
-                History
-              </Typography>
-              <ArrowForwardIosRoundedIcon
-                sx={{ color: "#dc0019", fontSize: "13px" }}
-              />
             </Box>
           </Box>
 
@@ -353,7 +344,7 @@ const TableCom = () => {
                 height: "28px",
               }}
             >
-              <img src={fdown} className="fd" alt="f-down" />
+              <img src={percent} className="fd" alt="f-down" />
             </Box>
             <Typography
               sx={{
@@ -362,9 +353,60 @@ const TableCom = () => {
                 color: "#4F4F4F",
               }}
             >
-              Wallet
+              Total
               <br />
-              Balance
+              Commission
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              sx={{
+                fomtWeight: "600",
+                fontSize: "24px",
+                color: "##1E1E1E",
+              }}
+            >
+              <FormattedPrice
+                amount={Number(transactionDetails?.walletBalance || 0)}
+              />
+            </Typography>
+          </Box>
+        </Card>
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "16px",
+            width: "356px",
+            gap: "0.8rem",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <Box
+              sx={{
+                width: "28px",
+                height: "28px",
+              }}
+            >
+              <img src={side} className="fd" alt="f-down" />
+            </Box>
+            <Typography
+              sx={{
+                fomtWeight: "500",
+                fontSize: "14px",
+                color: "#4F4F4F",
+              }}
+            >
+              Total Revenue Cost
+              <br />
+              to Discount & Offers
             </Typography>
           </Box>
 
@@ -392,6 +434,72 @@ const TableCom = () => {
           backgroundColor: "#fff",
         }}
       >
+        <Box
+          sx={{
+            display: "flex",
+            gap: "30px",
+            justifyContent: "start",
+            my: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontWeight: "600",
+              fontSize: "16px",
+              color: "#000",
+            }}
+          >
+            Transactions
+          </Typography>
+          {/* search  */}
+          <Box>
+            <TextField
+              sx={{
+                borderRadius: "10px",
+                width: "440px",
+                // padding: { xs: "4px", sm: "12px 16px", md: " 12px 16px" },
+                color: "#D1D1D1",
+                "& .MuiOutlinedInput-root": {
+                  padding: "8px", // Adjust padding to reduce height
+                  height: "36px", // Set the desired height here
+                  lineHeight: "36px", // Match the height to avoid overflow
+                  "& fieldset": {
+                    borderColor: "#D1D1D1", // Set the desired border color here
+                    borderRadius: "10px",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#FF7F00 ", // Set the border color on hover here
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#FF7F00", // Set the border color on focus here
+                  },
+                },
+              }}
+              placeholder="Search user, Transaction ID"
+              variant="outlined"
+              // value={searchTerm}
+              // onChange={handleSearchChange}
+              required
+              id="firstName-input"
+              InputProps={{
+                style: { color: "#818181" },
+                startAdornment: (
+                  <InputAdornment>
+                    <img src={search} alt="s-logo" />
+                    &nbsp;&nbsp;&nbsp;
+                  </InputAdornment>
+                ),
+              }}
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{
+                "aria-label": "weight",
+              }}
+            />
+          </Box>
+          {/* search ends */}
+        </Box>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, padding: "8px" }}>
             <TableHead
@@ -586,6 +694,75 @@ const TableCom = () => {
         </Modal>
         {/* Modal ends */}
       </Box>
+
+      {/* Modall for  deposit detailsl */}
+
+      <Modal
+        open={depositDetails}
+        onClose={handleCloseDepositDetails}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <DepositDetails setDepositDetails={setDepositDetails} />
+      </Modal>
+      {/* Modal deposit ends */}
+
+      {/* Modall for  withdrawal detailsl */}
+
+      <Modal
+        open={withdrawalDetails}
+        onClose={handleCloseWithdrawalDetails}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <WithdrawalDetails setWithdrawalDetails={setWithdrawalDetails} />
+      </Modal>
+      {/* Modal withdrawal ends */}
+      {/* Modal for  discount details */}
+
+      <Modal
+        open={discountDetails}
+        onClose={handleCloseDiscountDetails}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <DiscountDetails setDiscountDetails={setDiscountDetails} />
+      </Modal>
+      {/* Modal discount ends */}
+
+      {/* Create Offer */}
+      <Modal
+        open={createOffer}
+        onClose={handleCloseCreateOffer}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        PaperProps={{
+          sx: {
+            border: "none", // Remove the border
+            boxShadow: "none", // Remove the box shadow
+          },
+        }}
+      >
+        <CreateOffer setCreateOffer={setCreateOffer} />
+      </Modal>
     </Box>
   );
 };

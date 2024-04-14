@@ -15,8 +15,9 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { AuthAxios } from "../helpers/axiosInstance";
 import passwordLogo from "../assets/passwordLogo.svg";
+import backRedArrow from "../assets/images/backRedArrow.svg";
 
-const ChangePassWord = ({ phoneNo }) => {
+const ChangePassWord = ({ phoneNo, setShowVerifyUser }) => {
   const [textSix, setTextSix] = useState(false);
   const [textSeven, setTextSeven] = useState(false);
   const [passwordError, setPasswordError] = useState("");
@@ -25,6 +26,11 @@ const ChangePassWord = ({ phoneNo }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [confirmError, setConfirmError] = useState("");
   const [disableButton, setDisableButton] = useState(false);
+  const [showChangePass, setShowChangePass] = useState(false);
+
+  const move = () => {
+    setShowVerifyUser((prev) => !prev);
+  };
 
   console.log(passwordInput, confirmPasswordInput);
   const weakPassword = new RegExp("(?=.{3,})");
@@ -124,7 +130,7 @@ const ChangePassWord = ({ phoneNo }) => {
       notify(response.message);
       console.log(response);
       setDisableButton(false);
-      // navigate("/");
+      setShowVerifyUser((prev) => !prev);
     },
     onError: (error) => {
       console.log(error);
@@ -175,11 +181,12 @@ const ChangePassWord = ({ phoneNo }) => {
   return (
     <Box
       sx={{
-        width: "60%",
+        width: "100%",
         mx: "auto",
         marginTop: "1rem",
       }}
     >
+      {/* welcome to eden movie to download */}
       <Box
         sx={{
           display: "flex",
@@ -190,7 +197,7 @@ const ChangePassWord = ({ phoneNo }) => {
       >
         <Box
           sx={{
-            width: "80%",
+            width: "100%",
             margin: "auto",
             marginTop: " 5rem ",
             marginBottom: "2rem",
@@ -209,7 +216,7 @@ const ChangePassWord = ({ phoneNo }) => {
 
         <Box
           sx={{
-            width: { xs: "100%", sm: "50%", lg: "100%" },
+            width: "100%",
             mx: "auto",
             display: "flex",
             flexDirection: "column",
@@ -221,7 +228,7 @@ const ChangePassWord = ({ phoneNo }) => {
           {" "}
           <TextField
             sx={{
-              width: { xs: "300px", sm: "100%", md: "327px" },
+              width: "30rem",
               mx: "auto",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
@@ -285,7 +292,7 @@ const ChangePassWord = ({ phoneNo }) => {
           />
           <TextField
             sx={{
-              width: { xs: "300px", sm: "100%", md: "327px" },
+              width: "30rem",
               mx: "auto",
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
@@ -351,14 +358,14 @@ const ChangePassWord = ({ phoneNo }) => {
             onClick={handleResetPassword}
             disabled={disableButton || mutationReset.isLoading}
             sx={{
-              background: "#dc0019",
+              background: "#333333",
               padding: "10px",
               borderRadius: "8px",
-              width: { xs: "85%", sm: "100%", lg: "77%" },
-              my: "1rem",
+              width: "100%",
+              mt: "1rem",
               color: "#fff",
               "&:hover": {
-                backgroundColor: "#dc0019",
+                backgroundColor: "#333333",
               },
               textTransform: "capitalize",
               fontWeight: "500",
@@ -370,15 +377,38 @@ const ChangePassWord = ({ phoneNo }) => {
               "Reset Password"
             )}
           </Button>
-          <Box onClick={() => navigate("/")}>
-            <Typography
-              sx={{
-                color: "#000",
-              }}
-            >
-              Back to login
-            </Typography>
-          </Box>
+          <Button
+            onClick={move}
+            sx={{
+              background: "#fff",
+              padding: "10px",
+              borderRadius: "8px",
+              fontWeight: "700",
+              width: "100%",
+              borderColor: "#333333",
+
+              color: "#fff",
+              "&:hover": {
+                borderColor: "#FF7F00",
+              },
+              textTransform: "capitalize",
+              fontWeight: "500",
+            }}
+            variant="outlined"
+          >
+            <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <img src={backRedArrow} alt="back-arrow" />
+              <Typography
+                sx={{
+                  fontSize: "15px",
+                  fontWeight: "700",
+                  color: "#333333",
+                }}
+              >
+                Back to login
+              </Typography>
+            </Box>
+          </Button>
         </Box>
       </Box>
       <ToastContainer />

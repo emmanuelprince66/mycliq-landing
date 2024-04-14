@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import { queryClient } from "../helpers/queryClient";
 import { useNavigate } from "react-router-dom";
+import backRedArrow from "../assets/images/backRedArrow.svg";
+
 import {
   Box,
   Typography,
@@ -20,7 +22,7 @@ import {
 import { useState, useEffect } from "react";
 import ChangePassWord from "../pages/ChangePassword";
 
-const VerifyForgotPassword = ({ phoneNo }) => {
+const VerifyForgotPassword = ({ phoneNo, setShowOTP, setShowVerifyUser }) => {
   const [pins, setPins] = useState(["", "", "", "", "", ""]);
   const pinRef = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
   const [showVerifyOTP, setShowVerifyOTP] = useState(true);
@@ -137,9 +139,10 @@ const VerifyForgotPassword = ({ phoneNo }) => {
       console.log(phoneNo);
       try {
         const response = await axios.post(
-          "https://check-server-api.herokuapp.com/api/v1/auth/request-otp",
+          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/request-otp",
           {
             phone: phone, // Replace with your phone data
+            otpType: "password-reset",
           }
         );
 
@@ -185,10 +188,11 @@ const VerifyForgotPassword = ({ phoneNo }) => {
     mutationFn: async (code) => {
       try {
         const response = await axios.post(
-          "https://check-server-api.herokuapp.com/api/v1/auth/verify-otp",
+          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/verify-otp",
           {
             code: code,
-            phone: phoneNo.substring(1), // Replace with your phone data
+            phone: phoneNo, // Replace with your phone data
+            otpType: "password-reset",
           },
           {
             // headers: {
@@ -250,28 +254,18 @@ const VerifyForgotPassword = ({ phoneNo }) => {
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
+            mt: "5rem",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              width: "100%",
-              justifyContent: "center",
-              my: "1rem",
-            }}
-          ></Box>
-
           <Typography
             sx={{
               textAlign: "center",
-              fontWeight: "500",
+              fontWeight: "900",
               fontSize: "20px",
               my: "1rem",
             }}
           >
-            Enter Verification Code
+            Verify OTP
           </Typography>
 
           <Typography
@@ -281,8 +275,8 @@ const VerifyForgotPassword = ({ phoneNo }) => {
               fontSize: "16px",
             }}
           >
-            Enter verification code sent to {phoneNo ? phoneNo : "0816846"}{" "}
-            below
+            An OTP has been sent to {phoneNo ? phoneNo : "0816846"}. Enter the
+            code below to verify your identity.
           </Typography>
 
           <Box
@@ -343,10 +337,9 @@ const VerifyForgotPassword = ({ phoneNo }) => {
               onClick={verifyGetOTP}
               disabled={mutationVerifyOTP.isLoading || disableButton}
               sx={{
-                background: "#dc0019",
+                background: "#333333",
                 width: "100%",
                 padding: "10px, 16px, 10px, 16px",
-                mb: "2rem",
                 textTransform: "capitalize",
                 fontWeight: "400",
                 width: {
@@ -360,7 +353,7 @@ const VerifyForgotPassword = ({ phoneNo }) => {
                 borderRadius: "8px",
                 color: "#fff",
                 "&:hover": {
-                  backgroundColor: "#dc0019",
+                  backgroundColor: "#333333",
                 },
               }}
             >
@@ -370,79 +363,87 @@ const VerifyForgotPassword = ({ phoneNo }) => {
                 "Verify OTP "
               )}
             </Button>
-            <Button
-              onClick={() => setVerifyOTP(false)}
+
+            <Box
               sx={{
-                width: "100%",
-                marginTop: "-0.9rem",
-                padding: "10px, 16px, 10px, 16px",
-                textTransform: "capitalize",
-                fontWeight: "400",
-                width: {
-                  xs: "300px",
-                  sm: "333px",
-                  md: "333px",
-                  lg: "333px",
-                },
-                height: "48px",
-                fontSize: "16px",
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                justifyContent: "center",
+                my: "1.5rem",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: "400",
+                  mx: "3px",
+                }}
+              >
+                Didn't get the code?
+              </Typography>
+              <Typography
+                onClick={resetTimer} //
+                sx={{
+                  fontWeight: "400",
+                  mx: "3px",
+                  cursor: "pointer", // Adding cursor pointer to indicate it's clickable
+                }}
+              >
+                {isTimerFinished ? (
+                  <Typography sx={{ color: "#dc0019" }}>Resend Code</Typography>
+                ) : (
+                  "Can Resend in"
+                )}
+              </Typography>
+
+              <Typography
+                // Attach resetTimer function to restart the timer
+                sx={{
+                  fontWeight: "400",
+                }}
+              >
+                &nbsp;{formattedTime}
+              </Typography>
+            </Box>
+            <Button
+              onClick={() => setShowVerifyUser((prev) => !prev)}
+              sx={{
+                background: "#fff",
+                padding: "10px",
                 borderRadius: "8px",
-                color: "#000",
-                borderColor: "#dc0019",
+                fontWeight: "700",
+                width: "100%",
+                borderColor: "#333333",
+
+                color: "#fff",
                 "&:hover": {
-                  borderColor: "#dc0019",
+                  borderColor: "#FF7F00",
                 },
+                textTransform: "capitalize",
+                fontWeight: "500",
               }}
               variant="outlined"
             >
-              Cancel
+              <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                <img src={backRedArrow} alt="back-arrow" />
+                <Typography
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: "700",
+                    color: "#333333",
+                  }}
+                >
+                  Back to login
+                </Typography>
+              </Box>
             </Button>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textAlign: "center",
-              justifyContent: "center",
-              my: "10px",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "400",
-                mx: "3px",
-              }}
-            >
-              Didn't get the code?
-            </Typography>
-            <Typography
-              onClick={resetTimer} //
-              sx={{
-                fontWeight: "400",
-                mx: "3px",
-                cursor: "pointer", // Adding cursor pointer to indicate it's clickable
-              }}
-            >
-              {isTimerFinished ? (
-                <Typography sx={{ color: "#dc0019" }}>Resend</Typography>
-              ) : (
-                "Can Resend in"
-              )}
-            </Typography>
-
-            <Typography
-              // Attach resetTimer function to restart the timer
-              sx={{
-                fontWeight: "400",
-              }}
-            >
-              &nbsp;{formattedTime}
-            </Typography>
           </Box>
         </Box>
       ) : (
-        <ChangePassWord phoneNo={phoneNo} />
+        <ChangePassWord
+          phoneNo={phoneNo}
+          setShowVerifyUser={setShowVerifyUser}
+        />
       )}
     </Box>
   );

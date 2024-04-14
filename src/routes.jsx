@@ -15,11 +15,42 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider, createTheme } from "@mui/material/";
 import ResetPassword from "./pages/ResetPassword";
 import ForgetPassword from "./pages/ForgetPassword";
+import Notification from "./pages/Notification";
+import Onboarding from "./pages/Onboarding";
+import Customer from "./pages/Customer";
+import Billers from "./pages/Billers";
+import GMerchants from "./pages/GMerchants";
+import { AuthProvider } from "./utils/AuthContext";
 
 const myRoutes = [
   { component: <Login />, path: "/", name: "Login Page" },
   { component: <Overview />, path: "/overview", name: "Overview Page" },
   { component: <Students />, path: "/students", name: "Students" },
+  {
+    component: <Notification />,
+    path: "/p-notification",
+    name: "Notification",
+  },
+  {
+    component: <GMerchants />,
+    path: "/gmerchants",
+    name: "Merchants",
+  },
+  {
+    component: <Billers />,
+    path: "/billers",
+    name: "Billers",
+  },
+  {
+    component: <Customer />,
+    path: "/customers",
+    name: "Customer",
+  },
+  {
+    component: <Onboarding />,
+    path: "/onboarding",
+    name: "Onboarding",
+  },
   { component: <ManageBills />, path: "/manage-bills", name: "Manage Bills" },
   { component: <Transaction />, path: "/transaction", name: "transaction" },
   { component: <Withdrawal />, path: "/withdrawal", name: "withdrawal" },
@@ -48,19 +79,32 @@ const RoutesContainer = () => {
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
-            {myRoutes.map((item) => (
-              <Route
-                key={item.name}
-                path={item.path}
-                element={
-                  item.path === "/" ? (
-                    item.component // If path is '/', render the component directly
-                  ) : (
+            {myRoutes.map((item) => {
+              // For the login page, render without AuthProvider
+              if (item.path === "/") {
+                return (
+                  <Route
+                    key={item.name}
+                    path={item.path}
+                    element={item.component}
+                  />
+                );
+              } else {
+                // For other pages, wrap with AuthProvider
+                const ComponentWithAuth = (
+                  <AuthProvider>
                     <Mainlayout component={item.component} />
-                  )
-                }
-              />
-            ))}
+                  </AuthProvider>
+                );
+                return (
+                  <Route
+                    key={item.name}
+                    path={item.path}
+                    element={ComponentWithAuth}
+                  />
+                );
+              }
+            })}
             <Route index path="/f-password" element={<ForgetPassword />} />
           </Routes>
         </Router>
