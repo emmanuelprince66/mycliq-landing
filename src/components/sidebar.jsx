@@ -9,17 +9,25 @@ import SuperAdmin from "../assets/images/sidebar/super";
 import SupportIcon from "../assets/images/sidebar/support";
 import Mode from "../assets/images/sidebar/mode";
 import SunIcon from "../assets/images/ColorMode/sun.svg";
+import CabinRoundedIcon from "@mui/icons-material/CabinRounded";
+import Cookies from "js-cookie"
 import checkIcon from "../assets/images/logo.png";
 import LockIcon from "@mui/icons-material/Lock";
+import cliqIcon from "../assets/images/admin/cliqIcon.png";
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import AddHomeIcon from "@mui/icons-material/AddHome";
+import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
   const [theme, setTheme] = useState("dark");
   const mainMenu = [
     {
-      name: "Student",
-      component: <SuperAdmin isRightLink={location === "/students"} />,
-      link: "students",
+      name: "Customers",
+      component: (
+        <PeopleAltRoundedIcon isRightLink={location === "/customers"} />
+      ),
+      link: "customers",
     },
     {
       name: "Transactions",
@@ -27,21 +35,40 @@ export const Sidebar = () => {
       link: "transaction",
     },
     {
-      name: "Manage Bills",
-      component: <ManageIcon isRightLink={location === "/manage-bills"} />,
-      link: "manage-bills",
+      name: "Merchants",
+      component: <CabinRoundedIcon isRightLink={location === "/gmerchants"} />,
+      link: "gmerchants",
     },
     {
-      name: "Withdrawal",
-      component: <WithdrawalIcon isRightLink={location === "/withdrawal"} />,
-      link: "withdrawal",
+      name: "Billers",
+      component: <ManageIcon isRightLink={location === "/billers"} />,
+      link: "billers",
     },
+    // {
+    //   name: "Manage Bills",
+    //   component: <ManageIcon isRightLink={location === "/manage-bills"} />,
+    //   link: "manage-bills",
+    // },
+    // {
+    //   name: "Withdrawal",
+    //   component: <WithdrawalIcon isRightLink={location === "/withdrawal"} />,
+    //   link: "withdrawal",
+    // },
   ];
   const adminMenu = [
     {
-      name: "Administrator",
-      component: <SuperAdmin isRightLink={location === "/super-admin"} />,
-      link: "super-admin",
+      name: "Push Notifications",
+      component: (
+        <NotificationsRoundedIcon
+          isRightLink={location === "/p-notification"}
+        />
+      ),
+      link: "p-notification",
+    },
+    {
+      name: "Onboarding",
+      component: <AddHomeIcon isRightLink={location === "/onboarding"} />,
+      link: "onboarding",
     },
     {
       name: "Support",
@@ -68,17 +95,19 @@ export const Sidebar = () => {
   ];
   function logOut() {
     navigate("/");
-    localStorage.clear();
+    Cookies.remove("authToken");
+  Cookies.remove("refreshToken");
+    
   }
   return (
     <aside className="flex h-full pl-[2em] py-[3em]  border-r border-border_light pr-[1em] flex-col bg-white">
-      <img src={checkIcon} className="w-[100px] mb-5 " alt="check icon" />
+      <img src={cliqIcon} className="w-[100px] mt-[-40px] " alt="check icon" />
 
       <div className="pt-5 pb-3  border-b border-solid ">
         <div
           className={`${
             location === "/overview"
-              ? "bg-primary_red_2 text-white"
+              ? "bg-brown_1   text-white"
               : "bg-transparent text-grey_2"
           } p-2 w-full  rounded-[10px]`}
         >
@@ -98,15 +127,16 @@ export const Sidebar = () => {
                 key={item.name}
                 className={`${
                   location === `/${item.link}`
-                    ? "bg-primary_red_2 text-white"
+                    ? "bg-brown_1  text-white"
                     : "bg-transparent text-grey_2"
                 } p-2 w-full mb-2  rounded-[10px]`}
               >
                 <Link
                   to={`/${item.link}`}
-                  className="flex flex-row items-center gap-2  font-normal"
+                  className="flex flex-row items-center gap-2  "
                 >
                   {item.component}
+
                   {item.name}
                 </Link>
               </div>
@@ -123,7 +153,7 @@ export const Sidebar = () => {
                 key={item.name}
                 className={`${
                   location === `/${item.link}`
-                    ? "bg-primary_red_2 text-white"
+                    ? "bg-brown_1  text-white"
                     : "bg-transparent text-grey_2"
                 } p-2 w-full mb-2 rounded-[10px]`}
               >

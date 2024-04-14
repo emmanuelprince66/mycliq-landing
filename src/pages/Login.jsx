@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import loginImg from "../assets/images/assoclogin.png";
 import checkIcon from "../assets/images/logo.png";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -30,9 +30,18 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import "react-toastify/dist/ReactToastify.min.css";
+import VerifyOTP from "../components/VerifyOTP";
+import bro from "../assets/images/admin/bro.svg";
+import cliqLight from "../assets/images/admin/cliqLight.png";
 
 export const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [showVerifyUser, setShowVerifyUser] = useState(false);
+  const [showLoginImage, setShowLoginImage] = useState(true);
+
+  useEffect(() => {
+    setShowLoginImage(true);
+  }, [showVerifyUser]);
 
   const {
     register,
@@ -42,8 +51,8 @@ export const Login = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: Colors.brown_2,
-        red_text: Colors.error_2,
+        main: "#333333",
+        red_text: "#333333",
       },
     },
   });
@@ -75,11 +84,14 @@ export const Login = () => {
     },
     onSuccess: (data) => {
       console.log("Login successful:", data);
-      navigate("/transaction");
-      localStorage.setItem("authToken", data.access_token);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("companyName", data.companyName);
-      localStorage.setItem("registeredName", data.registeredName);
+      navigate("/overview");
+
+      // Store data in cookies
+      Cookies.set("authToken", data.access_token);
+      Cookies.set("refreshToken", data.refreshToken);
+      // Cookies.set("companyName", data.companyName);
+      // Cookies.set("registeredName", data.registeredName);
+
       // Handle success, update state, or perform further actions
     },
     onError: (error) => {
@@ -109,219 +121,234 @@ export const Login = () => {
     <main className="flex md:grid md:grid-cols-2 flex-col-reverse min-h-screen">
       <section className="bg-brown_1 hidden  md:flex items-center pb-5 md:pb-0 justify-center">
         <div className="pt-5">
-          <img className="h-[40vh]" src={loginImg} />
+          {showLoginImage ? (
+            <img className="h-[40vh]" src={loginImg} />
+          ) : (
+            <img className="h-[40vh]" src={bro} />
+          )}
         </div>
       </section>
       <section className="flex min-h-screen  w-full gap-8 flex-col m-auto bg-dark_text">
-        <div className="logo h-[10vh] w-[90%] mx-auto py-4">
-          <img src={checkIcon} alt="check_logo" />
+        <div className="logo h-[5vh] w-[50%] mx-auto  ">
+          <img src={cliqLight} alt="check_logo" />
         </div>
 
         <div className=" w-[80%] md:w-[75%] lg:w-[65%] my-8 mx-auto flex items-center">
-          <Container sx={{ padding: 0 }}>
-            <Paper
-              elevation={0}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h1" fontSize={"1.5em"} fontWeight={600}>
-                Welcome back!
-              </Typography>
-              <Typography
-                variant="body1"
-                color="textSecondary"
-                textAlign="center"
-                mb={2}
+          {showVerifyUser ? (
+            <VerifyOTP
+              setShowVerifyUser={setShowVerifyUser}
+              setShowLoginImage={setShowLoginImage}
+            />
+          ) : (
+            <Container sx={{ padding: 0 }}>
+              <Paper
+                elevation={0}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  mt: "5rem",
+                }}
               >
-                Enter your details to login.
-              </Typography>
-              <ThemeProvider theme={theme}>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1em",
-                  }}
+                <Typography variant="h1" fontSize={"1.5em"} fontWeight={600}>
+                  Welcome back!
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  textAlign="center"
+                  mb={2}
                 >
-                  <Grid container spacing={2}>
-                    <Grid
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: ".2em",
-                      }}
-                      item
-                      xs={12}
-                    >
-                      <InputLabel className="text-black_0">
-                        {" "}
-                        <Typography className="text-black" fontWeight={600}>
-                          {" "}
-                          Email{" "}
-                        </Typography>{" "}
-                      </InputLabel>
-                      <TextField
-                        {...register("emailOrPhone", {
-                          required: "Email is required",
-                        })}
-                        required
-                        fullWidth
-                        sx={{
-                          "& .MuiInputBase-root": { borderRadius: "8px" },
-                          "& .MuiInputBase-input": { padding: "12px 0" },
-                        }}
-                        id="email"
-                        autoFocus
-                        placeholder="example@domain.com"
-                        error={Boolean(errors.email)}
-                        helperText={errors.email?.message}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <img
-                                src={emailIcon}
-                                className="w-[24px]"
-                                alt="email"
-                              />
-                              <span className="bg-grey_1 ml-[.3em] w-[1px]">
-                                {" "}
-                                &nbsp;&nbsp;{" "}
-                              </span>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Grid>
-                    <Grid
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: ".2em",
-                      }}
-                      item
-                      xs={12}
-                    >
-                      <InputLabel className="text-black">
-                        <Typography className="text-black" fontWeight={600}>
-                          {" "}
-                          Password{" "}
-                        </Typography>
-                      </InputLabel>
-                      <TextField
-                        {...register("password", {
-                          required: "Password is required",
-                        })}
-                        variant="outlined"
-                        required
-                        fullWidth
-                        sx={{
-                          "& .MuiInputBase-root": { borderRadius: "8px" },
-                          "& .MuiInputBase-input": { padding: "12px 0" },
-                        }}
-                        className="rounded-[8px]"
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        error={Boolean(errors.password)}
-                        helperText={errors.password?.message}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <img
-                                src={lockIcon}
-                                className="w-[24px]"
-                                alt="email"
-                              />
-                              <span className="bg-grey_1 ml-[.3em] w-[1px]">
-                                {" "}
-                                &nbsp;&nbsp;{" "}
-                              </span>
-                            </InputAdornment>
-                          ),
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                              >
-                                {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                        aria-describedby="outlined-weight-helper-text"
-                        inputProps={{
-                          "aria-label": "weight",
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Grid item>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            color="primary"
-                            {...register("rememberMe")}
-                          />
-                        }
-                        label="Remember Me"
-                      />
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        onClick={() => navigate("/f-password")}
-                        variant="body2"
-                        className="text-error_2"
-                        component="a"
-                        textDecoration={"none"}
-                        href="#"
-                      >
-                        Forgot Password?
-                      </Typography>
-                    </Grid>
-                  </Grid>
-
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={buttonDisabled}
-                    type="submit"
-                    // disabled={!isDirty || Object.keys(errors).length > 0}
-                    sx={{
-                      "&:disabled": {
-                        backgroundColor: (theme) => theme.palette.primary.main,
-                        opacity: 0.7,
-                      },
-                      padding: ".6em",
-                      boxShadow: "none",
+                  Enter your details to login.
+                </Typography>
+                <ThemeProvider theme={theme}>
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1em",
                     }}
                   >
-                    {buttonDisabled ? (
-                      <CircularProgress size="1.2rem" sx={{ color: "white" }} />
-                    ) : (
-                      "Login"
-                    )}
-                  </Button>
-                </form>
-              </ThemeProvider>
-            </Paper>
-          </Container>
+                    <Grid container spacing={2}>
+                      <Grid
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: ".2em",
+                        }}
+                        item
+                        xs={12}
+                      >
+                        <InputLabel className="text-black_0">
+                          {" "}
+                          <Typography className="text-black" fontWeight={600}>
+                            {" "}
+                            Email{" "}
+                          </Typography>{" "}
+                        </InputLabel>
+                        <TextField
+                          {...register("emailOrPhone", {
+                            required: "Email is required",
+                          })}
+                          required
+                          fullWidth
+                          sx={{
+                            "& .MuiInputBase-root": { borderRadius: "8px" },
+                            "& .MuiInputBase-input": { padding: "12px 0" },
+                          }}
+                          id="email"
+                          autoFocus
+                          placeholder="example@domain.com"
+                          error={Boolean(errors.email)}
+                          helperText={errors.email?.message}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img
+                                  src={emailIcon}
+                                  className="w-[24px]"
+                                  alt="email"
+                                />
+                                <span className="bg-grey_1 ml-[.3em] w-[1px]">
+                                  {" "}
+                                  &nbsp;&nbsp;{" "}
+                                </span>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      <Grid
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: ".2em",
+                        }}
+                        item
+                        xs={12}
+                      >
+                        <InputLabel className="text-black">
+                          <Typography className="text-black" fontWeight={600}>
+                            {" "}
+                            Password{" "}
+                          </Typography>
+                        </InputLabel>
+                        <TextField
+                          {...register("password", {
+                            required: "Password is required",
+                          })}
+                          variant="outlined"
+                          required
+                          fullWidth
+                          sx={{
+                            "& .MuiInputBase-root": { borderRadius: "8px" },
+                            "& .MuiInputBase-input": { padding: "12px 0" },
+                          }}
+                          className="rounded-[8px]"
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          error={Boolean(errors.password)}
+                          helperText={errors.password?.message}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img
+                                  src={lockIcon}
+                                  className="w-[24px]"
+                                  alt="email"
+                                />
+                                <span className="bg-grey_1 ml-[.3em] w-[1px]">
+                                  {" "}
+                                  &nbsp;&nbsp;{" "}
+                                </span>
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                          aria-describedby="outlined-weight-helper-text"
+                          inputProps={{
+                            "aria-label": "weight",
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              color="primary"
+                              {...register("rememberMe")}
+                            />
+                          }
+                          label="Remember Me"
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          onClick={() => setShowVerifyUser(true)}
+                          variant="body2"
+                          className="text-error_2 cursor-pointer"
+                          component="a"
+                          textDecoration={"none"}
+                        >
+                          Forgot Password?
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    <Button
+                      variant="contained"
+                      disabled={buttonDisabled}
+                      type="submit"
+                      // disabled={!isDirty || Object.keys(errors).length > 0}
+                      sx={{
+                        color: "#fff",
+                        "&:disabled": {
+                          backgroundColor: (theme) =>
+                            theme.palette.primary.main,
+                          opacity: 0.7,
+                        },
+                        padding: ".6em",
+                        boxShadow: "none",
+                      }}
+                    >
+                      {buttonDisabled ? (
+                        <CircularProgress
+                          size="1.2rem"
+                          sx={{ color: "white" }}
+                        />
+                      ) : (
+                        "Login"
+                      )}
+                    </Button>
+                  </form>
+                </ThemeProvider>
+              </Paper>
+            </Container>
+          )}
         </div>
       </section>
       <ToastContainer

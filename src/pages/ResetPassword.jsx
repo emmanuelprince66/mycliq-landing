@@ -19,6 +19,7 @@ import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { Cookie } from "@mui/icons-material";
 
 const ResetPassword = () => {
   const { userDetails } = useSelector((state) => state);
@@ -130,7 +131,7 @@ const ResetPassword = () => {
     mutationFn: async (token) => {
       try {
         const response = await axios.patch(
-          "https://check-server-api-staging.herokuapp.com/api/v1/auth/password-change",
+          "https://mycliq-staging-6cffceb00c13.herokuapp.com/api/auth/password-change",
           {
             currentPassword: currentPasswordInput,
             newPassword: newPasswordInput,
@@ -244,7 +245,8 @@ const ResetPassword = () => {
       return;
     }
     if (newPasswordInput === confirmPasswordInput) {
-      const token = localStorage.getItem("authToken");
+      const token = getCookie("authToken");
+      console.log(token);
 
       mutationReset.mutate(token);
     } else {
@@ -324,13 +326,13 @@ const ResetPassword = () => {
                     mx: "auto",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: `${textOne ? "#DC0019" : "#CACACA"}`, // Set the desired border color here
+                        borderColor: `${textOne ? "#333333" : "#CACACA"}`, // Set the desired border color here
                       },
                       "&:hover fieldset": {
-                        borderColor: `${textOne ? "#DC0019" : "#CACACA"}`, // Set the border color on hover here
+                        borderColor: `${textOne ? "#333333" : "#CACACA"}`, // Set the border color on hover here
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: `${textOne ? "#DC0019 " : "#C57600"}`, // Set the border color on focus here
+                        borderColor: `${textOne ? "#333333 " : "#C57600"}`, // Set the border color on focus here
                       },
                     },
                   }}
@@ -393,13 +395,13 @@ const ResetPassword = () => {
                     mx: "auto",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: `${textTwo ? "#DC0019" : "#CACACA"}`, // Set the desired border color here
+                        borderColor: `${textTwo ? "#333333" : "#CACACA"}`, // Set the desired border color here
                       },
                       "&:hover fieldset": {
-                        borderColor: `${textTwo ? "#DC0019" : "#CACACA"}`, // Set the border color on hover here
+                        borderColor: `${textTwo ? "#333333" : "#CACACA"}`, // Set the border color on hover here
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: `${textTwo ? "#DC0019 " : "#C57600"}`, // Set the border color on focus here
+                        borderColor: `${textTwo ? "#333333 " : "#C57600"}`, // Set the border color on focus here
                       },
                     },
                   }}
@@ -464,13 +466,13 @@ const ResetPassword = () => {
                     mx: "auto",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: `${textThree ? "#DC0019" : "#CACACA"}`, // Set the desired border color here
+                        borderColor: `${textThree ? "#333333" : "#CACACA"}`, // Set the desired border color here
                       },
                       "&:hover fieldset": {
-                        borderColor: `${textThree ? "#DC0019" : "#CACACA"}`, // Set the border color on hover here
+                        borderColor: `${textThree ? "#333333" : "#CACACA"}`, // Set the border color on hover here
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: `${textThree ? "#DC0019 " : "#C57600"}`, // Set the border color on focus here
+                        borderColor: `${textThree ? "#333333 " : "#C57600"}`, // Set the border color on focus here
                       },
                     },
                   }}
@@ -538,12 +540,12 @@ const ResetPassword = () => {
                     width: "100%",
                     textTransform: "capitalize",
                     fontWeight: "1000",
-                    background: "#dc0019",
+                    background: "#333333",
                     padding: "10px",
                     borderRadius: "8px",
                     color: "#fff",
                     "&:hover": {
-                      backgroundColor: "#dc0019",
+                      backgroundColor: "#333333",
                     },
                   }}
                 >
