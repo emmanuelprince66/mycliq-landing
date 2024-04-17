@@ -4,9 +4,10 @@ import { Box, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { fillUserDetails } from "./store/merchantSlice";
 import axios from "axios";
+import { getCookie } from "./cookieAuth";
 import { getUser } from "../helpers/getUser";
 export function AuthProvider({ children }) {
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = getCookie("refreshToken");
   const dispatch = useDispatch();
   const [showSpinner, setShowSpinner] = useState(false);
   const [redirectToLogin, setRedirectToLogin] = useState(false);
@@ -25,10 +26,9 @@ export function AuthProvider({ children }) {
         if (user) {
           setShowSpinner(false);
           dispatch(fillUserDetails(user));
-        } 
+        }
       } catch (error) {
         console.error("Error fetching user details:", error.message);
-        localStorage.clear();
         setRedirectToLogin(true); // Redirect to login on error
       }
     }

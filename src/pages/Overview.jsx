@@ -1,17 +1,15 @@
 import React from "react";
 import TableCom from "../components/TableCom";
-import { Box , Card , Typography , Grid } from "@mui/material";
+import { Box, Card, Typography, Grid } from "@mui/material";
 import SelectDate from "../components/SelectDate";
-import purple  from "../assets/images/admin/purple.svg"
-import blue  from "../assets/images/admin/blue.svg"
+import purple from "../assets/images/admin/purple.svg";
+import blue from "../assets/images/admin/blue.svg";
 import { styled } from "@mui/material/styles";
 
-import brown  from "../assets/images/admin/brown.svg"
-import green  from "../assets/images/admin/green.svg"
+import brown from "../assets/images/admin/brown.svg";
+import green from "../assets/images/admin/green.svg";
 import LineChart from "../components/LineChart";
 import DoughnutChart from "../components/DoughnutChart";
-
-
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,7 +17,7 @@ const Item = styled(Box)(({ theme }) => ({
   border: "1px solid #E0E0E0",
   color: theme.palette.text.secondary,
   borderRadius: "8px",
-  maxHeight:"100%"
+  maxHeight: "100%",
 }));
 export const Overview = () => {
   return (
@@ -451,8 +449,6 @@ export const Overview = () => {
           </Card>
         </Grid>
       </Grid>
-
-
 
       {/* chart */}
 
