@@ -42,413 +42,315 @@ export const Overview = () => {
         </Box>
       </Box>
 
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "16px",
-              width: "100%",
-              gap: "1rem",
-            }}
-          >
-            <Box
+      <Box className="w-[50%] mx-auto">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Card
               sx={{
                 display: "flex",
-                alignItems: "center",
-                gap: "15px",
+                flexDirection: "column",
+                padding: "16px",
+                width: "100%",
+                gap: "1rem",
               }}
             >
               <Box
                 sx={{
-                  width: "28px",
-                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
                 }}
               >
-                <img src={green} className="fd" alt="f-down" />
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={green} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Total Revenue <br />
+                </Typography>
               </Box>
-              <Typography
+
+              <Box
                 sx={{
-                  fomtWeight: "500",
-                  fontSize: "14px",
-                  color: "#4F4F4F",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
                 }}
               >
-                Total Revenue <br />
-              </Typography>
-            </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  All-time :
+                </Typography>
 
-            <Box
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* {nonHomeDeliveryCount} Orders */} 5000
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  By Filter :
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* {nonHomeDeliveryFCount} Orders */}200
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                All-time :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {nonHomeDeliveryCount} Orders */} 5000
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                By Filter :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {nonHomeDeliveryFCount} Orders */}200
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "16px",
-              width: "100%",
-              gap: "1rem",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "15px",
+                padding: "16px",
+                width: "100%",
+                gap: "1rem",
               }}
             >
               <Box
                 sx={{
-                  width: "28px",
-                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
                 }}
               >
-                <img src={brown} className="fd" alt="f-down" />
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={purple} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Total Registered Customers <br />
+                </Typography>
               </Box>
-              <Typography
+
+              <Box
                 sx={{
-                  fomtWeight: "500",
-                  fontSize: "14px",
-                  color: "#4F4F4F",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
                 }}
               >
-                Total orders <br />
-              </Typography>
-            </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  All-time :
+                </Typography>
 
-            <Box
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* {homeDeliveryCount} Orders */}300
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  By Filter :
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* {homeDeliveryFCount} Orders */}200
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                All-time :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {nonHomeDeliveryCount} Orders */}300
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                By Filter :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {nonHomeDeliveryFCount} Orders */}400
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "16px",
-              width: "100%",
-              gap: "1rem",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "15px",
+                padding: "16px",
+                width: "100%",
+                gap: "1rem",
               }}
             >
               <Box
                 sx={{
-                  width: "28px",
-                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
                 }}
               >
-                <img src={purple} className="fd" alt="f-down" />
+                <Box
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  <img src={blue} className="fd" alt="f-down" />
+                </Box>
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "14px",
+                    color: "#4F4F4F",
+                  }}
+                >
+                  Total Registered Merchant
+                  <br />
+                </Typography>
               </Box>
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  fontSize: "14px",
-                  color: "#4F4F4F",
-                }}
-              >
-                Total Registered Customers <br />
-              </Typography>
-            </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                All-time :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {homeDeliveryCount} Orders */}300
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                By Filter :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* {homeDeliveryFCount} Orders */}200
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "16px",
-              width: "100%",
-              gap: "1rem",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "15px",
-              }}
-            >
               <Box
                 sx={{
-                  width: "28px",
-                  height: "28px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
                 }}
               >
-                <img src={blue} className="fd" alt="f-down" />
+                <Typography
+                  sx={{
+                    fomtWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  All-time :
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* <FormattedPrice amount={revVal} /> */}3000
+                </Typography>
               </Box>
-              <Typography
+              <Box
                 sx={{
-                  fomtWeight: "500",
-                  fontSize: "14px",
-                  color: "#4F4F4F",
-                }}
-              >
-                Total Registered Merchant
-                <br />
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fomtWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                All-time :
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "16px",
-                  color: "#1E1E1E",
                   display: "flex",
-                  gap: "4px",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: "5px",
+                  mb: "0.7rem",
                 }}
               >
-                {/* <FormattedPrice amount={revVal} /> */}3000
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: "5px",
-                mb: "0.7rem",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  color: "#828282",
-                }}
-              >
-                By Filter :
-              </Typography>
+                <Typography
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    color: "#828282",
+                  }}
+                >
+                  By Filter :
+                </Typography>
 
-              <Typography
-                sx={{
-                  fontWeight: "600",
+                <Typography
+                  sx={{
+                    fontWeight: "600",
 
-                  fontSize: "16px",
-                  color: "#1E1E1E",
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                {/* <FormattedPrice amount={revFillVal} /> */} 500
-              </Typography>
-            </Box>
-          </Card>
+                    fontSize: "16px",
+                    color: "#1E1E1E",
+                    display: "flex",
+                    gap: "4px",
+                  }}
+                >
+                  {/* <FormattedPrice amount={revFillVal} /> */} 500
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
 
       {/* chart */}
 
