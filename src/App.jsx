@@ -18,7 +18,6 @@ function App() {
             <Navbar />
             {/*  */}
             <Header />
-            <p className="text-white">About</p>
           </div>
         </div>
       </div>
