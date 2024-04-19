@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Nunito sans", sans-serif !important;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,7 +16,7 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Nunito sans", sans-serif !important;
 }
 
 h1 {
