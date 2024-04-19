@@ -51,7 +51,7 @@ function App() {
           <HeaderFive />
         </div>
       </div>
-      <div className="h-full w-full bg-primary_black_1">
+      <div className="h-full w-full bg-primary_black_1  ">
         <div className="w-[75%] mx-auto h-full pt-[1%] ">
           <Footer />
         </div>

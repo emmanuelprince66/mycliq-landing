@@ -9,7 +9,7 @@ import { Divider } from '@mui/material';
 
 const Footer = () => {
   return (
-    <div className="flex flex-col items-center gap-5 justify-center">
+    <div className="flex flex-col items-center gap-5 justify-center py-5">
       <div className="flex w-full ">
         <div className="flex flex-col items-start gap-2">
           <img src={nOne} alt="n-1" className="object-contain" />

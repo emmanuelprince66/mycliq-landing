@@ -15,7 +15,7 @@ const HeaderFive = () => {
       </div>
 
       <div className="w-full h-full    flex justify-center flex-col items-center">
-        <img src={dFour} alt="d-four" className="w-full h-full object-cover mr-[6rem]" />
+        <img src={dFour} alt="d-four" className=" object-contain  ml-[-6rem]" />
         
 
         <div className="flex gap-5 items-center ">
