@@ -22,12 +22,12 @@ function App() {
         </div>
       </div>
 
-      <div className="h-screen w-full bg-white">
+      <div id="about" className="h-screen w-full bg-white">
         <div className="w-[75%] mx-auto h-full pt-[1%] ">
           <HeaderTwo />
         </div>
       </div>
-      <div className="h-screen w-full bg-[#fff6ec] relative">
+      <div id="features" className="h-screen w-full bg-[#fff6ec] relative">
         <div className=" w-full flex justify-end absolute ">
           <img src={cvOne} alt="cv-1" className="object-contain" />
         </div>
@@ -41,7 +41,7 @@ function App() {
         </div>
       </div>
 
-      <div className="h-full w-full bg-white">
+      <div id="why" className="h-full w-full bg-white">
         <div className="w-[75%] mx-auto h-full pt-[1%] ">
           <HeaderFour />
         </div>
