@@ -43,7 +43,7 @@ const HeaderThree = () => {
       id: 6,
       icn: cSix,
       bTile: "Wallet-to-Wallet Transfer",
-      sTile: "Seamless fund transfers between MyCliq users.",
+      sTile: "Seamless fund transfers between theInsight users.",
     },
   ];
 
@@ -56,7 +56,7 @@ const HeaderThree = () => {
         </sup>
       </div>
 
-      <div className="grid grid-cols-3 gap-7 mt-[5rem]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mt-[5rem]">
         {card.map((item) => {
           return (
             <div className="w-full h-full flex flex-col items-start gap-3 py-5 p-2 bg-white rounded-md">

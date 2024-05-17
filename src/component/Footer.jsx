@@ -1,5 +1,5 @@
 import React from 'react'
-import nOne from "../assets/images/n-1.png";
+import nwOne from "../assets/images/nw-1.png";
 import { Link } from "react-router-dom";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -9,17 +9,17 @@ import { Divider } from '@mui/material';
 
 const Footer = () => {
   return (
-    <div className="flex flex-col items-center gap-5 justify-center py-5">
-      <div className="flex w-full ">
+    <div className="flex flex-col items-center gap-5 justify-center py-5 p-2">
+      <div className=" block md:flex w-full ">
         <div className="flex flex-col items-start gap-2">
-          <img src={nOne} alt="n-1" className="object-contain" />
+          <img src={nwOne} alt="n-1" className="object-contain w-10 h-10"  />
           <p className="text-[16px] text-[#F2F2F2] max-w-[90%]">
-            MyCliq seamlessly connects individuals and businesses within
+            theInsight seamlessly connects individuals and businesses within
             communities, while driving financial inclusion and promoting
             cashless society.
           </p>
         </div>
-        <div className="flex justify-between items-start">
+        <div className=" block md:flex justify-between items-start mt-3 md:mt-0">
           <div className="flex flex-col items-start gap-4 w-[100%]">
             <p className="text-[16px] font-bold text-white">Quick Links</p>
             <Link to="/about">
@@ -34,11 +34,11 @@ const Footer = () => {
             </Link>
             <Link to="/about">
               <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Why MyCliq?
+                Why theInsight?
               </p>
             </Link>
           </div>
-          <div className="flex flex-col items-start gap-2">
+          <div className="flex flex-col items-start gap-2 mt-4 md:mt-0 ">
             <p className="text-[16px] text-white">Stay up to date</p>
             <p className="text-[#F2F2F2] text-[16px]">
               Be the first to know when we release new features, make
@@ -68,9 +68,9 @@ const Footer = () => {
 
       <Divider sx={{ width: "100%", background: "#D1D1D1", my: "1rem" }} />
 
-      <div className="flex justify-between items-center w-full ">
+      <div className=" block md:flex justify-between items-center w-full ">
         <p className="text-[16px] text-[#d1d1d1]">
-          © 2024 MyCliq. All rights reserved.
+          © 2024 theInsight. All rights reserved.
         </p>
 
         <div className="flex justify-between w-[25%] items-center">

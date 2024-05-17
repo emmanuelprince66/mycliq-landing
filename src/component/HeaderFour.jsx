@@ -3,16 +3,19 @@ import aOne from "../assets/images/a-1.svg";
 const HeaderFour = () => {
   return (
     <div className="w-full h-full p-5">
-      <div className="flex items-start gap-2 justify-center mb-[5rem]">
-        <p className="text-[48px]">Why MyCliq?</p>
+    
+     
+      <div className="flex items-start gap-2 justify-center mb-[3rem] md:mb-[5rem] w-full p-0">
+      
+        <p className="text-[48px] text-center">Why <br/> theInsight?</p>
         <sup>
           <img src={aOne} alt="a-1" className="object-cover" />
         </sup>
       </div>
 
-      <div className="flex gap-[5rem]  mb-[4rem]">
+      <div className="block   md:flex  gap-[5rem]  mb-[4rem]">
         <div className="flex flex-col items-start gap-2">
-          <p className="text-[32px]">New Ways To Pay!</p>
+          <p className="text-[32px] ">New Ways To Pay!</p>
           <p className="text-[20px] text-[#535353]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -25,7 +28,7 @@ const HeaderFour = () => {
         </div>
         <div className=" min-h-[50%] min-w-[50%] bg-[#F2F2F2] rounded-md" />
       </div>
-      <div className="flex gap-[5rem]  mb-[4rem]">
+      <div className="block md:flex gap-[5rem]  mb-[4rem]">
         <div className=" min-h-[50%] min-w-[50%] bg-[#FFF6EC] rounded-md" />
 
         <div className="flex flex-col items-start gap-2">
@@ -41,7 +44,7 @@ const HeaderFour = () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-[5rem]  mb-[4rem]">
+      <div className=" block md:flex gap-[5rem]  mb-[4rem]">
         <div className="flex flex-col items-start gap-2">
           <p className="text-[32px]">Peronalize Insights</p>
           <p className="text-[20px] text-[#535353]">
@@ -56,7 +59,7 @@ const HeaderFour = () => {
         </div>
         <div className=" min-h-[50%] min-w-[50%] bg-[#F2F2F2] rounded-md" />
       </div>
-      <div className="flex gap-[5rem]  mb-[2rem]">
+      <div className="block md:flex gap-[5rem]  mb-[2rem]">
         <div className=" min-h-[50%] min-w-[50%] bg-[#FFF6EC] rounded-md" />
 
         <div className="flex flex-col items-start gap-2">

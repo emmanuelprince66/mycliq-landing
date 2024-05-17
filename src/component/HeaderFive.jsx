@@ -15,18 +15,18 @@ const HeaderFive = () => {
       </div>
 
       <div className="w-full h-full    flex justify-center flex-col items-center">
-        <img src={dFour} alt="d-four" className=" object-contain  ml-[-6rem]" />
+        <img src={dFour} alt="d-four" className=" object-contain ml-[-1rem] md:ml-[-6rem]" />
         
 
-        <div className="flex gap-5 items-center ">
-          <button className="flex gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
+        <div className="block md:flex gap-5 items-center ">
+          <button className="flex min-w-[200px] gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
             <AppleIcon sx={{ fontSize: "50px" , color:"#fff" }} />
             <span className="flex flex-col gap-0">
               <p className="text-white text-[12px] ">Download on the</p>
               <p className="text-white text-[20px] ">App Store</p>
             </span>
           </button>
-          <button className="flex gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
+          <button className="flex gap-1 min-w-[200px] my-5 md:my-0 items-center bg-black py-1 rounded-md px-4 justify-center">
             <SmartDisplayIcon sx={{ fontSize: "50px"  , color:"#fff"}} />
             <span className="flex flex-col items-start gap-0">
               <p className="text-white text-[12px] ">Get it on</p>
