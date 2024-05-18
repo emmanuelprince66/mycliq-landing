@@ -57,7 +57,7 @@ const Navbar = () => {
             duration={500}
           >
             <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-              Why theInsight?
+              Why Theinsight?
             </p>
           </ScrollLink>
         </div>
@@ -157,7 +157,7 @@ const Navbar = () => {
               duration={500}
             >
               <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Why theInsight?
+                Why Theinsight?
               </p>
             </ScrollLink>
           </div>

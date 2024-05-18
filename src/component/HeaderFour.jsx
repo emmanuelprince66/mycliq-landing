@@ -7,7 +7,7 @@ const HeaderFour = () => {
      
       <div className="flex items-start gap-2 justify-center mb-[3rem] md:mb-[5rem] w-full p-0">
       
-        <p className="text-[48px] text-center">Why <br/> theInsight?</p>
+        <p className="text-[48px] text-center">Why <br/> Theinsight?</p>
         <sup>
           <img src={aOne} alt="a-1" className="object-cover" />
         </sup>

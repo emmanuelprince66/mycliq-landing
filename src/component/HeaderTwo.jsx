@@ -19,13 +19,13 @@ const HeaderTwo = () => {
         <div className="flex flex-col md:items-start gap-3 w-full md:w-[90%]  ">
           <span className="block md:flex gap-1 text-center md:text-start items-center">
             <p className="text-black text-[32px] ">Get to Know</p>
-            <p className="text-[#ff7f00] text-[32px] ">theInsight</p>
+            <p className="text-[#ff7f00] text-[32px] ">Theinsight</p>
           </span>
 
           <p className="text-[20px] text-[#535353]">
-            theInsight is designed to eradicate payment hassles through the use of
+            Theinsight is designed to eradicate payment hassles through the use of
             QR code technology, phone number as an ATM card, NFC and
-            cryptocurrency payments. Additionally, theInsight enables users within
+            cryptocurrency payments. Additionally, Theinsight enables users within
             communities to make transportation bookings seamlessly, pay bills,
             make inter-bank transfers and book event tickets.
           </p>

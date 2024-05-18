@@ -25,7 +25,7 @@ const Header = () => {
           </div>
 
           <p className="text-[24px] text-[#d7d7d7]   leading-7 max-w-[80%]">
-            theInSight seamlessly connects individuals and businesses within
+            Theinsight seamlessly connects individuals and businesses within
             communities, while driving financial inclusion and promoting
             cashless society.
           </p>

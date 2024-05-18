@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col items-start gap-2">
           <img src={nwOne} alt="n-1" className="object-contain w-10 h-10"  />
           <p className="text-[16px] text-[#F2F2F2] max-w-[90%]">
-            theInsight seamlessly connects individuals and businesses within
+            Theinsight seamlessly connects individuals and businesses within
             communities, while driving financial inclusion and promoting
             cashless society.
           </p>
@@ -34,7 +34,7 @@ const Footer = () => {
             </Link>
             <Link to="/about">
               <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Why theInsight?
+                Why Theinsight?
               </p>
             </Link>
           </div>
@@ -70,7 +70,7 @@ const Footer = () => {
 
       <div className=" block md:flex justify-between items-center w-full ">
         <p className="text-[16px] text-[#d1d1d1]">
-          © 2024 theInsight. All rights reserved.
+          © 2024 Theinsight. All rights reserved.
         </p>
 
         <div className="flex justify-between w-[25%] items-center">

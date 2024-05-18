@@ -43,7 +43,7 @@ const HeaderThree = () => {
       id: 6,
       icn: cSix,
       bTile: "Wallet-to-Wallet Transfer",
-      sTile: "Seamless fund transfers between theInsight users.",
+      sTile: "Seamless fund transfers between Theinsight users.",
     },
   ];
 
