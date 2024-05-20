@@ -14,9 +14,14 @@ const Header = () => {
     <div className="w-full mt-[10%] h-full">
       <div className=" block md:flex  items-center justify-between ">
         <div className="flex flex-col items-start gap-3 w-full ">
-          <p className="text-[64px] text-white ">Every Payment, </p>
+          <p className="text-[64px] text-white leading-[52px] md:leading-2 ">
+            Every Payment,{" "}
+          </p>
           <div className="flex gap-1 md:gap-[3rem] items-center mt-[-20px] md:mt-0 ">
-            <p className="text-[64px] text-white"> a Breeze!</p>
+            <p className="text-[64px] text-white  leading-[80px] md:leading-2">
+              {" "}
+              a Breeze!
+            </p>
             <img
               src={hOne}
               alt="h-1"
@@ -64,7 +69,6 @@ const Header = () => {
             alt="w-3"
             className="object-cover absolute top-[23.9rem] right-[2rem]"
           />
-       
         </div>
       </div>
     </div>
