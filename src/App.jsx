@@ -22,7 +22,7 @@ function App() {
         </div>
       </div>
 
-      <div id="about" className="h-full w-full mt-[10%] bg-white">
+      <div id="about" className="h-full w-full mt-[3%] bg-white">
         <div className="w-full md:w-[75%]  mx-auto h-full pt-[1%] ">
           <HeaderTwo />
         </div>

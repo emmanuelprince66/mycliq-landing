@@ -15,12 +15,12 @@ const Header = () => {
       <div className=" block md:flex  items-center justify-between ">
         <div className="flex flex-col items-start gap-3 w-full ">
           <p className="text-[64px] text-white ">Every Payment, </p>
-          <div className="flex gap-1 md:gap-[3rem] items-center mt-[-20px] md:mt-0">
+          <div className="flex gap-1 md:gap-[3rem] items-center mt-[-20px] md:mt-0 ">
             <p className="text-[64px] text-white"> a Breeze!</p>
             <img
               src={hOne}
               alt="h-1"
-              className="object-contain w-[50px] h-[50px] md:w-full md:h-full "
+              className="object-contain w-[50px] h-[50px] md:w-[100px] md:h-[100px] "
             />
           </div>
 
