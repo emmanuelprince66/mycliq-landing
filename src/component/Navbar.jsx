@@ -96,7 +96,6 @@ const Navbar = () => {
           id="account-menu"
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
           PaperProps={{
             elevation: 0,
             sx: {
@@ -126,13 +125,14 @@ const Navbar = () => {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <div className="flex flex-col  justify-between items-center gap-5 p-5">
+          <div className="flex flex-col justify-between items-center gap-5 p-5">
             <ScrollLink
               to="about"
               spy={true}
               smooth={true}
               offset={-2}
               duration={500}
+              onClick={handleClose}
             >
               <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
                 About
@@ -144,6 +144,7 @@ const Navbar = () => {
               smooth={true}
               offset={-2}
               duration={500}
+              onClick={handleClose}
             >
               <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
                 Features
@@ -155,6 +156,7 @@ const Navbar = () => {
               smooth={true}
               offset={-2}
               duration={500}
+              onClick={handleClose}
             >
               <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
                 Why Theinsight?
