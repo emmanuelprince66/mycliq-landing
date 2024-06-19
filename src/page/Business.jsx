@@ -53,11 +53,11 @@ const Business = () => {
         <img
           src={buOne}
           alt="cv-1"
-          className=" object-cover md:object-contain  w-[60px] md:w-[20rem]"
+          className=" object-cover md:object-contain  w-[100px] md:w-[20rem]"
         />
       </div>
 
-      <div className="  flex w-[70px] h-[70px] md:w-[800px] md:h-[800px] justify-start absolute bottom-[-2rem] ">
+      <div className="  flex w-[200px] h-[200px] md:w-[800px] md:h-[800px] justify-start absolute bottom-0 md:bottom-[-2rem] ">
         <img
           src={buTwo}
           alt="cv-2"
@@ -65,18 +65,18 @@ const Business = () => {
         />
       </div>
 
-      <div className=" w-full md:w-[75%] mx-auto h-full pt-[1%] ">
+      <div className=" w-full md:w-[75%] mx-auto h-full pt-[12%] md:pt-[1%] ">
         <div className="w-full p-5 h-full ">
-          <div className="flex items-start gap-2 justify-center">
+          <div className="flex items-start gap-1 md:gap-2 justify-center">
             <div className="h-[4rem]  flex flex-col items-center">
               <img src={star} alt="star" className="mt-8 mr-6" />
             </div>
 
-            <p className="text-[48px] text-white leading-[3rem]">
+            <p className="text-[40px] md:text-[48px] text-white text-center leading-[3rem]">
               MyCliq for your Business
             </p>
             <sup>
-              <img src={aOne} alt="a-1" className="object-cover" />
+              <img src={aOne} alt="a-1" className="object-cover " />
             </sup>
           </div>
 

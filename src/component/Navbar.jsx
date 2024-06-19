@@ -174,7 +174,10 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   offset={-2}
                   duration={500}
                 >
-                  <p className="text-[#000] mr-4 text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  <p
+                    onClick={handleClose}
+                    className="text-[#000] mr-4 text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out"
+                  >
                     About
                   </p>
                 </ScrollLink>
@@ -185,7 +188,10 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   offset={-2}
                   duration={500}
                 >
-                  <p className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  <p
+                    onClick={handleClose}
+                    className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out"
+                  >
                     Features
                   </p>
                 </ScrollLink>
@@ -196,7 +202,10 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   offset={-2}
                   duration={500}
                 >
-                  <p className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  <p
+                    onClick={handleClose}
+                    className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out"
+                  >
                     Why Theinsight?
                   </p>
                 </ScrollLink>
@@ -208,6 +217,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   className={`${
                     showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
                   }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+                  onClick={handleClose}
                 >
                   Theinsight
                 </p>
@@ -219,6 +229,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 className={`${
                   showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+                onClick={handleClose}
               >
                 Theinsight for Business?
               </p>
@@ -228,6 +239,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 className={`${
                   showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+                onClick={handleClose}
               >
                 Campus Ambassador
               </p>
