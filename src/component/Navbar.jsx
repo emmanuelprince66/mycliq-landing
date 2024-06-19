@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import nOne from "../assets/images/n-1.png";
 import nwOne from "../assets/images/nw-1.png";
 import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-router-dom";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -9,7 +10,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
-const Navbar = () => {
+const Navbar = ({ setShowMenu, showMenu }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -20,49 +21,87 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${showMenu === "campus" && "pb-[8%]"} `}>
       <div className="w-full hidden  md:flex justify-between items-center">
         <div className="w-[50px] h-[50px]">
           <img src={nwOne} alt="n-img object-contain" />
         </div>
 
-        <div className="flex  justify-between items-center gap-5">
-          <ScrollLink
-            to="about"
-            spy={true}
-            smooth={true}
-            offset={-2}
-            duration={500}
-          >
-            <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-              About
+        <div className="flex  justify-between   items-center ">
+          {showMenu === "home" && (
+            <>
+              <ScrollLink
+                to="about"
+                spy={true}
+                smooth={true}
+                offset={-2}
+                duration={500}
+              >
+                <p className="text-[#D7D7D7] mr-4 text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  About
+                </p>
+              </ScrollLink>
+              <ScrollLink
+                to="features"
+                spy={true}
+                smooth={true}
+                offset={-2}
+                duration={500}
+              >
+                <p className="text-[#D7D7D7]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  Features
+                </p>
+              </ScrollLink>
+              <ScrollLink
+                to="why"
+                spy={true}
+                smooth={true}
+                offset={-2}
+                duration={500}
+              >
+                <p className="text-[#D7D7D7]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                  Why Theinsight?
+                </p>
+              </ScrollLink>
+            </>
+          )}
+          {showMenu !== "home" && (
+            <div onClick={() => setShowMenu("home")}>
+              <p
+                className={`${
+                  showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+                }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+              >
+                Theinsight
+              </p>
+            </div>
+          )}
+
+          <div onClick={() => setShowMenu("business")}>
+            <p
+              className={`${
+                showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+              }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+            >
+              Theinsight for Business?
             </p>
-          </ScrollLink>
-          <ScrollLink
-            to="features"
-            spy={true}
-            smooth={true}
-            offset={-2}
-            duration={500}
-          >
-            <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-              Features
+          </div>
+          <div onClick={() => setShowMenu("campus")}>
+            <p
+              className={`${
+                showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+              }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+            >
+              Campus Ambassador
             </p>
-          </ScrollLink>
-          <ScrollLink
-            to="why"
-            spy={true}
-            smooth={true}
-            offset={-2}
-            duration={500}
-          >
-            <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-              Why Theinsight?
-            </p>
-          </ScrollLink>
+          </div>
         </div>
 
-        <button className="bg-white w-[150px] hover:text-[#ff7f00] transition-colors font-bold duration-700 ease-in-out rounded-md text-[16px] h-[50px]">
+        <button
+          className={`${
+            showMenu === "campus" ? "bg-[#333333] text-white" : "bg-white"
+          } w-[150px] hover:text-[#ff7f00] transition-colors font-bold duration-700 ease-in-out rounded-md text-[16px] h-[50px]`}
+        >
           Get The App
         </button>
       </div>
@@ -125,43 +164,74 @@ const Navbar = () => {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <div className="flex flex-col justify-between items-center gap-5 p-5">
-            <ScrollLink
-              to="about"
-              spy={true}
-              smooth={true}
-              offset={-2}
-              duration={500}
-              onClick={handleClose}
-            >
-              <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                About
+          <div className="flex flex-col items-start  justify-between p-3 gap-3 ">
+            {showMenu === "home" && (
+              <>
+                <ScrollLink
+                  to="about"
+                  spy={true}
+                  smooth={true}
+                  offset={-2}
+                  duration={500}
+                >
+                  <p className="text-[#000] mr-4 text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                    About
+                  </p>
+                </ScrollLink>
+                <ScrollLink
+                  to="features"
+                  spy={true}
+                  smooth={true}
+                  offset={-2}
+                  duration={500}
+                >
+                  <p className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                    Features
+                  </p>
+                </ScrollLink>
+                <ScrollLink
+                  to="why"
+                  spy={true}
+                  smooth={true}
+                  offset={-2}
+                  duration={500}
+                >
+                  <p className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
+                    Why Theinsight?
+                  </p>
+                </ScrollLink>
+              </>
+            )}
+            {showMenu !== "home" && (
+              <div onClick={() => setShowMenu("home")}>
+                <p
+                  className={`${
+                    showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                  }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+                >
+                  Theinsight
+                </p>
+              </div>
+            )}
+
+            <div onClick={() => setShowMenu("business")}>
+              <p
+                className={`${
+                  showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+              >
+                Theinsight for Business?
               </p>
-            </ScrollLink>
-            <ScrollLink
-              to="features"
-              spy={true}
-              smooth={true}
-              offset={-2}
-              duration={500}
-              onClick={handleClose}
-            >
-              <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Features
+            </div>
+            <div onClick={() => setShowMenu("campus")}>
+              <p
+                className={`${
+                  showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
+              >
+                Campus Ambassador
               </p>
-            </ScrollLink>
-            <ScrollLink
-              to="why"
-              spy={true}
-              smooth={true}
-              offset={-2}
-              duration={500}
-              onClick={handleClose}
-            >
-              <p className="text-[#000] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Why Theinsight?
-              </p>
-            </ScrollLink>
+            </div>
           </div>
         </Menu>
       </div>
