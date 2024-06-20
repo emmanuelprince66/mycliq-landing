@@ -206,7 +206,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                     onClick={handleClose}
                     className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out"
                   >
-                    Why Theinsight?
+                    Why Theinsight
                   </p>
                 </ScrollLink>
               </>
@@ -231,7 +231,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                 onClick={handleClose}
               >
-                Theinsight for Business?
+                Theinsight for Business
               </p>
             </div>
             <div onClick={() => setShowMenu("campus")}>

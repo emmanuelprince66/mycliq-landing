@@ -16,7 +16,7 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className=" text-[40px] md:text-[48px] text-[#1E1E1E] text-center leading-[3rem]">
+          <p className=" text-[30px] md:text-[48px] text-[#1E1E1E] text-center leading:[1rem] md:leading-[3rem]">
             MyCliq Campus Ambassador
           </p>
           <sup>
@@ -58,7 +58,7 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className=" text-[40px] md:text-[48px] text-center text-white leading-[3rem]">
+          <p className=" text-[30px] md:text-[48px] text-center text-white leading-[3rem]">
             Responsibilities
           </p>
           <sup>
@@ -110,7 +110,7 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className="text-[48px] text-center text-[#1E1E1E] leading-[3rem]">
+          <p className="text-[30px] md:text-[48px] text-center text-[#1E1E1E] leading-[3rem]">
             Benefits
           </p>
           <sup>
