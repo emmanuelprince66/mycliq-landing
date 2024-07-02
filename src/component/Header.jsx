@@ -1,15 +1,15 @@
 import React from "react";
 import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 import AppleIcon from "@mui/icons-material/Apple";
-import hOne from "../assets/images/h-1.png"
-import hTwo from '../assets/images/h-2.png'
-import wOne from "../assets/images/w-1.png"
-import wTwo from "../assets/images/w-2.png"
-import wThree from "../assets/images/w-3.png"
-import apple from "../assets/images/apple.png"
-import playstore from "../assets/images/playstore.png"
+import hOne from "../assets/images/h-1.png";
+import hTwo from "../assets/images/h-2.png";
+import l2 from "../assets/images/l2.jpg";
+import wOne from "../assets/images/w-1.png";
+import wTwo from "../assets/images/w-2.png";
+import wThree from "../assets/images/w-3.png";
+import apple from "../assets/images/apple.png";
+import playstore from "../assets/images/playstore.png";
 const Header = () => {
-
   return (
     <div className="w-full mt-[10%] h-full">
       <div className=" block md:flex  items-center justify-between ">
@@ -30,7 +30,7 @@ const Header = () => {
           </div>
 
           <p className="text-[24px] text-[#d7d7d7]   leading-7 max-w-[80%]">
-            Theinsight seamlessly connects individuals and businesses within
+            MyCliq seamlessly connects individuals and businesses within
             communities, while driving financial inclusion and promoting
             cashless society.
           </p>
@@ -53,21 +53,21 @@ const Header = () => {
         </div>
 
         <div className="hidden md:block w-full h-full relative ">
-          <img src={hTwo} alt="h-2" className="object-cover " />
+          <img src={l2} alt="h-2" className="object-cover  rounded-lg" />
           <img
             src={wOne}
             alt="w-1"
-            className="object-cover absolute bottom-[4.2rem] right-[11rem]"
+            className="object-cover absolute bottom-[6.2rem] right-[14rem]"
           />
           <img
             src={wTwo}
             alt="w-2"
-            className="object-cover absolute bottom-[-1.5rem] right-[4rem]"
+            className="object-cover absolute bottom-[-2.6rem] right-[1rem]"
           />
           <img
             src={wThree}
             alt="w-3"
-            className="object-cover absolute top-[23.9rem] right-[2rem]"
+            className="object-cover absolute top-[26.9rem] right-[10rem]"
           />
         </div>
       </div>

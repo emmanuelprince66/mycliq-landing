@@ -6,13 +6,20 @@ import HeaderFour from "../component/HeaderFour";
 import cvOne from "../assets/images/cv-1.png";
 import cvTwo from "../assets/images/cv-2.png";
 import Header from "../component/Header";
+import Tags from "../component/Tags";
 
 const Home = () => {
   return (
     <>
       <div id="about" className="h-full w-full mt-[3%] bg-white">
-        <div className="w-full md:w-[75%]  mx-auto h-full pt-[1%] ">
-          <HeaderTwo />
+        <div className="w-full mt-[4%]">
+          <Tags />
+        </div>
+
+        <div className="w-full bg-[#F9F9F9] mt-[5%]">
+          <div className="w-full md:w-[75%]  mx-auto h-full pt-[1%] ">
+            <HeaderTwo />
+          </div>
         </div>
       </div>
       <div
@@ -41,7 +48,7 @@ const Home = () => {
           <HeaderFour />
         </div>
       </div>
-      <div className="h-full w-full bg-white">
+      <div className="h-full mb-[5%] w-full bg-[#FFF6EC]">
         <div className="w-full md:w-[75%] mx-auto h-full  ">
           <HeaderFive />
         </div>

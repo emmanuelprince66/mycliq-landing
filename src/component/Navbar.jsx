@@ -23,8 +23,8 @@ const Navbar = ({ setShowMenu, showMenu }) => {
   return (
     <div className={`w-full ${showMenu === "campus" && "pb-[8%]"} `}>
       <div className="w-full hidden  md:flex justify-between items-center">
-        <div className="w-[50px] h-[50px]">
-          <img src={nwOne} alt="n-img object-contain" />
+        <div className="">
+          <img src={nOne} alt="n-img object-contain" />
         </div>
 
         <div className="flex  justify-between   items-center ">
@@ -60,7 +60,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 duration={500}
               >
                 <p className="text-[#D7D7D7]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                  Why Theinsight?
+                  Why MyCliq?
                 </p>
               </ScrollLink>
             </>
@@ -72,7 +72,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
               >
-                Theinsight
+                MyCliq
               </p>
             </div>
           )}
@@ -83,7 +83,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
               }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
             >
-              Theinsight for Business?
+              MyCliq for Business
             </p>
           </div>
           <div onClick={() => setShowMenu("campus")}>
@@ -109,8 +109,8 @@ const Navbar = ({ setShowMenu, showMenu }) => {
       {/* possibly hamburger menu for mobile */}
       <div className="w-full  md:hidden p-3">
         <div className="flex w-full justify-between items-center">
-          <div className=" h-[40px] w-[40px] md:h-[60px]">
-            <img src={nwOne} alt="n-img object-cover" />
+          <div className=" ">
+            <img src={nOne} alt="n-img object-cover" />
           </div>
 
           <div>
@@ -206,7 +206,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                     onClick={handleClose}
                     className="text-[#000]  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out"
                   >
-                    Why Theinsight
+                    Why MyCliq
                   </p>
                 </ScrollLink>
               </>
@@ -219,7 +219,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                   }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                   onClick={handleClose}
                 >
-                  Theinsight
+                  MyCliq
                 </p>
               </div>
             )}
@@ -231,7 +231,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                 onClick={handleClose}
               >
-                Theinsight for Business
+                MyCliq for Business
               </p>
             </div>
             <div onClick={() => setShowMenu("campus")}>

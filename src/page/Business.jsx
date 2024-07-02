@@ -8,6 +8,7 @@ import buSix from "../assets/images/bu-6.svg";
 import buSeven from "../assets/images/bu-7.svg";
 import buEight from "../assets/images/bu-8.svg";
 import aOne from "../assets/images/a-1.svg";
+import HeaderFive from "../component/HeaderFive";
 
 const Business = () => {
   const card = [
@@ -57,15 +58,7 @@ const Business = () => {
         />
       </div>
 
-      <div className="  flex w-[200px] h-[200px] md:w-[800px] md:h-[800px] justify-start absolute bottom-0 md:bottom-[-2rem] ">
-        <img
-          src={buTwo}
-          alt="cv-2"
-          className="object-cover md:object-contain   "
-        />
-      </div>
-
-      <div className=" w-full md:w-[75%] mx-auto h-full pt-[12%] md:pt-[1%] ">
+      <div className=" w-full md:w-[75%] mx-auto h-full pt-[12%] md:pt-[1%] relative">
         <div className="w-full p-5 h-full ">
           <div className="flex items-start gap-1 md:gap-2 justify-center">
             <div className="h-[4rem]  flex flex-col items-center">
@@ -118,6 +111,18 @@ const Business = () => {
                 Create an Account for your Business
               </button>
             </div>
+          </div>
+        </div>
+
+        <div className=" flex  absolute bottom-[0rem] left-[-16rem]">
+          <img src={buTwo} alt="cv-2" className="  w-[500px] h-[500px] " />
+        </div>
+      </div>
+
+      <div className="w-full bg-white pt-[5%]">
+        <div className="h-full mb-[5%] w-full bg-[#FFF6EC]">
+          <div className="w-full md:w-[75%] mx-auto h-full  ">
+            <HeaderFive />
           </div>
         </div>
       </div>

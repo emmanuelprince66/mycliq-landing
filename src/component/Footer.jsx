@@ -1,20 +1,21 @@
-import React from 'react'
+import React from "react";
 import nwOne from "../assets/images/nw-1.png";
 import { Link } from "react-router-dom";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { Divider } from '@mui/material';
+import { Divider } from "@mui/material";
+import nOne from "../assets/images/n-1.png";
 
-const Footer = () => {
+const Footer = ({ setShowMenu }) => {
   return (
     <div className="flex flex-col items-center gap-5 justify-center py-5 p-2">
       <div className=" block md:flex w-full ">
         <div className="flex flex-col items-start gap-2">
-          <img src={nwOne} alt="n-1" className="object-contain w-10 h-10"  />
+          <img src={nOne} alt="n-1" className="object-contain w-100 h-100" />
           <p className="text-[16px] text-[#F2F2F2] max-w-[90%]">
-            Theinsight seamlessly connects individuals and businesses within
+            MyCliq seamlessly connects individuals and businesses within
             communities, while driving financial inclusion and promoting
             cashless society.
           </p>
@@ -34,7 +35,7 @@ const Footer = () => {
             </Link>
             <Link to="/about">
               <p className="text-[#D7D7D7] text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out">
-                Why Theinsight?
+                Why MyCliq?
               </p>
             </Link>
           </div>
@@ -66,11 +67,25 @@ const Footer = () => {
         </div>
       </div>
 
+      <div className="flex justify-center w-full flex-col items-center  gap-2">
+        <Link to="/terms">
+          <p className="text-[16px] text-[#F2F2F2] hover:text-[#ff7f00] cursor-pointer">
+            Terms & conditions
+          </p>
+        </Link>
+
+        <Link to="/privacy">
+          <p className="text-[16px]  text-[#F2F2F2] hover:text-[#ff7f00] cursor-pointer">
+            Privacy
+          </p>
+        </Link>
+      </div>
+
       <Divider sx={{ width: "100%", background: "#D1D1D1", my: "1rem" }} />
 
       <div className=" block md:flex justify-between items-center w-full ">
         <p className="text-[16px] text-[#d1d1d1]">
-          © 2024 Theinsight. All rights reserved.
+          © 2024 MyCliq. All rights reserved.
         </p>
 
         <div className="flex justify-between w-[25%] items-center">
@@ -87,6 +102,6 @@ const Footer = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Footer
+export default Footer;
