@@ -7,6 +7,8 @@ import cvOne from "../assets/images/cv-1.png";
 import cvTwo from "../assets/images/cv-2.png";
 import Header from "../component/Header";
 import Tags from "../component/Tags";
+import phone from "../assets/images/phone.png";
+
 
 const Home = () => {
   return (
@@ -50,7 +52,7 @@ const Home = () => {
       </div>
       <div className="h-full mb-[5%] w-full bg-[#FFF6EC]">
         <div className="w-full md:w-[75%] mx-auto h-full  ">
-          <HeaderFive />
+          <HeaderFive img={phone} title="App" glink="" alink="" type='user' />
         </div>
       </div>
     </>

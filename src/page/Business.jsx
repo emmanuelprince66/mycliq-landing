@@ -9,6 +9,7 @@ import buSeven from "../assets/images/bu-7.svg";
 import buEight from "../assets/images/bu-8.svg";
 import aOne from "../assets/images/a-1.svg";
 import HeaderFive from "../component/HeaderFive";
+import merchant from "../assets/images/merchant.png";
 
 const Business = () => {
   const card = [
@@ -122,7 +123,13 @@ const Business = () => {
       <div className="w-full bg-white pt-[5%]">
         <div className="h-full mb-[5%] w-full bg-[#FFF6EC]">
           <div className="w-full md:w-[75%] mx-auto h-full  ">
-            <HeaderFive />
+            <HeaderFive
+              img={merchant}
+              title="Merchant App"
+              glink=""
+              alink=""
+              type="merchant"
+            />
           </div>
         </div>
       </div>

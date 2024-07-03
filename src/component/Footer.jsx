@@ -7,6 +7,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Divider } from "@mui/material";
 import nOne from "../assets/images/n-1.png";
+import v from "../assets/images/v.svg"
 
 const Footer = ({ setShowMenu }) => {
   return (
@@ -61,7 +62,8 @@ const Footer = ({ setShowMenu }) => {
               <TwitterIcon sx={{ color: "#D1D1D1" }} />
               <FacebookIcon sx={{ color: "#D1D1D1" }} />
               <InstagramIcon sx={{ color: "#D1D1D1" }} />
-              <LinkedInIcon sx={{ bcolor: "#D1D1D1" }} />
+              {/* <LinkedInIcon sx={{ bcolor: "#D1D1D1" }} /> */}
+              <img src={v} alt="v" className="w-5 h-5" />
             </div>
           </div>
         </div>
