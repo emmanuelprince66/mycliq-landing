@@ -61,7 +61,7 @@ const Footer = ({ setShowMenu }) => {
               <TwitterIcon sx={{ color: "#D1D1D1" }} />
               <FacebookIcon sx={{ color: "#D1D1D1" }} />
               <InstagramIcon sx={{ color: "#D1D1D1" }} />
-              <LinkedInIcon sx={{ color: "#D1D1D1" }} />
+              <LinkedInIcon sx={{ bcolor: "#D1D1D1" }} />
             </div>
           </div>
         </div>

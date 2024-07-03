@@ -9,6 +9,7 @@ import wTwo from "../assets/images/w-2.png";
 import wThree from "../assets/images/w-3.png";
 import apple from "../assets/images/apple.png";
 import playstore from "../assets/images/playstore.png";
+import real from "../assets/images/real.jpg"
 const Header = () => {
   return (
     <div className="w-full mt-[10%] h-full">
@@ -53,21 +54,21 @@ const Header = () => {
         </div>
 
         <div className="hidden md:block w-full h-full relative ">
-          <img src={l2} alt="h-2" className="object-cover  rounded-lg" />
+          <img src={real} alt="h-2" className="object-cover  rounded-lg" />
           <img
             src={wOne}
             alt="w-1"
-            className="object-cover absolute bottom-[6.2rem] right-[14rem]"
+            className="object-cover absolute bottom-[6.2rem] right-[16rem]"
           />
           <img
             src={wTwo}
             alt="w-2"
-            className="object-cover absolute bottom-[-2.6rem] right-[1rem]"
+            className="object-cover absolute bottom-[-3.6rem] right-[3rem]"
           />
           <img
             src={wThree}
             alt="w-3"
-            className="object-cover absolute top-[26.9rem] right-[10rem]"
+            className="object-cover absolute top-[24.9rem] left-10 "
           />
         </div>
       </div>

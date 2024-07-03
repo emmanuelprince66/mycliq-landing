@@ -10,9 +10,7 @@ const Privacy = () => {
           Last Updated June 27th, 2024
         </p>
         <div className="w-full items-start flex-col flex mt-[4%]">
-          <p className="text-2xl mt-[2%] mb-[3%]">
-            What information do we collect?
-          </p>
+          <p className="text-2xl mt-[2%] mb-[3%]">Background</p>
           <p className="leading-6 text-1xl ">
             We’re Mycliq (‘we’, ‘our’, ‘us’), operating under the name Mycliq.
             We’re registered with the Corporate Affairs Commission under number
@@ -33,6 +31,17 @@ const Privacy = () => {
             if you have any objection to any of these Terms.
           </p>
 
+          <p className="text-2xl my-[4%] ">What information do we collect?</p>
+          <p className="leading-6 text-1xl ">
+            When you interact with our products, we gather and use the
+            information you provide. Upon opening an account with us, you will
+            share details such as your name, Bank Verification Number (BVN),
+            identification documents, address, and photos. The details you
+            provide during the Mycliq account registration process, including
+            your BVN, name, date of birth, gender, phone number, residential
+            address, and email address, are collected to comply with regulatory
+            requirements.
+          </p>
           <p className="text-2xl my-[4%] ">
             Information you give us on Mycliq Applications
           </p>
@@ -45,7 +54,7 @@ const Privacy = () => {
             Additionally, we may request explicit permission to see other
             information like your address book, location, photos and data from
             your phone camera. Other details we collect and what we do with them
-            include; Details you give when you sign up for a Mycliq account,
+            include;<br/><br/> Details you give when you sign up for a Mycliq account,
             like your BVN, names, date of birth, gender, phone number,
             residential address, and email address are in fulfillment of
             regulatory requirements.
@@ -174,13 +183,12 @@ const Privacy = () => {
             At Mycliq, we are deeply committed to respecting and protecting your
             personal information. If you have any concerns, reservations, or
             complaints about your personal information, please contact our
-            Compliance Officer by<br/><br/> Sending a message via the app Emailing us at
+            Compliance Officer by
+            <br />
+            <br /> Sending a message via the app Emailing us at
             business@Mycliq.tech
           </p>
- 
-           
         </div>{" "}
-
       </div>
     </>
   );
