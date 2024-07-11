@@ -8,16 +8,16 @@ const HeaderFour = () => {
   return (
     <div className="w-full h-full p-5">
       <div className="flex items-start gap-2 justify-center mb-[3rem] md:mb-[5rem] w-full p-0">
-        <p className="text-[48px] text-center">Why MyCliq?</p>
+        <p className=" text-[25px] md:text-[48px] text-center">Why MyCliq?</p>
         <sup>
           <img src={aOne} alt="a-1" className="object-cover" />
         </sup>
       </div>
       <div className="flex flex-col md:flex-row gap-[5rem] mb-[4rem]">
         <div className="w-full flex-1 order-2 md:order-1">
-          <div className="flex flex-col items-start gap-2">
-            <p className="text-[32px]">Secure and Encrypted</p>
-            <p className="text-[20px] text-[#535353]">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className=" text-[25px] md:text-[32px]">Secure and Encrypted</p>
+            <p className="text-[18px] md:text-[20px] text-center  md:text-start text-[#535353]">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -37,9 +37,11 @@ const HeaderFour = () => {
         <div className="w-full flex-1">
           <img src={picTwo} alt="pic-2" className="w-full h-full" />
         </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <p className="text-[32px] my-4 md:my-0">New Ways To Pay!</p>
-          <p className="text-[20px] text-[#535353]">
+        <div className="flex-1 flex flex-col text-center md:items-start gap-2">
+          <p className="text-[20px] md:text-[32px] mb-1 mt-[6rem] md:my-0 ">
+            New Ways To Pay!
+          </p>
+          <p className="text-[18px] md:text-[20px] text-[#535353]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -52,9 +54,11 @@ const HeaderFour = () => {
       </div>
       <div className="flex flex-col md:flex-row gap-[5rem] mb-[4rem]">
         <div className="w-full flex-1 order-2 md:order-1">
-          <div className="flex flex-col items-start gap-2">
-            <p className="text-[32px]">Personalized Insight</p>
-            <p className="text-[20px] text-[#535353]">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className="text-[20px] md:text-[32px]  md:my-0">
+              Personalized Insight
+            </p>
+            <p className="text-[18px] md:text-start text-center md:text-[20px] text-[#535353]">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -78,9 +82,11 @@ const HeaderFour = () => {
             className="w-full h-full rounded-md  "
           />
         </div>
-        <div className="flex-1 flex flex-col items-start gap-2">
-          <p className="text-[32px]">Customer Support</p>
-          <p className="text-[20px] text-[#535353]">
+        <div className="flex-1 flex flex-col items-center  md:items-start gap-2">
+          <p className="text-[20px] md:text-[32px] mb-1  md:mt-0 mt-[3rem]">
+            Customer Support
+          </p>
+          <p className="text-[18px] md:text-[20px] text-center md:text-start text-[#535353]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

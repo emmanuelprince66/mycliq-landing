@@ -9,7 +9,6 @@ import Header from "../component/Header";
 import Tags from "../component/Tags";
 import phone from "../assets/images/phone.png";
 
-
 const Home = () => {
   return (
     <>
@@ -52,7 +51,7 @@ const Home = () => {
       </div>
       <div className="h-full mb-[5%] w-full bg-[#FFF6EC]">
         <div className="w-full md:w-[75%] mx-auto h-full  ">
-          <HeaderFive img={phone} title="App" glink="" alink="" type='user' />
+          <HeaderFive img={phone} title="App" glink="" alink="" type="user" />
         </div>
       </div>
     </>

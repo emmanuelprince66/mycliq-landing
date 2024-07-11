@@ -66,7 +66,7 @@ const Business = () => {
               <img src={star} alt="star" className="mt-8 mr-6" />
             </div>
 
-            <p className="text-[40px] md:text-[48px] text-white text-center leading-[3rem]">
+            <p className="text-[25px] md:text-[48px] text-white text-center leading-8 md:leading-[3rem]">
               MyCliq for your Business
             </p>
             <sup>
@@ -101,7 +101,7 @@ const Business = () => {
           </div>
 
           <div className="w-full flex flex-col justify-center mt-8 mb-[20%] items-center gap-3 ">
-            <p className="text-[20px] text-white font-[600]">
+            <p className=" text-[18px] md:text-[20px] text-white font-[600]">
               Start accepting payment in minutes!
             </p>
             <div className=" my-3 mx-auto justify-center w-full  md:flex items-center gap-4">

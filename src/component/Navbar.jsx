@@ -110,7 +110,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
       <div className="w-full  md:hidden p-3">
         <div className="flex w-full justify-between items-center">
           <div className=" ">
-            <img src={nOne} alt="n-img object-cover" />
+            <img src={nOne} alt="n-img" className="w-25 h-5  object-cover" />
           </div>
 
           <div>

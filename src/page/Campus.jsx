@@ -16,24 +16,24 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className=" text-[30px] md:text-[48px] text-[#1E1E1E] text-center leading:[1rem] md:leading-[3rem]">
+          <p className=" text-[25px] md:text-[48px] text-[#1E1E1E] text-center leading:[1rem] md:leading-[3rem]">
             MyCliq Campus Ambassador
           </p>
           <sup>
             <img src={aOne} alt="a-1" className="object-cover" />
           </sup>
         </div>
-        <p className="text-[#535353] text-[20px] text-center font-normal mb-4">
+        <p className="text-[#535353] text-[18px] md:text-[20px] text-center font-normal mb-4">
           Join the clique! Become our campus ambassador.
         </p>
 
         <div className=" w-full md:w-[80%] mx-auto flex flex-col-reverse md:flex-row   justify-between items-center">
           <div className="flex flex-col items-center md:items-start gap-2 md:w-1/2 w-full">
-            <p className="text-[32px] text-center font-[600] text-[#1e1e1e]">
+            <p className=" text-[20px] md:text-[32px] text-center font-[600] my-5 text-[#1e1e1e]">
               What is About?
             </p>
 
-            <p className="font-normal text-[20px] text-center md:text-start w-full md:w-[80%] text-[#535353]">
+            <p className="font-normal text-[18px] md:text-[20px] text-center md:text-start w-full md:w-[80%] text-[#535353]">
               The Campus Ambassadorship Program is a community-driven initiative
               that identifies and empowers individuals who are highly
               influential and respected within their communities. These
@@ -58,14 +58,14 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className=" text-[30px] md:text-[48px] text-center text-white leading-[3rem]">
+          <p className=" text-[20px] md:text-[48px] text-center text-white my-5 leading-[3rem]">
             Responsibilities
           </p>
           <sup>
             <img src={aOne} alt="a-1" className="object-cover" />
           </sup>
         </div>
-        <p className="text-white text-center text-[20px] font-normal mb-3">
+        <p className="text-white text-center text-[18px] md:text-[20px] font-normal mb-3">
           What you will do as our campus ambassador.
         </p>
 
@@ -110,14 +110,14 @@ const Campus = () => {
             <img src={star} alt="star" className="mt-8 mr-6" />
           </div>
 
-          <p className="text-[30px] md:text-[48px] text-center text-[#1E1E1E] leading-[3rem]">
+          <p className="text-[20px] md:text-[48px] text-center text-[#1E1E1E] leading-[3rem]">
             Benefits
           </p>
           <sup>
             <img src={aOne} alt="a-1" className="object-cover" />
           </sup>
         </div>
-        <p className="text-[#535353] text-center text-[20px] font-normal mb-3">
+        <p className="text-[#535353] text-center text-[18px] md:text-[20px] font-normal mb-3">
           What you will do as our campus ambassador.
         </p>
 
@@ -126,35 +126,35 @@ const Campus = () => {
             <div className="flex gap-1 items-center">
               <img src={sparkles} alt="sparkes" className="object-cover" />
 
-              <p className="md:text-[32px]  text-[#535353]">
+              <p className="md:text-[32px] text-[18px]   text-[#535353]">
                 Access to courses and training.
               </p>
             </div>
             <div className="flex gap-3 items-start  ">
               <img src={sparkles} alt="sparkes" className="object-cover" />
 
-              <p className="md:text-[32px]  text-[#535353] leading-8">
+              <p className="md:text-[32px]  text-[18px]  text-[#535353] leading-8">
                 Monthly stipend.
               </p>
             </div>
             <div className="flex gap-3 items-center">
               <img src={sparkles} alt="sparkes" className="object-cover" />
 
-              <p className="md:text-[32px]  text-[#535353]">
+              <p className="md:text-[32px] text-[18px]   text-[#535353]">
                 Promotion materials
               </p>
             </div>
             <div className="flex gap-3 items-center">
               <img src={sparkles} alt="sparkes" className="object-cover" />
 
-              <p className="md:text-[32px]  text-[#535353]">
+              <p className="md:text-[32px] text-[18px]   text-[#535353]">
                 Internship Opportuinities
               </p>
             </div>
             <div className="flex gap-3 items-start  ">
               <img src={sparkles} alt="sparkes" className="object-cover" />
 
-              <p className="md:text-[32px]  text-[#535353] leading-8">
+              <p className="md:text-[32px] text-[18px]  text-[#535353] leading-8">
                 Experience in your Resume/CV
               </p>
             </div>

@@ -12,15 +12,21 @@ const HeaderFive = ({ img, title, type }) => {
           <img src={img} alt="phone" className="object-cover" />
         </div>
         <div className="flex items-center md:items-start flex-col gap-3 ">
-          <div className="flex items-center md:items-start flex-wrap flex-1 gap-2   w-full mb-2">
-            <p className="text-[37px] my-4 md:my-0">
-              Get the <span className={`${type === 'merchant' && 'text-[#ff7f00]'}`}> {title}</span>{" "}
+          <div className="flex items-center md:justify-start justify-center md:items-start flex-wrap flex-1 gap-2   w-full mb-2">
+            <p className=" text-[25px]  md:text-[37px] my-7 md:my-0">
+              Get the{" "}
+              <span className={`${type === "merchant" && "text-[#ff7f00]"}`}>
+                {" "}
+                {title}
+              </span>{" "}
             </p>
             <sup>
               <img src={aOne} alt="a-1" className="object-cover" />
             </sup>
             {type === "merchant" && (
-              <p className="text-[37px] mb-4">for your business</p>
+              <p className=" text-[25px] md:text-[37px] mb-4">
+                for your business
+              </p>
             )}
           </div>
           {type === "user" && (
