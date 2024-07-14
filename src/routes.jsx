@@ -3,11 +3,15 @@ import { Routes, Route } from "react-router-dom";
 import Privacy from "./page/Privacy";
 import Index from "./page/Index";
 import Terms from "./page/Terms";
+import Business from "./page/Business";
+import Campus from "./page/Campus";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/business" element={<Business />} />
+      <Route path="/ambassadorship" element={<Campus />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       {/* Additional routes can go here */}

@@ -12,42 +12,26 @@ import Business from "../page/Business";
 import Campus from "../page/Campus";
 import Terms from "../page/Terms";
 function Index() {
-  const [showMenu, setShowMenu] = useState("home");
-
-  const renderComponent = () => {
-    switch (showMenu) {
-      case "home":
-        return <Home />;
-      case "business":
-        return <Business />;
-      case "campus":
-        return <Campus />;
-      default:
-        return <div>404 Not Found</div>;
-    }
-  };
-
   return (
     <div>
+      {/*  */}
+      <Navbar />
+      {/*  */}
       <div
-        className={`w-full ${
-          showMenu === "campus" ? "bg-white" : "bg-primary_black_1"
-        }  h-full`}
+        className={`w-full 
+         bg-primary_black_1
+         h-full`}
       >
         <div className=" w-full md:w-[90%] mx-auto h-full p-3">
           <div className="h-full w-full">
-            {/*  */}
-            <Navbar setShowMenu={setShowMenu} showMenu={showMenu} />
-            {/*  */}
-
-            {showMenu === "home" && <Header />}
+            <Header />
           </div>
         </div>
       </div>
-      {renderComponent()}
+      <Home />
       <div className="h-full w-full bg-primary_black_1 pt-[7%] ">
         <div className="w-full md:w-[75%] mx-auto h-full pt-[1%] ">
-          <Footer setShowMenu={setShowMenu} />
+          <Footer />
         </div>
       </div>
     </div>

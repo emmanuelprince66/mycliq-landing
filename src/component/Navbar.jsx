@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import nOne from "../assets/images/n-1.png";
 import nwOne from "../assets/images/nw-1.png";
 import { Link as ScrollLink } from "react-scroll";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -10,7 +10,10 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
-const Navbar = ({ setShowMenu, showMenu }) => {
+const Navbar = () => {
+  const navigate = useNavigate();
+  const location = window.location.pathname;
+  console.log(location);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -21,14 +24,18 @@ const Navbar = ({ setShowMenu, showMenu }) => {
   };
 
   return (
-    <div className={`w-full ${showMenu === "campus" && "pb-[8%]"} `}>
-      <div className="w-full hidden  md:flex justify-between items-center">
+    <div
+      className={`w-full ${
+        location !== "/ambassadorship" && "bg-[#333333]"
+      }    ${location !== "/" && "pb-[5%]"} p-5 `}
+    >
+      <div className="w-full md:w-[90%] mx-auto hidden  md:flex justify-between items-center">
         <div className="">
           <img src={nOne} alt="n-img object-contain" />
         </div>
 
         <div className="flex  justify-between   items-center ">
-          {showMenu === "home" && (
+          {location === "/" && (
             <>
               <ScrollLink
                 to="about"
@@ -65,11 +72,13 @@ const Navbar = ({ setShowMenu, showMenu }) => {
               </ScrollLink>
             </>
           )}
-          {showMenu !== "home" && (
-            <div onClick={() => setShowMenu("home")}>
+          {location !== "/" && (
+            <div onClick={() => navigate("/")}>
               <p
                 className={`${
-                  showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+                  location === "/ambassadorship"
+                    ? "text-[#656565]"
+                    : "text-[#D7D7D7]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
               >
                 MyCliq
@@ -77,19 +86,23 @@ const Navbar = ({ setShowMenu, showMenu }) => {
             </div>
           )}
 
-          <div onClick={() => setShowMenu("business")}>
+          <div onClick={() => navigate("/business")}>
             <p
               className={`${
-                showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+                location === "/ambassadorship"
+                  ? "text-[#656565]"
+                  : "text-[#D7D7D7]"
               }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
             >
               MyCliq for Business
             </p>
           </div>
-          <div onClick={() => setShowMenu("campus")}>
+          <div onClick={() => navigate("/ambassadorship")}>
             <p
               className={`${
-                showMenu === "campus" ? "text-[#656565]" : "text-[#D7D7D7]"
+                location === "/ambassadorship"
+                  ? "text-[#656565]"
+                  : "text-[#D7D7D7]"
               }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
             >
               Campus Ambassador
@@ -99,7 +112,9 @@ const Navbar = ({ setShowMenu, showMenu }) => {
 
         <button
           className={`${
-            showMenu === "campus" ? "bg-[#333333] text-white" : "bg-white"
+            location === "/ambassadorship"
+              ? "bg-[#333333] text-white"
+              : "bg-white"
           } w-[150px] hover:text-[#ff7f00] transition-colors font-bold duration-700 ease-in-out rounded-md text-[16px] h-[50px]`}
         >
           Get The App
@@ -165,7 +180,7 @@ const Navbar = ({ setShowMenu, showMenu }) => {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <div className="flex flex-col items-start  justify-between p-3 gap-3 ">
-            {showMenu === "home" && (
+            {location === "/" && (
               <>
                 <ScrollLink
                   to="about"
@@ -211,11 +226,13 @@ const Navbar = ({ setShowMenu, showMenu }) => {
                 </ScrollLink>
               </>
             )}
-            {showMenu !== "home" && (
+            {location !== "/" && (
               <div onClick={() => setShowMenu("home")}>
                 <p
                   className={`${
-                    showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                    location === "/ambassadorship"
+                      ? "text-[#656565]"
+                      : "text-[#000]"
                   }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                   onClick={handleClose}
                 >
@@ -227,17 +244,21 @@ const Navbar = ({ setShowMenu, showMenu }) => {
             <div onClick={() => setShowMenu("business")}>
               <p
                 className={`${
-                  showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                  location === "/ambassadorship"
+                    ? "text-[#656565]"
+                    : "text-[#000]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                 onClick={handleClose}
               >
                 MyCliq for Business
               </p>
             </div>
-            <div onClick={() => setShowMenu("campus")}>
+            <div onClick={() => navigate("/ambassadorship")}>
               <p
                 className={`${
-                  showMenu === "campus" ? "text-[#656565]" : "text-[#000]"
+                  location === "/ambassadorship"
+                    ? "text-[#656565]"
+                    : "text-[#000]"
                 }  mr-4  text-[16px] hover:text-[#ff7f00] cursor-pointer transition-colors duration-700 ease-in-out`}
                 onClick={handleClose}
               >

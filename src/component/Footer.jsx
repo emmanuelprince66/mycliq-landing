@@ -6,10 +6,12 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Divider } from "@mui/material";
-import nOne from "../assets/images/n-1.png";
-import v from "../assets/images/v.svg"
 
-const Footer = ({ setShowMenu }) => {
+import nOne from "../assets/images/n-1.png";
+import v from "../assets/images/v.svg";
+
+const Footer = () => {
+  const location = window.location.pathname;
   return (
     <div className="flex flex-col items-center gap-5 justify-center py-5 p-2">
       <div className=" block md:flex w-full ">
