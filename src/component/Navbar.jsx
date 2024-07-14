@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = window.location.pathname;
-  console.log(location);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -26,7 +25,7 @@ const Navbar = () => {
   return (
     <div
       className={`w-full ${
-        location !== "/ambassadorship" && "bg-[#333333]"
+        location !== "/ambassadorship" && "bg-primary_black_1"
       }    ${location !== "/" && "pb-[5%]"} p-5 `}
     >
       <div className="w-full md:w-[90%] mx-auto hidden  md:flex justify-between items-center">
@@ -227,7 +226,7 @@ const Navbar = () => {
               </>
             )}
             {location !== "/" && (
-              <div onClick={() => setShowMenu("home")}>
+              <div onClick={() => navigate("/")}>
                 <p
                   className={`${
                     location === "/ambassadorship"
@@ -241,7 +240,7 @@ const Navbar = () => {
               </div>
             )}
 
-            <div onClick={() => setShowMenu("business")}>
+            <div onClick={() => navigate("/business")}>
               <p
                 className={`${
                   location === "/ambassadorship"
