@@ -47,7 +47,7 @@ const HeaderFour = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-[5rem] mb-[4rem]">
-        <div className="w-full flex-1 order-2 md:order-2">
+        <div className="w-full flex-1 order-2 md:order-1">
           <div className="flex flex-col items-center md:items-start gap-2">
             <p className="text-[20px] md:text-[32px]  md:my-0">
               Transportation
@@ -60,12 +60,12 @@ const HeaderFour = () => {
             </p>
           </div>
         </div>
-        <div className="w-full flex-1 order-1 md:order-1">
+        <div className="w-full flex-1 order-1 md:order-2">
           <img src={picThree} alt="pic-3" className="w-full h-full" />
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-[5rem] mb-[4rem]">
-        <div className="w-full flex-1 order-2 md:order-1">
+        <div className="w-full flex-1 order-2 md:order-2">
           <div className="flex flex-col items-center md:items-start gap-2">
             <p className=" text-[25px] md:text-[32px]">New Ways To Pay</p>
             <p className="text-[18px] md:text-[20px] text-center  md:text-start text-[#535353]">
@@ -76,20 +76,20 @@ const HeaderFour = () => {
             </p>
           </div>
         </div>
-        <div className="w-full flex-1 order-1 md:order-2">
+        <div className="w-full flex-1 order-1 md:order-1">
           <img src={picOne} alt="pic-1" className="w-full h-full" />
         </div>
       </div>
 
       <div className="block md:flex gap-[5rem] mb-[4rem]">
-        <div className="w-full flex-1 order-2 md:order-1">
+        <div className="w-full flex-1 order-2 md:order-2">
           <img
             src={picFour}
             alt="pic-4"
             className="w-full h-full rounded-md  "
           />
         </div>
-        <div className="flex-1 flex flex-col items-center order-2 md:order-2  md:items-start gap-2">
+        <div className="flex-1 flex flex-col items-center order-2 md:order-1  md:items-start gap-2">
           <p className="text-[20px] md:text-[32px] mb-1  md:mt-0 mt-[3rem]">
             Customer Support
           </p>
