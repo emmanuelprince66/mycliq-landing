@@ -8,6 +8,7 @@ import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordR
 import sparkles from "../assets/images/sparkles.svg";
 import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
+import { Link } from "react-router-dom";
 
 const Campus = () => {
   return (
@@ -45,9 +46,12 @@ const Campus = () => {
                 and social capital to drive positive change, foster engagement,
                 and shape decisions within their respective communities.
               </p>
-              <button className="cursor-pointer mx-auto md:mx-0  my-4 md:my-0 flex justify-center bg-[#333333] text-white hover:text-black px-4 py-3 border border-white rounded-md">
-                Apply Now
-              </button>
+
+              <Link to="https://bit.ly/mycliqambassador">
+                <button className="cursor-pointer mx-auto md:mx-0  my-4 md:my-0 flex justify-center bg-[#333333] text-white hover:text-black px-4 py-3 border border-white rounded-md">
+                  Apply Now
+                </button>
+              </Link>
             </div>
 
             <div className="h-full w-full flex-1  justify-end flex mb-4 md:mb-0">

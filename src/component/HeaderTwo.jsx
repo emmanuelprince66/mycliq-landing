@@ -23,11 +23,13 @@ const HeaderTwo = () => {
           </span>
 
           <p className="text-[20px] text-[#535353]">
-            MyCliq is designed to eradicate payment hassles through the use of
-            QR code technology, phone number as an ATM card, and NFT payments.
-            Additionally, MyCliq enables users within communities to make
-            transportation bookings seamlessly, pay bills, make inter-bank
-            transfers and book event tickets.
+            MyCliq is the ultimate solution for seamless payments. We are on a
+            mission to encourage the communities to embrace cashless
+            transactions while offering vendors in such communities a range of
+            convenient payment options designed to streamline transactions.
+            Whether you're a user looking for a simpler way to pay or a vendor
+            seeking streamlined transaction solutions, MyCliq is creating a
+            community that thrives without cash. 
           </p>
         </div>
       </div>

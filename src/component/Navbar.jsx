@@ -109,15 +109,17 @@ const Navbar = () => {
           </div>
         </div>
 
-        <button
-          className={`${
-            location === "/ambassadorship"
-              ? "bg-[#333333] text-white"
-              : "bg-white"
-          } w-[150px] hover:text-[#ff7f00] transition-colors font-bold duration-700 ease-in-out rounded-md text-[16px] h-[50px]`}
-        >
-          Get The App
-        </button>
+        <Link to="https://play.google.com/store/apps/details?id=app.mycliq.user ">
+          <button
+            className={`${
+              location === "/ambassadorship"
+                ? "bg-[#333333] text-white"
+                : "bg-white"
+            } w-[150px] hover:text-[#ff7f00] transition-colors font-bold duration-700 ease-in-out rounded-md text-[16px] h-[50px]`}
+          >
+            Get The App
+          </button>
+        </Link>
       </div>
 
       {/* possibly hamburger menu for mobile */}

@@ -9,7 +9,8 @@ import wTwo from "../assets/images/w-2.png";
 import wThree from "../assets/images/w-3.png";
 import apple from "../assets/images/apple.png";
 import playstore from "../assets/images/playstore.png";
-import real from "../assets/images/real.jpg"
+import real from "../assets/images/h-22.svg";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <div className="w-full mt-[10%] h-full">
@@ -36,40 +37,33 @@ const Header = () => {
             cashless society.
           </p>
           <div className="md:flex  gap-5 items-center my-3">
-            <button className="flex gap-1 min-w-[200px] md:min-w-0 items-center bg-white py-1 rounded-md px-4 justify-center">
-              <AppleIcon sx={{ fontSize: "50px" }} />
-              <span className="flex flex-col gap-0">
-                <p className="text-black text-[12px] ">Download on the</p>
-                <p className="text-black text-[20px] ">App Store</p>
-              </span>
-            </button>
-            <button className="flex gap-1 items-center min-w-[200px] md:min-w-0 my-5 bg-white py-1 rounded-md px-4 justify-center">
-              <SmartDisplayIcon sx={{ fontSize: "50px" }} />
-              <span className="flex flex-col items-start gap-0">
-                <p className="text-black text-[12px] ">Get it on</p>
-                <p className="text-black text-[20px] ">Google Play</p>
-              </span>
-            </button>
+            <Link
+              to="https://apps.apple.com/us/app/mycliq/id6514304272
+"
+            >
+              <button className="flex gap-1 min-w-[200px] md:min-w-0 items-center bg-white py-1 rounded-md px-4 justify-center">
+                <AppleIcon sx={{ fontSize: "50px" }} />
+                <span className="flex flex-col gap-0">
+                  <p className="text-black text-[12px] ">Download on the</p>
+                  <p className="text-black text-[20px] ">App Store</p>
+                </span>
+              </button>
+            </Link>
+
+            <Link to="https://play.google.com/store/apps/details?id=app.mycliq.user ">
+              <button className="flex gap-1 items-center min-w-[200px] md:min-w-0 my-5 bg-white py-1 rounded-md px-4 justify-center">
+                <SmartDisplayIcon sx={{ fontSize: "50px" }} />
+                <span className="flex flex-col items-start gap-0">
+                  <p className="text-black text-[12px] ">Get it on</p>
+                  <p className="text-black text-[20px] ">Google Play</p>
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
 
         <div className="hidden md:block w-full h-full relative ">
           <img src={real} alt="h-2" className="object-cover  rounded-lg" />
-          <img
-            src={wOne}
-            alt="w-1"
-            className="object-cover absolute bottom-[6.2rem] right-[16rem]"
-          />
-          <img
-            src={wTwo}
-            alt="w-2"
-            className="object-cover absolute bottom-[-3.6rem] right-[3rem]"
-          />
-          <img
-            src={wThree}
-            alt="w-3"
-            className="object-cover absolute top-[24.9rem] left-10 "
-          />
         </div>
       </div>
     </div>

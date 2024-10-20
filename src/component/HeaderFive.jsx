@@ -3,6 +3,7 @@ import aOne from "../assets/images/a-1.svg";
 import dFour from "../assets/images/d-4.png";
 import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 import AppleIcon from "@mui/icons-material/Apple";
+import { Link } from "react-router-dom";
 
 const HeaderFive = ({ img, title, type }) => {
   return (
@@ -36,20 +37,28 @@ const HeaderFive = ({ img, title, type }) => {
           )}
 
           <div className="block md:flex gap-5 items-center flex-1 ">
-            <button className="flex min-w-[200px] gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
-              <AppleIcon sx={{ fontSize: "50px", color: "#fff" }} />
-              <span className="flex flex-col gap-0">
-                <p className="text-white text-[12px] ">Download on the</p>
-                <p className="text-white text-[20px] ">App Store</p>
-              </span>
-            </button>
-            <button className="flex gap-1 min-w-[200px] my-5 md:my-0 items-center bg-black py-1 rounded-md px-4 justify-center">
-              <SmartDisplayIcon sx={{ fontSize: "50px", color: "#fff" }} />
-              <span className="flex flex-col items-start gap-0">
-                <p className="text-white text-[12px] ">Get it on</p>
-                <p className="text-white text-[20px] ">Google Play</p>
-              </span>
-            </button>
+            <Link to="https://play.google.com/store/apps/details?id=app.mycliq.merchant">
+              <button className="flex min-w-[200px] gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
+                <AppleIcon sx={{ fontSize: "50px", color: "#fff" }} />
+                <span className="flex flex-col gap-0">
+                  <p className="text-white text-[12px] ">Download on the</p>
+                  <p className="text-white text-[20px] ">App Store</p>
+                </span>
+              </button>
+            </Link>
+
+            <Link
+              to="https://apps.apple.com/us/app/mycliq-merchant/id6514304176
+ "
+            >
+              <button className="flex gap-1 min-w-[200px] my-5 md:my-0 items-center bg-black py-1 rounded-md px-4 justify-center">
+                <SmartDisplayIcon sx={{ fontSize: "50px", color: "#fff" }} />
+                <span className="flex flex-col items-start gap-0">
+                  <p className="text-white text-[12px] ">Get it on</p>
+                  <p className="text-white text-[20px] ">Google Play</p>
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

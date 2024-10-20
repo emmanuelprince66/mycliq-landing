@@ -22,7 +22,7 @@ function Index() {
          bg-primary_black_1
          h-full`}
       >
-        <div className=" w-full md:w-[90%] mx-auto h-full p-3">
+        <div className=" w-full md:w-[80%] mx-auto h-full p-3">
           <div className="h-full w-full">
             <Header />
           </div>
