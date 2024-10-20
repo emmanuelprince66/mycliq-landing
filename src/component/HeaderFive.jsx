@@ -5,7 +5,7 @@ import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 import AppleIcon from "@mui/icons-material/Apple";
 import { Link } from "react-router-dom";
 
-const HeaderFive = ({ img, title, type }) => {
+const HeaderFive = ({ img, title, type, glink, alink }) => {
   return (
     <div className="w-full  h-full  flex flex-col items-center justify-end  bg-[#FFF6EC]  ">
       <div className="w-full   h-full mx-auto  block md:flex justify-center md:justify-between  items-center">
@@ -37,7 +37,7 @@ const HeaderFive = ({ img, title, type }) => {
           )}
 
           <div className="block md:flex gap-5 items-center flex-1 ">
-            <Link to="https://play.google.com/store/apps/details?id=app.mycliq.merchant">
+            <Link to={alink}>
               <button className="flex min-w-[200px] gap-1 items-center bg-black py-1 rounded-md px-4 justify-center">
                 <AppleIcon sx={{ fontSize: "50px", color: "#fff" }} />
                 <span className="flex flex-col gap-0">
@@ -47,10 +47,7 @@ const HeaderFive = ({ img, title, type }) => {
               </button>
             </Link>
 
-            <Link
-              to="https://apps.apple.com/us/app/mycliq-merchant/id6514304176
- "
-            >
+            <Link to={glink}>
               <button className="flex gap-1 min-w-[200px] my-5 md:my-0 items-center bg-black py-1 rounded-md px-4 justify-center">
                 <SmartDisplayIcon sx={{ fontSize: "50px", color: "#fff" }} />
                 <span className="flex flex-col items-start gap-0">

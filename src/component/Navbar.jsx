@@ -22,6 +22,11 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const url =
+    location === "/business"
+      ? "https://play.google.com/store/apps/details?id=app.mycliq.merchant"
+      : "https://play.google.com/store/apps/details?id=app.mycliq.us";
+
   return (
     <div
       className={`w-full ${
@@ -109,7 +114,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        <Link to="https://play.google.com/store/apps/details?id=app.mycliq.user ">
+        <Link to={url}>
           <button
             className={`${
               location === "/ambassadorship"

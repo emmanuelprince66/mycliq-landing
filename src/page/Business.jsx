@@ -130,8 +130,8 @@ const Business = () => {
               <HeaderFive
                 img={merchant}
                 title="Merchant App"
-                glink=""
-                alink=""
+                alink="https://apps.apple.com/us/app/mycliq-merchant/id6514304176"
+                glink="https://play.google.com/store/apps/details?id=app.mycliq.merchant"
                 type="merchant"
               />
             </div>
